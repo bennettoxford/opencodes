@@ -1,8 +1,8 @@
 ---
-title: "Shiny: Explore clinical code usage in England"
+title: "OpenCodes App: Explore clinical code usage in England"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{shiny_code_usage_explorer}
+  %\VignetteIndexEntry{app}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
