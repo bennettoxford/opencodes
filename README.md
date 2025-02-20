@@ -12,8 +12,8 @@
 The goal of `opencodes` is to make yearly summaries of **SNOMED Code
 Usage in Primary Care** and **ICD-10 and OPCS-4 Code Usage in Secondary
 Care** in England, published by NHS Digital, available in R for
-research. The interactive [Code Usage
-Explorer](https://milanwiedemann.shinyapps.io/opencodes/) dashboard
+research. The interactive [OpenCodes Shiny
+App](https://bennettoxford.github.io/opencodes/articles/app.html)
 provides different options to explore these datasets.  
 The original data is available from NHS Digital at:
 
@@ -27,8 +27,19 @@ The original data is available from NHS Digital at:
 You can install the development version of `opencodes` like so:
 
 ``` r
-remotes::install_github("ebmdatalab/opencodes")
+remotes::install_github("bennettoxford/opencodes")
 ```
+
+## Main functions of the `opencodes` R package
+
+- **Datasets:**
+  - `snomedct_usage`: SNOMED CT code usage dataset
+  - `icd10_usage`: ICD-10 code usage dataset
+  - `opcs4_usage`: OPCS-4 code usage dataset
+- **Functions:**
+  - `get_codelist()`: Imports a codelists from
+    [www.opencodelists.org](https://www.opencodelists.org/)
+  - `run_app()`: Launches interactive OpenCodes Shiny App locally
 
 ## Example
 
