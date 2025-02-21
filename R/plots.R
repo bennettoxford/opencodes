@@ -4,11 +4,11 @@
 #' @importFrom scales label_date_short label_comma comma
 #' @keywords internal
 plot_summary <- function(data) {
-  scale_x_date_breaks <- unique(data$start_date)
+  scale_x_date_breaks <- unique(data$end_date)
 
   ggplot(
     data,
-    aes(x = start_date, y = total_usage)
+    aes(x = end_date, y = total_usage)
   ) +
     geom_line(
       colour = "#239b89ff",
@@ -33,7 +33,7 @@ plot_summary <- function(data) {
     ) +
     scale_y_continuous(
       limits = c(0, NA),
-      labels = scales::label_comma()
+      labels = scales::label_number(accuracy = 1)
     ) +
     labs(x = NULL, y = NULL) +
     theme_classic() +
@@ -46,7 +46,7 @@ plot_summary <- function(data) {
 #' @importFrom scales label_date_short label_comma comma
 #' @keywords internal
 plot_individual <- function(data) {
-  scale_x_date_breaks <- unique(data$start_date)
+  scale_x_date_breaks <- unique(data$end_date)
   
   data <- data |>
     group_by(start_date, end_date) |>
@@ -60,7 +60,7 @@ plot_individual <- function(data) {
   ggplot(
     data,
     aes(
-      x = start_date,
+      x = end_date,
       y = usage,
       colour = code
     )
@@ -87,7 +87,7 @@ plot_individual <- function(data) {
     ) +
     scale_y_continuous(
       limits = c(0, NA),
-      labels = scales::label_comma()
+      labels = scales::label_number(accuracy = 1)
     ) +
     ggplot2::scale_colour_viridis_d() +
     labs(x = NULL, y = NULL) +
@@ -109,7 +109,7 @@ plot_sparkline <- function(data) {
 
   plot_ly(data_spark, hoverinfo = "none") |>
     add_lines(
-      x = ~start_date, y = ~total_usage,
+      x = ~end_date, y = ~total_usage,
       color = I("black"), span = I(1),
       fill = "tozeroy", alpha = 0.2
     ) |>
