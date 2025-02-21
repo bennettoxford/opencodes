@@ -29,7 +29,7 @@ plot_summary <- function(data) {
     ) +
     scale_x_date(
       breaks = scale_x_date_breaks,
-      labels = scales::label_date_short()
+      labels = scales::label_date("%b\n%Y")
     ) +
     scale_y_continuous(
       limits = c(0, NA),
@@ -83,7 +83,7 @@ plot_individual <- function(data) {
     ) +
     scale_x_date(
       breaks = scale_x_date_breaks,
-      labels = scales::label_date_short()
+      labels = scales::label_date("%b\n%Y")
     ) +
     scale_y_continuous(
       limits = c(0, NA),
@@ -104,7 +104,7 @@ plot_individual <- function(data) {
 #' @keywords internal
 plot_sparkline <- function(data) {
   data_spark <- data |>
-    group_by(start_date) |>
+    group_by(end_date) |>
     summarise(total_usage = sum(usage, na.rm = TRUE))
 
   plot_ly(data_spark, hoverinfo = "none") |>
