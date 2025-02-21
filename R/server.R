@@ -193,22 +193,32 @@ app_server <- function(input, output, session) {
   output$usage_plot <- renderPlotly({
     withProgress(message = "Plotting data ...", {
       unique_codes <- length(unique(filtered_data()$code))
-
-      if (input$show_individual_codes & unique_codes <= 500) {
-        p <- filtered_data() |>
-          plot_individual()
+      
+      if (unique_codes == 0) {
+        p <- ggplot() +
+          geom_text(aes(x = 1, y = 1, label = "No data matches the search criteria."), 
+                    size = 6) +
+          theme_void() +
+          theme(axis.line = element_blank(),
+                panel.grid = element_blank())
       } else {
-        if (input$show_individual_codes & unique_codes >= 500) {
-          showNotification(
-            "Too many codes to show individually. To show individual code usage reduce to 500 or fewer selected codes.",
-            type = "error"
-          )
-        }
 
-        p <- filtered_data() |>
-          group_by(start_date, end_date) |>
-          summarise(total_usage = sum(usage, na.rm = TRUE)) |>
-          plot_summary()
+        if (input$show_individual_codes & unique_codes <= 500) {
+          p <- filtered_data() |>
+            plot_individual()
+        } else {
+          if (input$show_individual_codes & unique_codes >= 500) {
+            showNotification(
+              "Too many codes to show individually. To show individual code usage reduce to 500 or fewer selected codes.",
+              type = "error"
+            )
+          }
+  
+          p <- filtered_data() |>
+            group_by(start_date, end_date) |>
+            summarise(total_usage = sum(usage, na.rm = TRUE)) |>
+            plot_summary()
+        }
       }
 
       ggplotly(p, tooltip = "text") |>
