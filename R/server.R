@@ -196,7 +196,7 @@ app_server <- function(input, output, session) {
       # As a workaround we are adding a plot with text only if the
       # search criteria match no data. At some point in the future we
       # should reconsider if this is the best approach.
-       text if there are no codes
+       # text if there are no codes
       if (unique_codes == 0) {
         p <- ggplot() +
           geom_text(
