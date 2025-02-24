@@ -49,33 +49,35 @@ NULL
 #' }
 #' @source <https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity>
 #' @examples
-#' # Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..." 
+#' # Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."
 #' # (codes begin with letters "S" or "T"), with usage > 10,000.
-#' # For each of these, select the year with the highest count. 
+#' # For each of these, select the year with the highest count.
 #' icd10_usage |>
-#' dplyr:: filter(grepl("^[ST]", icd10_code) & usage > 10000)|>
-#' dplyr:: group_by(description) |>
-#' dplyr:: slice_max(usage)
+#'   dplyr::filter(grepl("^[ST]", icd10_code) & usage > 10000) |>
+#'   dplyr::group_by(description) |>
+#'   dplyr::slice_max(usage)
 #' # Filter to codes present in the CPRD Aurum ICD-10 pregnancy codelist.
 #' # This codelist is available in OpenCodelists.org
-#' codelist<- read.csv(
-#' "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv")
+#' codelist <- read.csv(
+#'   "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv"
+#' )
 #' icd10_usage |>
-#' dplyr:: filter(icd10_code %in% codelist$code) 
+#'   dplyr::filter(icd10_code %in% codelist$code)
 #' @examples
-#' # Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..." 
+#' # Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."
 #' # (codes begin with letters "S" or "T"), with usage > 10,000.
-#' # For each of these, select the year with the highest count. 
+#' # For each of these, select the year with the highest count.
 #' icd10_usage |>
-#' dplyr:: filter(grepl("^[ST]", icd10_code) & usage > 10000)|>
-#' dplyr:: group_by(description) |>
-#' dplyr:: slice_max(usage)
+#'   dplyr::filter(grepl("^[ST]", icd10_code) & usage > 10000) |>
+#'   dplyr::group_by(description) |>
+#'   dplyr::slice_max(usage)
 #' # Filter to codes present in the CPRD Aurum ICD-10 pregnancy codelist.
 #' # This codelist is available in OpenCodelists.org
-#' codelist<- read.csv(
-#' "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv")
+#' codelist <- read.csv(
+#'   "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv"
+#' )
 #' icd10_usage |>
-#' dplyr:: filter(icd10_code %in% codelist$code) 
+#'   dplyr::filter(icd10_code %in% codelist$code)
 "icd10_usage"
 
 #' Yearly OPCS-4 Code Usage from Hospital Admitted Patient Care Activity in England
@@ -96,5 +98,5 @@ NULL
 #' @examples
 #' # Filter to procedures involving "biopsy" after March 2020 (note each year runs April - March).
 #' opcs4_usage |>
-#' dplyr:: filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate:: year(end_date) > 2020)
+#'   dplyr::filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate::year(end_date) > 2020)
 "opcs4_usage"

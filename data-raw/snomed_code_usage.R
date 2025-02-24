@@ -71,7 +71,7 @@ snomed_usage <- snomed_code_usage_urls %>%
 
 # Manipulation required due to variable name change
 snomed_usage <- snomed_usage |>
-  rename(snomed_code = snomed_concept_id)|>
+  rename(snomed_code = snomed_concept_id) |>
   mutate(snomed_code = as.character(snomed_code))
 
 usethis::use_data(
