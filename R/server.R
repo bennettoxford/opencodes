@@ -29,7 +29,6 @@ app_server <- function(input, output, session) {
 
   # Selected code usage dataset
   selected_data <- reactive({
-
     updateCheckboxInput(session, "show_individual_codes", value = FALSE)
 
     if (input$dataset == "snomedct") {
@@ -111,7 +110,7 @@ app_server <- function(input, output, session) {
   # Set filtering method to search when search inputs change
   observe({
     if (!is.null(input$code_specific_search) && length(input$code_specific_search) > 0 ||
-        !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
+      !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
       !is.null(input$description_search) && input$description_search != "") {
       rv_search_method("search")
     } else {
@@ -133,7 +132,7 @@ app_server <- function(input, output, session) {
           data <- data |>
             filter(code %in% input$code_specific_search)
         }
-        
+
         if (!is.null(input$code_pattern_search) && input$code_pattern_search != "") {
           data <- data |>
             filter(grepl(input$code_pattern_search, code, ignore.case = TRUE))

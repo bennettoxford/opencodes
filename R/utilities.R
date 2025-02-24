@@ -27,7 +27,7 @@ get_codes_with_encoding_problems <- function(code_usage_data) {
 #' @keywords internal
 fix_encoding <- function(string) {
   # This isn't the best way of doing this but it's quick and addresses the problem
-  # We should explore other ways to read the data and fix the problems as part of 
+  # We should explore other ways to read the data and fix the problems as part of
   # the data cleaning problem.
 
   # This includes sequences starting with:
@@ -49,5 +49,4 @@ fix_encoding <- function(string) {
   )
 
   str_replace_all(string, replacement_dict)
-
 }

@@ -21,7 +21,6 @@ test_that("Test get codes with encoding problem", {
   expect_equal(get_codes_with_encoding_problems(df_test), c("200", "300"))
 })
 
-
 test_that("Test fix a circumflex lowercase encoding", {
   a_circumflex_lower <- c(
     "Provision of information about Infant crying is normal, Comforting methods can help, Itâ€™s OK to walk away, Never, ever shake a baby (procedure)",
@@ -55,7 +54,6 @@ test_that("Test fix a circumflex lowercase encoding", {
 
   expect_equal(fix_encoding(a_circumflex_lower), expected_a_circumflex_lower_fix)
 })
-
 
 # test_that("Test fix a tilde uppercase encoding", {
 
