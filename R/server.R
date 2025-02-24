@@ -14,7 +14,7 @@
 #' @import here
 
 app_server <- function(input, output, session) {
-  # Reactive values for search method (1)none, (2) code/desc or (3) codelist) and codelist data
+  # Reactive values for search method (1) none, (2) code/desc or (3) codelist) and codelist data
   rv_search_method <- reactiveVal("none")
   rv_codelist <- reactiveVal(NULL)
 
@@ -29,7 +29,6 @@ app_server <- function(input, output, session) {
 
   # Selected code usage dataset
   selected_data <- reactive({
-
     updateCheckboxInput(session, "show_individual_codes", value = FALSE)
 
     if (input$dataset == "snomedct") {
@@ -111,7 +110,7 @@ app_server <- function(input, output, session) {
   # Set filtering method to search when search inputs change
   observe({
     if (!is.null(input$code_specific_search) && length(input$code_specific_search) > 0 ||
-        !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
+      !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
       !is.null(input$description_search) && input$description_search != "") {
       rv_search_method("search")
     } else {
@@ -133,7 +132,7 @@ app_server <- function(input, output, session) {
           data <- data |>
             filter(code %in% input$code_specific_search)
         }
-        
+
         if (!is.null(input$code_pattern_search) && input$code_pattern_search != "") {
           data <- data |>
             filter(grepl(input$code_pattern_search, code, ignore.case = TRUE))
@@ -193,16 +192,27 @@ app_server <- function(input, output, session) {
   output$usage_plot <- renderPlotly({
     withProgress(message = "Plotting data ...", {
       unique_codes <- length(unique(filtered_data()$code))
-      
+
+      # As a workaround we are adding a plot with text only if the
+      # search criteria match no data. At some point in the future we
+      # should reconsider if this is the best approach.
+       text if there are no codes
       if (unique_codes == 0) {
         p <- ggplot() +
-          geom_text(aes(x = 1, y = 1, label = "No data matches the search criteria."), 
-                    size = 6) +
+          geom_text(
+            aes(
+              x = 1,
+              y = 1,
+              label = "No data matches the search criteria."
+            ),
+            size = 6
+          ) +
           theme_void() +
-          theme(axis.line = element_blank(),
-                panel.grid = element_blank())
+          theme(
+            axis.line = element_blank(),
+            panel.grid = element_blank()
+          )
       } else {
-
         if (input$show_individual_codes & unique_codes <= 500) {
           p <- filtered_data() |>
             plot_individual()
@@ -213,7 +223,7 @@ app_server <- function(input, output, session) {
               type = "error"
             )
           }
-  
+
           p <- filtered_data() |>
             group_by(start_date, end_date) |>
             summarise(total_usage = sum(usage, na.rm = TRUE)) |>
