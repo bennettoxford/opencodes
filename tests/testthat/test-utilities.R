@@ -65,17 +65,14 @@ a_tilde_upper <- c(
   "MÃ©niÃ¨re's disease (disorder)",
   "LasÃ¨gue sign (finding)",
   "DÃ©jÃ  pensÃ© (finding)",
-  "DÃ©jÃ  vu (finding)"
-#   "KÃ¼mmell disease (disorder)",
-#   "Hand-SchÃ¼ller-Christian disease (disorder)",
-#   "Chondrodysplasia punctata, Conradi-HÃ¼nermann type (disorder)",
+  "DÃ©jÃ  vu (finding)",
+  "KÃ¼mmell disease (disorder)",
+  "Hand-SchÃ¼ller-Christian disease (disorder)"
 #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
-#   "Iodamoeba bÃ¼tschlii (organism)",
 #   "Pelger-HuÃ«t anomaly (disorder)",
 #   "Born in Ã…land Islands (finding)",
 #   "Born in CuraÃ§ao (finding)",
 #   "Main spoken language Norwegian BokmÃ¥l (finding)",
-#   "Main spoken language VolapÃ¼k (finding)",
 #   "Concentric sclerosis [BalÃ³]",
 #   "BehÃ§et disease",
 )
@@ -88,17 +85,14 @@ expected_a_tilde_upper_fix <- c(
   "Ménière's disease (disorder)",
   "Lasègue sign (finding)",
   "Déjà pensé (finding)",
-  "Déjà vu (finding)"
-#   "KÃ¼mmell disease (disorder)",
-#   "Hand-SchÃ¼ller-Christian disease (disorder)",
-#   "Chondrodysplasia punctata, Conradi-HÃ¼nermann type (disorder)",
+  "Déjà vu (finding)",
+  "Kümmell disease (disorder)",
+  "Hand-Schüller-Christian disease (disorder)"
 #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
-#   "Iodamoeba bÃ¼tschlii (organism)",
 #   "Pelger-HuÃ«t anomaly (disorder)",
 #   "Born in Ã…land Islands (finding)",
 #   "Born in CuraÃ§ao (finding)",
 #   "Main spoken language Norwegian BokmÃ¥l (finding)",
-#   "Main spoken language VolapÃ¼k (finding)",
 #   "Concentric sclerosis [BalÃ³]",
 #   "BehÃ§et disease",
 )

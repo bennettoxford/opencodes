@@ -49,6 +49,13 @@ fix_encoding <- function(string) {
     # \u2020 = Dagger
     # \u00B6 = Pilcrow Sign
     # \u00A9 = Copyright Symbol
+    # \u00F6 = Latin Small Letter O with Diaeresis
+    # \u00A8 = Diaeresis
+    # \u00E8 = Latin Small Letter E with grave
+    # \u0020 = Space
+    # \u00E0 = Latin Small Letter A with grave
+    # \u00BC = Vulgar fraction one quarter
+    # \u00FC = Latin Small Letter U with diaeresis
     "\u00E2\u002C\u0081" = "1",
     "\u00E2\u20AC\u2122" = "'",
     "\u00E2\u20AC\u201C" = "-",
@@ -58,7 +65,8 @@ fix_encoding <- function(string) {
     "\u00C3\u00B6" = "\u00F6",
     "\u00C3\u00A9" = "\u00E9",
     "\u00C3\u00A8" = "\u00E8",
-    "\u00C3\u0020" = "\u00E0"
+    "\u00C3\u0020" = "\u00E0",
+    "\u00C3\u00BC" = "\u00FC"
   )
 
   str_replace_all(string, replacement_dict)
