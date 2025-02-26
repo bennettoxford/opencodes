@@ -63,10 +63,10 @@ a_tilde_upper <- c(
   "ChÃ©diak-Higashi syndrome (disorder)",
   "DÃ©jÃ©rine-Sottas disease (disorder)",
   "MÃ©niÃ¨re's disease (disorder)",
-  "LasÃ¨gue sign (finding)"
-#   "DÃ©jÃ  pensÃ© (finding)",
+  "LasÃ¨gue sign (finding)",
+  "DÃ©jÃ  pensÃ© (finding)",
+  "DÃ©jÃ  vu (finding)"
 #   "KÃ¼mmell disease (disorder)",
-#   "DÃ©jÃ  vu (finding)",
 #   "Hand-SchÃ¼ller-Christian disease (disorder)",
 #   "Chondrodysplasia punctata, Conradi-HÃ¼nermann type (disorder)",
 #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
@@ -86,10 +86,10 @@ expected_a_tilde_upper_fix <- c(
   "Chédiak-Higashi syndrome (disorder)",
   "Déjérine-Sottas disease (disorder)",
   "Ménière's disease (disorder)",
-  "Lasègue sign (finding)"
-#   "DÃ©jÃ  pensÃ© (finding)",
+  "Lasègue sign (finding)",
+  "Déjà pensé (finding)",
+  "Déjà vu (finding)"
 #   "KÃ¼mmell disease (disorder)",
-#   "DÃ©jÃ  vu (finding)",
 #   "Hand-SchÃ¼ller-Christian disease (disorder)",
 #   "Chondrodysplasia punctata, Conradi-HÃ¼nermann type (disorder)",
 #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
