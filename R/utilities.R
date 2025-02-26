@@ -56,7 +56,8 @@ fix_encoding <- function(string) {
     "\u00E2\u002C\u002C" = "2",
     
     "\u00C3\u00B6" = "\u00F6",
-    "\u00C3\u00A9" = "\u00E9"
+    "\u00C3\u00A9" = "\u00E9",
+    "\u00C3\u00A8" = "\u00E8"  
   )
 
   str_replace_all(string, replacement_dict)
