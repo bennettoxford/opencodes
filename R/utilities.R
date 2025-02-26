@@ -45,8 +45,15 @@ fix_encoding <- function(string) {
     "\u00E2\u20AC\u2122" = "'",
     "\u00E2\u20AC\u201C" = "-",
     "\u00E2\u002C\u2020" = "6",
-    "\u00E2\u002C\u002C" = "2"
+    "\u00E2\u002C\u002C" = "2",
+    
+    "\u00C3\u00B6" = "\u00F6"
   )
 
   str_replace_all(string, replacement_dict)
 }
+
+
+
+
+
