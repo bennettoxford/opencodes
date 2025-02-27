@@ -108,7 +108,7 @@ app_ui <- function(request) {
     ),
     layout_columns(
       value_box(
-        title = "Number of selected codes",
+        title = "Number of selected codes with usage data",
         value = textOutput("unique_codes"),
         showcase = bs_icon("file-earmark-medical")
       ),

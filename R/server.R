@@ -181,11 +181,40 @@ app_server <- function(input, output, session) {
 
   # TABLE: Selected codes / Codelist
   output$codes_table <- renderDT({
-    selected_codes <- filtered_data() |>
-      select(code, description) |>
-      distinct()
+    
+    validate(
+      need(rv_search_method() != "none", "No codes have been selected. Please select codes or load a codelist.")
+    )
+    
+    if (rv_search_method() == "codelist") {
 
-    datatable_codelist(selected_codes, data_desc = input$dataset)
+      # Get all codes with usage data
+      codes_with_usage_data <- filtered_data() |>
+        pull(code)
+      
+      selected_codes <- rv_codelist() |>
+        mutate(usage_data_available = code %in% codes_with_usage_data)
+      
+    } else if (rv_search_method() == "search") {
+
+      # All codes will have usage data, otherwise they wouldn't be in the data sets
+      # we can therefore just assign TRUE for all these codes
+      selected_codes <- filtered_data() |>
+        select(code, description) |>
+        distinct() |> 
+        mutate(usage_data_available = TRUE)
+      }
+
+    selected_codes |> 
+      mutate(
+        usage_data_available = factor(
+          usage_data_available,
+          levels = c(TRUE, FALSE),
+          labels = c("Available", "Not available")
+          )
+        ) |> 
+      arrange(desc(usage_data_available)) |>
+      datatable_codelist(data_desc = input$dataset)
   })
 
   # PLOT: Trends over time
