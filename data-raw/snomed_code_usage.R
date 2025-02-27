@@ -65,14 +65,24 @@ snomed_usage <- snomed_code_usage_urls %>%
   separate(nhs_fy, c("start_date", "end_date"), "to") |>
   mutate(
     start_date = as.Date(paste0(start_date, "-08-01")),
-    end_date = as.Date(paste0(end_date, "-07-31")),
-    usage = replace_na(usage, 5)
+    end_date = as.Date(paste0(end_date, "-07-31"))
   )
 
 # Manipulation required due to variable name change
 snomed_usage <- snomed_usage |>
   rename(snomed_code = snomed_concept_id) |>
   mutate(snomed_code = as.character(snomed_code))
+
+# Count number of usage with NAs
+sum(is.na(snomed_usage$usage))
+# [1] 406178
+
+# Replace NAs with 10
+snomed_usage <- snomed_usage |>
+  mutate(usage = replace_na(usage, 10))
+
+# Check number of usage with NAs is 0
+sum(is.na(snomed_usage$usage)) == 0
 
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(snomed_usage, snomed_code)

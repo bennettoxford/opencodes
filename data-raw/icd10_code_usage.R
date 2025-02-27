@@ -129,8 +129,11 @@ icd10_usage <- icd10_code_usage_urls |>
       paste0("20", str_extract_all(end_date, "\\d+"), "-03-31")
     ),
     icd10_code = gsub("\\s?[^[:alnum:]]+\\s?", "", icd10_code)
-  ) |>
-  filter(!is.na(usage))
+  )
+
+# Count number of usage with NAs
+sum(is.na(icd10_usage$usage))
+# [1] 0
 
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
