@@ -7,10 +7,7 @@ test_that("Test get codes with multiple desc", {
     "2022-08-01", "2023-07-31", "200", " One code two descriptions", 200, TRUE, TRUE
   )
 
-  expect_equal(
-    get_codes_with_multiple_desc(df_test, snomed_code),
-    c("200")
-  )
+  expect_equal(get_codes_with_multiple_desc(df_test, snomed_code), c("200"))
 })
 
 test_that("Test get codes with encoding problem", {
@@ -21,10 +18,7 @@ test_that("Test get codes with encoding problem", {
     "2022-08-01", "2023-07-31", "300", " Encoding problems â", 300, TRUE, TRUE
   )
 
-  expect_equal(
-    get_codes_with_encoding_problems(df_test, snomed_code),
-    c("200", "300")
-  )
+  expect_equal(get_codes_with_encoding_problems(df_test, snomed_code), c("200", "300"))
 })
 
 test_that("Test fix a circumflex lowercase encoding", {
@@ -64,7 +58,6 @@ test_that("Test fix a circumflex lowercase encoding", {
 test_that("Test fix a tilde uppercase encoding", {
   a_tilde_upper <- c(
     "Serum SjÃ¶gren's syndrome A 60 kiloDalton antibody (Ro) concentration (observable entity)",
-    "Serum SjÃ¶gren's syndrome A 52 kiloDalton antibody (Ro) concentration (observable entity)",
     "ChÃ©diak-Higashi syndrome (disorder)",
     "DÃ©jÃ©rine-Sottas disease (disorder)",
     "MÃ©niÃ¨re's disease (disorder)",
@@ -72,19 +65,17 @@ test_that("Test fix a tilde uppercase encoding", {
     "DÃ©jÃ  pensÃ© (finding)",
     "DÃ©jÃ  vu (finding)",
     "KÃ¼mmell disease (disorder)",
-    "Hand-SchÃ¼ller-Christian disease (disorder)"
-    #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
-    #   "Pelger-HuÃ«t anomaly (disorder)",
-    #   "Born in Ã…land Islands (finding)",
-    #   "Born in CuraÃ§ao (finding)",
-    #   "Main spoken language Norwegian BokmÃ¥l (finding)",
-    #   "Concentric sclerosis [BalÃ³]",
-    #   "BehÃ§et disease",
+    "Hand-SchÃ¼ller-Christian disease (disorder)",
+    "Montgomery-Ã…sberg depression rating scale (assessment scale)",
+    "Pelger-HuÃ«t anomaly (disorder)",
+    "Born in CuraÃ§ao (finding)",
+    "Main spoken language Norwegian BokmÃ¥l (finding)",
+    "Concentric sclerosis [BalÃ³]",
+    "BehÃ§et disease"
   )
 
   expected_a_tilde_upper_fix <- c(
     "Serum Sjögren's syndrome A 60 kiloDalton antibody (Ro) concentration (observable entity)",
-    "Serum Sjögren's syndrome A 52 kiloDalton antibody (Ro) concentration (observable entity)",
     "Chédiak-Higashi syndrome (disorder)",
     "Déjérine-Sottas disease (disorder)",
     "Ménière's disease (disorder)",
@@ -92,14 +83,13 @@ test_that("Test fix a tilde uppercase encoding", {
     "Déjà pensé (finding)",
     "Déjà vu (finding)",
     "Kümmell disease (disorder)",
-    "Hand-Schüller-Christian disease (disorder)"
-    #   "Montgomery-Ã…sberg depression rating scale (assessment scale)",
-    #   "Pelger-HuÃ«t anomaly (disorder)",
-    #   "Born in Ã…land Islands (finding)",
-    #   "Born in CuraÃ§ao (finding)",
-    #   "Main spoken language Norwegian BokmÃ¥l (finding)",
-    #   "Concentric sclerosis [BalÃ³]",
-    #   "BehÃ§et disease",
+    "Hand-Schüller-Christian disease (disorder)",
+    "Montgomery-Åsberg depression rating scale (assessment scale)",
+    "Pelger-Huët anomaly (disorder)",
+    "Born in Curaçao (finding)",
+    "Main spoken language Norwegian Bokmål (finding)",
+    "Concentric sclerosis [Baló]",
+    "Behçet disease"
   )
 
   expect_equal(fix_encoding(a_tilde_upper), expected_a_tilde_upper_fix)
