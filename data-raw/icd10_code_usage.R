@@ -133,7 +133,14 @@ icd10_usage <- icd10_code_usage_urls |>
 
 # Count number of usage with NAs
 sum(is.na(icd10_usage$usage))
-# [1] 0
+# [1] 323
+
+# Replace NAs with 10
+icd10_usage <- icd10_usage |>
+  mutate(usage = replace_na(usage, 10))
+
+# Check number of usage with NAs is 0
+sum(is.na(icd10_usage$usage)) == 0
 
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
