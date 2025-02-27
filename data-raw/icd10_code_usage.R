@@ -132,6 +132,24 @@ icd10_usage <- icd10_code_usage_urls |>
   ) |>
   filter(!is.na(usage))
 
+# Check encoding problems before fix
+codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
+# [1] "C841" "C880" "D510" "D511" "D513" "D518" "D519" "E672" "E750" "G375" "G610" "H810" "L705"
+# [14] "L813" "M350" "M352" "M911" "M931" "T470" "Y441" "Y530"
+
+# Fix encoding problems
+icd10_usage <- icd10_usage |>
+  mutate(description = opencodes:::fix_encoding(description))
+
+# Check encoding problems after fix
+opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
+# character(0)
+
+# Check (but dont fix) codes with multiple descriptions
+codes_with_multiple_desc <- opencodes:::get_codes_with_multiple_desc(icd10_usage, icd10_code)
+length(codes_with_multiple_desc)
+# [1] 214
+
 usethis::use_data(
   icd10_usage,
   compress = "bzip2",
