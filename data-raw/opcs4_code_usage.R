@@ -131,6 +131,15 @@ opcs4_usage <- opcs4_code_usage_urls |>
   ) |>
   filter(!is.na(usage))
 
+# Check encoding problems before fix
+codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(opcs4_usage, opcs4_code)
+# character(0)
+
+# Check (but dont fix) codes with multiple descriptions
+codes_with_multiple_desc <- opencodes:::get_codes_with_multiple_desc(opcs4_usage, opcs4_code)
+length(codes_with_multiple_desc)
+# [1] 99
+
 usethis::use_data(
   opcs4_usage,
   compress = "bzip2",
