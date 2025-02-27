@@ -4,7 +4,7 @@
 \alias{get_codes_with_multiple_desc}
 \title{Find codes with multiple description}
 \usage{
-get_codes_with_multiple_desc(code_usage_data)
+get_codes_with_multiple_desc(code_usage_data, code_column)
 }
 \description{
 Find codes with multiple description

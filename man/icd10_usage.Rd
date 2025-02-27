@@ -30,31 +30,33 @@ The code usage represents the annual count of all episodes which record the give
 Restricted codes for which annual usage is not published have been removed.
 }
 \examples{
-# Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..." 
+# Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."
 # (codes begin with letters "S" or "T"), with usage > 10,000.
-# For each of these, select the year with the highest count. 
+# For each of these, select the year with the highest count.
 icd10_usage |>
-dplyr:: filter(grepl("^[ST]", icd10_code) & usage > 10000)|>
-dplyr:: group_by(description) |>
-dplyr:: slice_max(usage)
+  dplyr::filter(grepl("^[ST]", icd10_code) & usage > 10000) |>
+  dplyr::group_by(description) |>
+  dplyr::slice_max(usage)
 # Filter to codes present in the CPRD Aurum ICD-10 pregnancy codelist.
 # This codelist is available in OpenCodelists.org
-codelist<- read.csv(
-"https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv")
+codelist <- read.csv(
+  "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv"
+)
 icd10_usage |>
-dplyr:: filter(icd10_code \%in\% codelist$code) 
-# Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..." 
+  dplyr::filter(icd10_code \%in\% codelist$code)
+# Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."
 # (codes begin with letters "S" or "T"), with usage > 10,000.
-# For each of these, select the year with the highest count. 
+# For each of these, select the year with the highest count.
 icd10_usage |>
-dplyr:: filter(grepl("^[ST]", icd10_code) & usage > 10000)|>
-dplyr:: group_by(description) |>
-dplyr:: slice_max(usage)
+  dplyr::filter(grepl("^[ST]", icd10_code) & usage > 10000) |>
+  dplyr::group_by(description) |>
+  dplyr::slice_max(usage)
 # Filter to codes present in the CPRD Aurum ICD-10 pregnancy codelist.
 # This codelist is available in OpenCodelists.org
-codelist<- read.csv(
-"https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv")
+codelist <- read.csv(
+  "https://www.opencodelists.org/codelist/opensafely/pregnancy-icd10-aurum/5a7d8d12/download.csv"
+)
 icd10_usage |>
-dplyr:: filter(icd10_code \%in\% codelist$code) 
+  dplyr::filter(icd10_code \%in\% codelist$code)
 }
 \keyword{datasets}

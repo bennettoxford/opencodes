@@ -29,6 +29,6 @@ Restricted codes for which annual usage is not published have been removed.
 \examples{
 # Filter to procedures involving "biopsy" after March 2020 (note each year runs April - March).
 opcs4_usage |>
-dplyr:: filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate:: year(end_date) > 2020)
+  dplyr::filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate::year(end_date) > 2020)
 }
 \keyword{datasets}
