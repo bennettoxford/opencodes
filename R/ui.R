@@ -137,6 +137,7 @@ app_ui <- function(request) {
       ),
       nav_panel(
         p(bs_icon("file-earmark-spreadsheet"), "Usage table"),
+        uiOutput("codelist_only_codes_warning"),
         DTOutput("usage_table")
       ),
       nav_panel(

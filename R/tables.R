@@ -54,3 +54,21 @@ datatable_codelist <- function(data, data_desc) {
     )
   )
 }
+
+#' Helper function to create a table of codes only present in codelist (not in data)
+#' @importFrom tibble as_tibble 
+#' @keywords internal
+identify_codes_only_in_codelist <- function(codelist, data) {
+  
+  # Generate a codelist_df with codelist codes & terms 
+  codelist_df <- as_tibble(codelist[c("code", "term")])
+  
+  # Filter that df to codes only in codelist
+  codes_only_in_codelist <- codelist_df |>
+    filter(!codelist$code %in% data$code)
+  
+  rm(codelist_df)
+  
+  return(codes_only_in_codelist)
+  
+}

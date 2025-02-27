@@ -146,6 +146,9 @@ app_server <- function(input, output, session) {
         req(rv_codelist())
         data <- data |>
           filter(code %in% rv_codelist()$code)
+        
+        # NEED TO FORM THIS OBJECT CORRECTLY codes_only_in_codelist <- setdiff(rv_codelist()$code, data$code)
+        codes_only_in_codelist <- identify_codes_only_in_codelist(rv_codelist(), data)
       }
 
       if (nrow(data) == 0) {
@@ -178,6 +181,27 @@ app_server <- function(input, output, session) {
       arrange(desc(total_usage)) |>
       datatable_usage()
   })
+  
+  # WARNING: Codes only in codelist
+  output$codelist_only_codes_warning <- renderUI({
+    # Display only if search == codelist & there are codes not present in data
+    if (rv_search_method() == "codelist") {
+      if (nrow(codes_only_in_codelist > 0)) {
+      tagList(
+        # Display a warning
+        div(style = "color: red; font-weight: bold;", 
+            "Warning: Codelist contains codes not present in the data"),
+        
+        # Display the codes not in the codelist (if user chooses to)
+        # DT::datatable(codes_only_in_codelist)
+      )
+        } else {
+          NULL
+          }
+      } else {
+        NULL
+        }
+    })
 
   # TABLE: Selected codes / Codelist
   output$codes_table <- renderDT({
