@@ -53,6 +53,7 @@ fix_encoding <- function(string, print_replacement_dict = FALSE) {
     # \u00A8 = Diaeresis
     # \u00E8 = Latin Small Letter E with grave
     # \u0020 = Space
+    # \u00A0 = Non-breaking space
     # \u00E0 = Latin Small Letter A with grave
     # \u00BC = Vulgar fraction one quarter
     # \u00FC = Latin Small Letter U with diaeresis
@@ -84,14 +85,14 @@ fix_encoding <- function(string, print_replacement_dict = FALSE) {
     "\u00C3\u00B6" = "\u00F6",
     "\u00C3\u00A9" = "\u00E9",
     "\u00C3\u00A8" = "\u00E8",
-    "\u00C3\u0020" = "\u00E0",
     "\u00C3\u00BC" = "\u00FC",
     "\u00C3\u2026" = "\u00C5",
     "\u00C3\u00AB" = "\u00EB",
     "\u00C3\u00A7" = "\u00E7",
     "\u00C3\u00A5" = "\u00E5",
     "\u00C3\u00B3" = "\u00F3",
-    "\u00C3\u00A7" = "\u00E7"
+    "\u00C3\u00A7" = "\u00E7",
+    "\u00C3\u00A0" = "\u00E0"
   )
   if (print_replacement_dict) {
     print(replacement_dict)
