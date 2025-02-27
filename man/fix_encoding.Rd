@@ -4,7 +4,7 @@
 \alias{fix_encoding}
 \title{Fix encoding problems}
 \usage{
-fix_encoding(string)
+fix_encoding(string, print_replacement_dict = FALSE)
 }
 \description{
 Fix encoding problems
