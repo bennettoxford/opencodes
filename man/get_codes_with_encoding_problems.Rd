@@ -4,7 +4,7 @@
 \alias{get_codes_with_encoding_problems}
 \title{Find codes with encoding problems}
 \usage{
-get_codes_with_encoding_problems(code_usage_data)
+get_codes_with_encoding_problems(code_usage_data, code_column)
 }
 \description{
 Find codes with encoding problems

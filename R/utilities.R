@@ -1,8 +1,8 @@
 #' Find codes with multiple description
 #' @importFrom dplyr count distinct filter group_by pull select
 #' @keywords internal
-get_codes_with_multiple_desc <- function(code_usage_data) {
-  select(code_usage_data, code = 3, description) |>
+get_codes_with_multiple_desc <- function(code_usage_data, code_column) {
+  select(code_usage_data, code = {{ code_column }}, description) |>
     distinct() |>
     group_by(code) |>
     count() |>
@@ -15,8 +15,8 @@ get_codes_with_multiple_desc <- function(code_usage_data) {
 #' @importFrom dplyr filter distinct select
 #' @importFrom stringr str_detect
 #' @keywords internal
-get_codes_with_encoding_problems <- function(code_usage_data) {
-  select(code_usage_data, code = 3, description) |>
+get_codes_with_encoding_problems <- function(code_usage_data, code_column) {
+  select(code_usage_data, code = {{ code_column }}, description) |>
     filter(str_detect(description, "\\S*\u00C3|\u00E2\\S*")) |>
     distinct() |>
     pull(code)
@@ -39,7 +39,7 @@ fix_encoding <- function(string) {
     # We might also want to replace subscript numbers to regular text
     # e.g., 1 instead of subscript 1, but for now we wont address this and
     # accept the differences in the raw data.
-    
+
     # The following mapping is used below:
     # \u00E2 = Latin Small Letter A with circumflex
     # \u002C = Comma
@@ -61,7 +61,6 @@ fix_encoding <- function(string) {
     "\u00E2\u20AC\u201C" = "-",
     "\u00E2\u002C\u2020" = "6",
     "\u00E2\u002C\u002C" = "2",
-    
     "\u00C3\u00B6" = "\u00F6",
     "\u00C3\u00A9" = "\u00E9",
     "\u00C3\u00A8" = "\u00E8",
@@ -71,8 +70,3 @@ fix_encoding <- function(string) {
 
   str_replace_all(string, replacement_dict)
 }
-
-
-
-
-
