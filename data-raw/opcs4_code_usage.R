@@ -141,6 +141,18 @@ opcs4_usage <- opcs4_usage |>
 # Check number of usage with NAs is 0
 sum(is.na(opcs4_usage$usage)) == 0
 
+# Check codes with missing description
+opcs4_usage |> 
+  filter(is.na(description)) |> 
+  select(opcs4_code, description, usage) |> 
+  distinct() |> 
+  print(n = 32)
+# A tibble: 32 × 3
+
+# Remove "codes" with missing description
+opcs4_usage <- opcs4_usage |> 
+  filter(!is.na(description))
+
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(opcs4_usage, opcs4_code)
 # character(0)

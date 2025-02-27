@@ -84,6 +84,13 @@ snomed_usage <- snomed_usage |>
 # Check number of usage with NAs is 0
 sum(is.na(snomed_usage$usage)) == 0
 
+# Check codes with missing description
+snomed_usage |> 
+  filter(is.na(description)) |> 
+  select(snomed_code, description, usage) |> 
+  distinct()
+# A tibble: 0 × 3
+
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
 # [1] "1011271000000107"   "1011311000000107"   "13445001"           "83901003"           "40956001"           "201281002"

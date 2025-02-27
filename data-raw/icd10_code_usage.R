@@ -142,6 +142,18 @@ icd10_usage <- icd10_usage |>
 # Check number of usage with NAs is 0
 sum(is.na(icd10_usage$usage)) == 0
 
+# Check codes with missing description
+icd10_usage |> 
+  filter(is.na(description)) |> 
+  select(icd10_code, description, usage) |> 
+  distinct() |> 
+  print(n = 39)
+# A tibble: 38 × 3
+
+# Remove "codes" with missing description
+icd10_usage <- icd10_usage |> 
+  filter(!is.na(description))
+
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
 # [1] "C841" "C880" "D510" "D511" "D513" "D518" "D519" "E672" "E750" "G375" "G610" "H810" "L705"
