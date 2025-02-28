@@ -218,7 +218,13 @@ app_server <- function(input, output, session) {
 
   output$download_usage_table <- downloadHandler(
     filename = function() {
-      paste0(input$dataset, "_code_usage_", Sys.Date(), ".csv")
+      paste0(
+        input$dataset,
+        "_selected_codes_usage_",
+        "from_", min(filtered_data()$start_date),
+        "_to_", max(filtered_data()$end_date),
+        ".csv"
+      )
     },
     content = function(file) {
       fwrite(
@@ -234,7 +240,13 @@ app_server <- function(input, output, session) {
 
   output$download_codes_table <- downloadHandler(
     filename = function() {
-      paste0(input$dataset, "_selected_codes_", Sys.Date(), ".csv")
+      paste0(
+        input$dataset,
+        "_selected_codes_",
+        "from_", min(filtered_data()$start_date),
+        "_to_", max(filtered_data()$end_date),
+        ".csv"
+      )
     },
     content = function(file) {
       if (rv_search_method() == "none") {
