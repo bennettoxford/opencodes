@@ -108,7 +108,7 @@ app_ui <- function(request) {
     ),
     layout_columns(
       value_box(
-        title = "Number of selected codes",
+        title = "Number of selected codes with usage data",
         value = textOutput("unique_codes"),
         showcase = bs_icon("file-earmark-medical")
       ),
@@ -137,10 +137,12 @@ app_ui <- function(request) {
       ),
       nav_panel(
         p(bs_icon("file-earmark-spreadsheet"), "Usage table"),
+        downloadButton("download_usage_table", "Download CSV"),
         DTOutput("usage_table")
       ),
       nav_panel(
         p(bs_icon("file-earmark-medical"), "Selected codes"),
+        downloadButton("download_codes_table", "Download CSV"),
         DTOutput("codes_table")
       )
     ),
