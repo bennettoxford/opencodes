@@ -7,6 +7,7 @@
 #' @import bsicons
 #' @import dplyr
 #' @import ggplot2
+#' @importFrom data.table fwrite
 #' @importFrom scales comma label_date_short label_comma
 #' @importFrom lubridate month year
 #' @importFrom DT renderDT
@@ -154,7 +155,6 @@ app_server <- function(input, output, session) {
           type = "warning"
         )
       }
-
       data
     })
   })
@@ -181,41 +181,100 @@ app_server <- function(input, output, session) {
 
   # TABLE: Selected codes / Codelist
   output$codes_table <- renderDT({
-    
-    validate(
-      need(rv_search_method() != "none", "No codes have been selected. Please select codes or load a codelist.")
-    )
-    
-    if (rv_search_method() == "codelist") {
-
+    if (rv_search_method() == "none") {
+      # Return an empty table if no codes or codelist are selected
+      selected_codes <- tibble::tibble(
+        code = character(0),
+        description = character(0),
+        usage_data_available = factor(character(0), levels = c("Available", "Not available"))
+      )
+    } else if (rv_search_method() == "codelist") {
       # Get all codes with usage data
       codes_with_usage_data <- filtered_data() |>
         pull(code)
-      
+
       selected_codes <- rv_codelist() |>
         mutate(usage_data_available = code %in% codes_with_usage_data)
-      
     } else if (rv_search_method() == "search") {
-
       # All codes will have usage data, otherwise they wouldn't be in the data sets
       # we can therefore just assign TRUE for all these codes
       selected_codes <- filtered_data() |>
         select(code, description) |>
-        distinct() |> 
+        distinct() |>
         mutate(usage_data_available = TRUE)
-      }
+    }
 
-    selected_codes |> 
+    selected_codes |>
       mutate(
         usage_data_available = factor(
           usage_data_available,
           levels = c(TRUE, FALSE),
           labels = c("Available", "Not available")
-          )
-        ) |> 
+        )
+      ) |>
       arrange(desc(usage_data_available)) |>
       datatable_codelist(data_desc = input$dataset)
   })
+
+  output$download_usage_table <- downloadHandler(
+    filename = function() {
+      paste0(
+        input$dataset,
+        "_selected_codes_usage_",
+        "from_", min(filtered_data()$start_date),
+        "_to_", max(filtered_data()$end_date),
+        ".csv"
+      )
+    },
+    content = function(file) {
+      fwrite(
+        filtered_data() |>
+          group_by(code, description) |>
+          summarise(total_usage = sum(usage, na.rm = TRUE)) |>
+          ungroup() |>
+          mutate(total_pct = total_usage / sum(total_usage, na.rm = TRUE)),
+        file
+      )
+    }
+  )
+
+  output$download_codes_table <- downloadHandler(
+    filename = function() {
+      paste0(
+        input$dataset,
+        "_selected_codes_",
+        "from_", min(filtered_data()$start_date),
+        "_to_", max(filtered_data()$end_date),
+        ".csv"
+      )
+    },
+    content = function(file) {
+      if (rv_search_method() == "none") {
+        # Write an empty file with column headers
+        fwrite(
+          tibble::tibble(
+            code = character(0),
+            description = character(0),
+            usage_data_available = factor(character(0), levels = c("Available", "Not available"))
+          ),
+          file
+        )
+        return()
+      }
+
+      selected_codes <- if (rv_search_method() == "codelist") {
+        codes_with_usage_data <- filtered_data() |> pull(code)
+        rv_codelist() |> mutate(usage_data_available = code %in% codes_with_usage_data)
+      } else if (rv_search_method() == "search") {
+        filtered_data() |>
+          select(code, description) |>
+          distinct() |>
+          mutate(usage_data_available = TRUE)
+      }
+
+      fwrite(selected_codes, file)
+    }
+  )
 
   # PLOT: Trends over time
   output$usage_plot <- renderPlotly({
@@ -225,7 +284,7 @@ app_server <- function(input, output, session) {
       # As a workaround we are adding a plot with text only if the
       # search criteria match no data. At some point in the future we
       # should reconsider if this is the best approach.
-       # text if there are no codes
+      # text if there are no codes
       if (unique_codes == 0) {
         p <- ggplot() +
           geom_text(
