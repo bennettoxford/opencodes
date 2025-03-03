@@ -129,8 +129,48 @@ icd10_usage <- icd10_code_usage_urls |>
       paste0("20", str_extract_all(end_date, "\\d+"), "-03-31")
     ),
     icd10_code = gsub("\\s?[^[:alnum:]]+\\s?", "", icd10_code)
-  ) |>
-  filter(!is.na(usage))
+  )
+
+# Count number of usage with NAs
+sum(is.na(icd10_usage$usage))
+# [1] 323
+
+# Replace NAs with 10
+icd10_usage <- icd10_usage |>
+  mutate(usage = replace_na(usage, 10))
+
+# Check number of usage with NAs is 0
+sum(is.na(icd10_usage$usage)) == 0
+
+# Check codes with missing description
+icd10_usage |> 
+  filter(is.na(description)) |> 
+  select(icd10_code, description, usage) |> 
+  distinct() |> 
+  print(n = 39)
+# A tibble: 38 × 3
+
+# Remove "codes" with missing description
+icd10_usage <- icd10_usage |> 
+  filter(!is.na(description))
+
+# Check encoding problems before fix
+codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
+# [1] "C841" "C880" "D510" "D511" "D513" "D518" "D519" "E672" "E750" "G375" "G610" "H810" "L705"
+# [14] "L813" "M350" "M352" "M911" "M931" "T470" "Y441" "Y530"
+
+# Fix encoding problems
+icd10_usage <- icd10_usage |>
+  mutate(description = opencodes:::fix_encoding(description))
+
+# Check encoding problems after fix
+opencodes:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
+# character(0)
+
+# Check (but dont fix) codes with multiple descriptions
+codes_with_multiple_desc <- opencodes:::get_codes_with_multiple_desc(icd10_usage, icd10_code)
+length(codes_with_multiple_desc)
+# [1] 214
 
 usethis::use_data(
   icd10_usage,

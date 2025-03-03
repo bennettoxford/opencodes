@@ -65,14 +65,61 @@ snomed_usage <- snomed_code_usage_urls %>%
   separate(nhs_fy, c("start_date", "end_date"), "to") |>
   mutate(
     start_date = as.Date(paste0(start_date, "-08-01")),
-    end_date = as.Date(paste0(end_date, "-07-31")),
-    usage = replace_na(usage, 5)
+    end_date = as.Date(paste0(end_date, "-07-31"))
   )
 
 # Manipulation required due to variable name change
 snomed_usage <- snomed_usage |>
   rename(snomed_code = snomed_concept_id) |>
   mutate(snomed_code = as.character(snomed_code))
+
+# Count number of usage with NAs
+sum(is.na(snomed_usage$usage))
+# [1] 406178
+
+# Replace NAs with 10
+snomed_usage <- snomed_usage |>
+  mutate(usage = replace_na(usage, 10))
+
+# Check number of usage with NAs is 0
+sum(is.na(snomed_usage$usage)) == 0
+
+# Check codes with missing description
+snomed_usage |> 
+  filter(is.na(description)) |> 
+  select(snomed_code, description, usage) |> 
+  distinct()
+# A tibble: 0 × 3
+
+# Check encoding problems before fix
+codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
+# [1] "1011271000000107"   "1011311000000107"   "13445001"           "83901003"           "40956001"           "201281002"
+# [7] "190818004"          "111303009"          "43234007"           "150091000000106"    "266994001"          "313005"
+# [13] "275542004"          "408521009"          "236504007"          "239912009"          "27982003"           "75895005"
+# [19] "4950009"            "313421002"          "239915006"          "64936001"           "193776001"          "80734006"
+# [25] "118611004"          "238609000"          "193253000"          "196137000"          "923701000000106"    "194349005"
+# [31] "194350005"          "232283001"          "403824007"          "716722005"          "297860001"          "398719004"
+# [37] "446087008"          "783541009"          "83886009"           "920601000000106"    "970821000000100"    "111396008"
+# [43] "111499002"          "194348002"          "194351009"          "232282006"          "240218006"          "255101006"
+# [49] "298691007"          "298693005"          "39795003"           "63204009"           "920581000000102"    "21001001"
+# [55] "239913004"          "239914005"          "239917003"          "27540008"           "298692000"          "40158001"
+# [61] "402910001"          "402912009"          "45853006"           "46442004"           "740215071000132096" "78946008"
+# [67] "85559002"           "95263006"           "971021000000103"    "188637007"          "239916007"          "297858003"
+# [73] "60925002"           "717705004"          "973131000000103"    "191306005"          "239946005"          "403816002"
+# [79] "440348009"          "53605000"           "797751000000100"    "972931000000108"
+
+# Fix encoding problems
+snomed_usage <- snomed_usage |>
+  mutate(description = opencodes:::fix_encoding(description))
+
+# Check encoding problems after fix
+opencodes:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
+# character(0)
+
+# Check (but dont fix) codes with multiple descriptions
+codes_with_multiple_desc <- opencodes:::get_codes_with_multiple_desc(snomed_usage, snomed_code)
+length(codes_with_multiple_desc)
+# [1] 8520
 
 usethis::use_data(
   snomed_usage,

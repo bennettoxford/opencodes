@@ -7,7 +7,10 @@ test_that("Test get codes with multiple desc", {
     "2022-08-01", "2023-07-31", "200", " One code two descriptions", 200, TRUE, TRUE
   )
 
-  expect_equal(get_codes_with_multiple_desc(df_test, snomed_code), c("200"))
+  expect_equal(
+    get_codes_with_multiple_desc(df_test, snomed_code),
+    c("200")
+  )
 })
 
 test_that("Test get codes with encoding problem", {
@@ -18,7 +21,10 @@ test_that("Test get codes with encoding problem", {
     "2022-08-01", "2023-07-31", "300", " Encoding problems â", 300, TRUE, TRUE
   )
 
-  expect_equal(get_codes_with_encoding_problems(df_test, snomed_code), c("200", "300"))
+  expect_equal(
+    get_codes_with_encoding_problems(df_test, snomed_code),
+    c("200", "300")
+  )
 })
 
 test_that("Test fix a circumflex lowercase encoding", {
@@ -52,7 +58,10 @@ test_that("Test fix a circumflex lowercase encoding", {
     "Histamine H2-receptor antagonists"
   )
 
-  expect_equal(fix_encoding(a_circumflex_lower), expected_a_circumflex_lower_fix)
+  expect_equal(
+    fix_encoding(a_circumflex_lower),
+    expected_a_circumflex_lower_fix
+  )
 })
 
 test_that("Test fix a tilde uppercase encoding", {
@@ -62,8 +71,8 @@ test_that("Test fix a tilde uppercase encoding", {
     "DÃ©jÃ©rine-Sottas disease (disorder)",
     "MÃ©niÃ¨re's disease (disorder)",
     "LasÃ¨gue sign (finding)",
-    "DÃ©jÃ  pensÃ© (finding)",
-    "DÃ©jÃ  vu (finding)",
+    "DÃ©jÃ\u00A0 pensÃ© (finding)",
+    "DÃ©jÃ\u00A0 vu (finding)",
     "KÃ¼mmell disease (disorder)",
     "Hand-SchÃ¼ller-Christian disease (disorder)",
     "Montgomery-Ã…sberg depression rating scale (assessment scale)",
@@ -92,5 +101,41 @@ test_that("Test fix a tilde uppercase encoding", {
     "Behçet disease"
   )
 
-  expect_equal(fix_encoding(a_tilde_upper), expected_a_tilde_upper_fix)
+  expect_equal(
+    fix_encoding(a_tilde_upper),
+    expected_a_tilde_upper_fix
+  )
+})
+
+test_that("Test a circumflex lower singlelow 9 quotation mark encoding problems", {
+  a_circumflex_lower_singlelow_9_quotation_mark <- c(
+    "Vitamin Bâ‚\u0081â‚‚ deficiency anaemia due to intrinsic factor deficiency",
+    "Vitamin Bâ‚\u0081â‚‚ deficiency anaemia due to selective vitamin Bâ‚\u0081â‚‚ malabsorption with proteinuria",
+    "Other dietary vitamin Bâ‚\u0081â‚‚ deficiency anaemia",
+    "Other vitamin Bâ‚\u0081â‚‚ deficiency anaemias",
+    "Vitamin Bâ‚\u0081â‚‚ deficiency anaemia, unspecified",
+    "Megavitamin-Bâ‚† syndrome",
+    "GMâ‚‚ gangliosidosis",
+    "Poisoning: Histamine Hâ‚‚-receptor antagonists",
+    "Vitamin Bâ‚\u0081â‚‚, folic acid and other anti-megaloblastic-anaemia preparations",
+    "Histamine Hâ‚‚-receptor antagonists"
+  )
+
+  expected_a_circumflex_lower_singlelow_9_quotation_mark_fix <- c(
+    "Vitamin B12 deficiency anaemia due to intrinsic factor deficiency",
+    "Vitamin B12 deficiency anaemia due to selective vitamin B12 malabsorption with proteinuria",
+    "Other dietary vitamin B12 deficiency anaemia",
+    "Other vitamin B12 deficiency anaemias",
+    "Vitamin B12 deficiency anaemia, unspecified",
+    "Megavitamin-B6 syndrome",
+    "GM2 gangliosidosis",
+    "Poisoning: Histamine H2-receptor antagonists",
+    "Vitamin B12, folic acid and other anti-megaloblastic-anaemia preparations",
+    "Histamine H2-receptor antagonists"
+  )
+
+  expect_equal(
+    fix_encoding(a_circumflex_lower_singlelow_9_quotation_mark),
+    expected_a_circumflex_lower_singlelow_9_quotation_mark_fix
+  )
 })

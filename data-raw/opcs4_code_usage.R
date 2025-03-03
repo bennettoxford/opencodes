@@ -128,8 +128,39 @@ opcs4_usage <- opcs4_code_usage_urls |>
       paste0("20", str_extract_all(end_date, "\\d+"), "-03-31")
     ),
     opcs4_code = gsub("\\s?[^[:alnum:]]+\\s?", "", opcs4_code)
-  ) |>
-  filter(!is.na(usage))
+  )
+
+# Count number of usage with NAs
+sum(is.na(opcs4_usage$usage))
+# [1] 143
+
+# Replace NAs with 10
+opcs4_usage <- opcs4_usage |>
+  mutate(usage = replace_na(usage, 10))
+
+# Check number of usage with NAs is 0
+sum(is.na(opcs4_usage$usage)) == 0
+
+# Check codes with missing description
+opcs4_usage |> 
+  filter(is.na(description)) |> 
+  select(opcs4_code, description, usage) |> 
+  distinct() |> 
+  print(n = 32)
+# A tibble: 32 × 3
+
+# Remove "codes" with missing description
+opcs4_usage <- opcs4_usage |> 
+  filter(!is.na(description))
+
+# Check encoding problems before fix
+codes_with_encoding_problems <- opencodes:::get_codes_with_encoding_problems(opcs4_usage, opcs4_code)
+# character(0)
+
+# Check (but dont fix) codes with multiple descriptions
+codes_with_multiple_desc <- opencodes:::get_codes_with_multiple_desc(opcs4_usage, opcs4_code)
+length(codes_with_multiple_desc)
+# [1] 99
 
 usethis::use_data(
   opcs4_usage,
