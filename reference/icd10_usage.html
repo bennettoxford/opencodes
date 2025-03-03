@@ -116,7 +116,7 @@ Note that the punctuation from the code has been removed for compatibility with 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">icd10_usage</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">icd10_code</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">codelist</span><span class="op">$</span><span class="va">code</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,189 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,365 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    start_date end_date   icd10_code description                            usage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2023-04-01 2024-03-31 F530       Mild mental and behavioural disorders…  <span style="text-decoration: underline;">4</span>206</span>
@@ -129,7 +129,7 @@ Note that the punctuation from the code has been removed for compatibility with 
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2023-04-01 2024-03-31 O008       Other ectopic pregnancy                  847</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2023-04-01 2024-03-31 O009       Ectopic pregnancy, unspecified          <span style="text-decoration: underline;">1</span>877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2023-04-01 2024-03-31 O010       Classical hydatidiform mole              278</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,179 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,355 more rows</span></span>
 <span class="r-in"><span><span class="co"># Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."</span></span></span>
 <span class="r-in"><span><span class="co"># (codes begin with letters "S" or "T"), with usage &gt; 10,000.</span></span></span>
 <span class="r-in"><span><span class="co"># For each of these, select the year with the highest count.</span></span></span>
@@ -159,7 +159,7 @@ Note that the punctuation from the code has been removed for compatibility with 
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">icd10_usage</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">icd10_code</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">codelist</span><span class="op">$</span><span class="va">code</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,189 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,365 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    start_date end_date   icd10_code description                            usage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2023-04-01 2024-03-31 F530       Mild mental and behavioural disorders…  <span style="text-decoration: underline;">4</span>206</span>
@@ -172,7 +172,7 @@ Note that the punctuation from the code has been removed for compatibility with 
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2023-04-01 2024-03-31 O008       Other ectopic pregnancy                  847</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2023-04-01 2024-03-31 O009       Ectopic pregnancy, unspecified          <span style="text-decoration: underline;">1</span>877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2023-04-01 2024-03-31 O010       Classical hydatidiform mole              278</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,179 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,355 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
