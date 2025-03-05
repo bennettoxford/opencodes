@@ -13,9 +13,12 @@ datatable_usage <- function(data) {
         list(width = "40px", targets = 3)
       ),
       pageLength = 10,
-      scrollX = TRUE,
+      scrollY = TRUE,
+      scrollX = FALSE,
       searching = FALSE
-    )
+    ),
+    width = "100%",
+    fillContainer = TRUE
   ) |>
     formatPercentage(
       "total_pct",
@@ -32,21 +35,21 @@ datatable_codelist <- function(data, data_desc) {
     data,
     colnames = c("Code", "Description", "Usage data"),
     rownames = FALSE,
-    extensions = c("Scroller"),
     options = list(
       columnDefs = list(
         list(width = "50px", targets = 0),
         list(width = "400px", targets = 1),
         list(width = "100px", targets = 2)
       ),
+      language = list(emptyTable = "No codes selected, please select codes or load a codelist."),
       order = list(list(2, "desc")),
       pageLength = 10,
-      scrollX = TRUE,
-      searching = FALSE,
-      deferRender = TRUE,
-      scrollY = 400,
-      scroller = TRUE
-    )
+      scrollY = FALSE,
+      scrollX = FALSE,
+      searching = FALSE
+    ),
+    width = "100%",
+    fillContainer = TRUE
   ) |>
     formatStyle(
       "usage_data_available",
