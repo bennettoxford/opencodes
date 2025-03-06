@@ -61,10 +61,10 @@ app_ui <- function(request) {
           "code_pattern_search",
           tooltip(
             span(
-              "ICD-10/ OPCS-4 category",
+              "ICD-10 or OPCS-4 category",
               bs_icon("info-circle")
             ),
-            "Enter the beginning of ICD-10 or OPCS-4 code to search by chapter/ subchapter. Multiple chapters can be combined using '|'.",
+            "Enter the beginning of ICD-10 or OPCS-4 code to search by chapter or subchapter. Multiple chapters can be combined using '|'.",
             options = list(
               customClass = "left-align-tooltip"
             )
