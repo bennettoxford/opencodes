@@ -186,7 +186,7 @@ app_server <- function(input, output, session) {
       selected_codes <- tibble::tibble(
         code = character(0),
         description = character(0),
-        usage_data_available = factor(character(0), levels = c("Available", "Not available"))
+        usage_data_available = factor(character(0), levels = c("Usage data available", "No usage data reported"))
       )
     } else if (rv_search_method() == "codelist") {
       # Get all codes with usage data
@@ -209,7 +209,7 @@ app_server <- function(input, output, session) {
         usage_data_available = factor(
           usage_data_available,
           levels = c(TRUE, FALSE),
-          labels = c("Available", "Not available")
+          labels = c("Usage data available", "No usage data reported")
         )
       ) |>
       arrange(desc(usage_data_available)) |>
@@ -255,7 +255,7 @@ app_server <- function(input, output, session) {
           tibble::tibble(
             code = character(0),
             description = character(0),
-            usage_data_available = factor(character(0), levels = c("Available", "Not available"))
+            usage_data_available = factor(character(0), levels = c("Usage data available", "No usage data reported"))
           ),
           file
         )

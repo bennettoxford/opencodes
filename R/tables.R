@@ -54,7 +54,7 @@ datatable_codelist <- function(data, data_desc) {
     formatStyle(
       "usage_data_available",
       color = styleEqual(
-        c("Available", "Not available"),
+        c("Usage data available", "No usage data reported"),
         c("#35B779FF", "#ED6925FF")
       ),
       fontWeight = "bold"
