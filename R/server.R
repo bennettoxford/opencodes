@@ -13,6 +13,7 @@
 #' @importFrom DT renderDT
 #' @importFrom plotly renderPlotly ggplotly plot_ly config add_lines layout
 #' @import here
+#' @importFrom stringr str_starts
 
 app_server <- function(input, output, session) {
   # Reactive values for search method (1) none, (2) code/desc or (3) codelist) and codelist data
@@ -136,7 +137,7 @@ app_server <- function(input, output, session) {
 
         if (!is.null(input$code_pattern_search) && input$code_pattern_search != "") {
           data <- data |>
-            filter(grepl(input$code_pattern_search, code, ignore.case = TRUE))
+            filter(str_starts(code, input$code_pattern_search))
         }
 
         if (!is.null(input$description_search) && input$description_search != "") {
