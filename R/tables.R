@@ -15,7 +15,7 @@ datatable_usage <- function(data) {
       pageLength = 10,
       scrollY = TRUE,
       scrollX = FALSE,
-      searching = FALSE
+      searching = TRUE
     ),
     width = "100%",
     fillContainer = TRUE
@@ -46,7 +46,7 @@ datatable_codelist <- function(data, data_desc) {
       pageLength = 10,
       scrollY = FALSE,
       scrollX = FALSE,
-      searching = FALSE
+      searching = TRUE
     ),
     width = "100%",
     fillContainer = TRUE
