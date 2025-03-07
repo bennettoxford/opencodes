@@ -333,6 +333,12 @@ app_server <- function(input, output, session) {
     withProgress(message = "Plotting data ...", {
       unique_codes <- length(unique(filtered_data()$code))
 
+      if (rv_search_method() != "none") {
+        df_plot <- complete_usage_gaps_with_zeros(filtered_data())
+      } else {
+        df_plot <- filtered_data()
+      }
+
       # As a workaround we are adding a plot with text only if the
       # search criteria match no data. At some point in the future we
       # should reconsider if this is the best approach.
@@ -354,7 +360,7 @@ app_server <- function(input, output, session) {
           )
       } else {
         if (input$show_individual_codes & unique_codes <= 500) {
-          p <- filtered_data() |>
+          p <- df_plot |>
             plot_individual()
         } else {
           if (input$show_individual_codes & unique_codes >= 500) {
@@ -364,7 +370,7 @@ app_server <- function(input, output, session) {
             )
           }
 
-          p <- filtered_data() |>
+          p <- df_plot |>
             group_by(start_date, end_date) |>
             summarise(total_usage = sum(usage, na.rm = TRUE)) |>
             plot_summary()
