@@ -140,7 +140,9 @@ test_that("Test a circumflex lower singlelow 9 quotation mark encoding problems"
   )
 })
 
-testthat("There are zeros in the usage column after missing values are filled") {
+test_that("There are zeros in the usage column after missing values are filled", {
+  
+  library(tidyr)
   
   filled_icd10_usage <- icd10_usage|>
     rename(code = icd10_code)|>
@@ -151,9 +153,11 @@ testthat("There are zeros in the usage column after missing values are filled") 
   
   expect_true(nrow(icd10_codes_with_zeros) > 0)
   
-}
+})
 
-testthat("After filling zeros, each code has the exact number of rows as could be expected from its year range") {
+test_that("After filling zeros, each code has the exact number of rows as could be expected from its year range", {
+  
+  library(tidyr)
   
   filled_icd10_usage <- icd10_usage|>
     rename(code = icd10_code)|>
@@ -166,4 +170,4 @@ testthat("After filling zeros, each code has the exact number of rows as could b
   
   expect_equal(nrow(icd10_codes_with_missing_years), 0)
   
-}
+})
