@@ -1,21 +1,3 @@
-#' Helper function to fill 0 in missing years for plotting individual code usage
-#' @importFrom tidyr complete
-#' @keywords internal
-fill_missing_usage_with_zeros <- function(data){
-  data <- data |>
-    group_by(code)|>
-    complete(end_date = seq.Date(from = min(end_date), 
-                                 to = max(end_date), 
-                                 by = "year"),
-             fill = list(usage = 0))|>
-    arrange(code, end_date) |>
-    mutate(start_date = seq.Date(from = min(start_date, na.rm = TRUE), 
-                                 to = max(start_date, na.rm = TRUE), 
-                                 by = "year"))|>
-    ungroup()
-  return(data)
-}
-
 #' Helper function to plot code usage summary
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_date scale_y_continuous labs theme theme_classic element_text
 #' @importFrom lubridate month year
@@ -66,8 +48,6 @@ plot_summary <- function(data) {
 plot_individual <- function(data) {
   scale_x_date_breaks <- unique(data$end_date)
   
-  data <- data |> fill_missing_usage_with_zeros()
-
   data <- data |>
     group_by(start_date, end_date) |>
     summarise(
