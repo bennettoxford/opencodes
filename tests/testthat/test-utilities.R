@@ -139,3 +139,31 @@ test_that("Test a circumflex lower singlelow 9 quotation mark encoding problems"
     expected_a_circumflex_lower_singlelow_9_quotation_mark_fix
   )
 })
+
+testthat("There are zeros in the usage column after missing values are filled") {
+  
+  filled_icd10_usage <- icd10_usage|>
+    rename(code = icd10_code)|>
+    fill_missing_usage_with_zeros()
+  
+  icd10_codes_with_zeros <- filled_icd10_usage |>
+    filter(usage == 0)
+  
+  expect_true(nrow(icd10_codes_with_zeros) > 0)
+  
+}
+
+testthat("After filling zeros, each code has the exact number of rows as could be expected from its year range") {
+  
+  filled_icd10_usage <- icd10_usage|>
+    rename(code = icd10_code)|>
+    fill_missing_usage_with_zeros()
+  
+  icd10_codes_with_missing_years <- filled_icd10_usage |>
+    group_by(code) |>
+    summarise(expected_nrow = year(max(end_date)) - year(min(end_date)) +1, current_nrow = n(), .groups = "drop")|>
+    filter(expected_nrow != current_nrow)
+  
+  expect_equal(nrow(icd10_codes_with_missing_years), 0)
+  
+}

@@ -45,7 +45,7 @@ plot_summary <- function(data) {
 #' @keywords internal
 fill_missing_usage_with_zeros <- function(data){
   data <- data |>
-    group_by(code, description)|>
+    group_by(code)|>
     complete(end_date = seq.Date(from = min(end_date), 
                                  to = max(end_date), 
                                  by = "year"),
