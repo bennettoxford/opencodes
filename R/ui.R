@@ -15,89 +15,95 @@ app_ui <- function(request) {
     theme = bs_theme(version = 5, bootswatch = "lumen"),
     title = "opencodes: Explore clinical code usage in England",
     sidebar = sidebar(
+      width = "23%",
+
+      # Select data
       card(
-        card_header(
+        card_header("Select data"),
+        radioButtons("dataset",
           tooltip(
-            span(
-              "Select dataset",
-              bs_icon("info-circle")
-            ),
+            span("Dataset", bs_icon("info-circle")),
             "SNOMED CT (Systematized Nomenclature of Medicine Clinical Terms); ICD-10 (International Classification of Diseases); OPCS-4 Classification of Interventions and Procedures",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
-          )
-        ),
-        radioButtons("dataset", NULL,
+            options = list(customClass = "left-align-tooltip")
+          ),
           choices = c(
-            # Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT)
             "SNOMED-CT" = "snomedct",
-            # International Classification of Diseases (ICD-10)
             "ICD-10" = "icd10",
-            # OPCS-4 Classification of Interventions and Procedures (OPCS-4)
             "OPCS-4" = "opcs4"
           )
-        )
+        ),
+        uiOutput("dynamic_date_slider")
       ),
+
+      # Select codes
       card(
         card_header("Select codes"),
-        selectizeInput(
-          "code_specific_search",
-          tooltip(
-            span(
-              "Specific code",
-              bs_icon("info-circle")
+        navset_tab(
+          nav_panel(
+            "Search",
+            br(),
+            selectizeInput(
+              "code_specific_search",
+              tooltip(
+                span(
+                  "Specific code",
+                  bs_icon("info-circle")
+                ),
+                "Select specific clinical codes. Start typing to see a selection of available codes.",
+                options = list(
+                  customClass = "left-align-tooltip"
+                )
+              ),
+              choices = NULL,
+              multiple = TRUE,
+              options = list(maxOptions = 15)
             ),
-            "Select specific clinical codes. Start typing to see a selection of available codes.",
-            options = list(
-              customClass = "left-align-tooltip"
+            textInput(
+              "description_search",
+              tooltip(
+                span(
+                  "Description",
+                  bs_icon("info-circle")
+                ),
+                "Enter search term(s). Multiple terms can be combined by using '|'.",
+                options = list(
+                  customClass = "left-align-tooltip"
+                )
+              )
+            ),
+            conditionalPanel(
+              condition = "input.dataset == 'icd10' || input.dataset == 'opcs4'",
+              uiOutput("dynamic_code_pattern_input")
             )
           ),
-          choices = NULL,
-          multiple = TRUE,
-          options = list(maxOptions = 15)
-        ),
-        textInput(
-          "description_search",
-          tooltip(
-            span(
-              "Description",
-              bs_icon("info-circle")
+          nav_panel(
+            "Load OpenCodelist",
+            br(),
+            textInput(
+              "codelist_slug",
+              tooltip(
+                span(
+                  "Codelist ID / Version Tag",
+                  bs_icon("info-circle")
+                ),
+                "Enter <codelist_id>/<version_id>, e.g., 'opensafely/anxiety-disorders/6aef605a'",
+                options = list(
+                  customClass = "left-align-tooltip"
+                )
+              ),
+              placeholder = "opensafely/anxiety-disorders/6aef605a",
+              NULL
             ),
-            "Enter search term(s). Multiple terms can be combined by using '|'.",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
+            actionButton("load_codelist", "Load codelist", class = "btn-outline-primary", style = "width: 100%;")
           )
         ),
-        conditionalPanel(
-          condition = "input.dataset == 'icd10' || input.dataset == 'opcs4'",
-          uiOutput("dynamic_code_pattern_input")
-        )
-      ),
-      card(
-        card_header("Load from OpenCodelist"),
-        textInput(
-          "codelist_slug",
-          tooltip(
-            span(
-              "Codelist ID / Version Tag",
-              bs_icon("info-circle")
-            ),
-            "Enter <codelist_id>/<version_id>, e.g., 'opensafely/anxiety-disorders/6aef605a'",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
-          ),
-          placeholder = "opensafely/anxiety-disorders/6aef605a",
-          NULL
-        ),
-        actionButton("load_codelist", "Load codelist", class = "btn-primary"),
-        actionButton("reset_codelist", "Reset codelist", class = "btn-secondary")
-      ),
-      width = "20%"
+        actionButton("reset_search_methods", "Reset code selection", class = "btn-outline-dark")
+      )
     ),
+    # Main page
+    # Value boxes
     layout_columns(
+      height = "20%",
       value_box(
         title = "Number of selected codes with usage data",
         value = textOutput("unique_codes"),
@@ -109,10 +115,12 @@ app_ui <- function(request) {
         showcase = plotlyOutput("sparkline")
       )
     ),
+    # Plots and tables
     navset_card_tab(
+      height = "80%",
       nav_panel(
         p(bs_icon("graph-up"), "Trends over time"),
-        checkboxInput(
+        input_switch(
           "show_individual_codes",
           tooltip(
             span(
@@ -144,6 +152,10 @@ app_ui <- function(request) {
       }
       .card-header {
         font-weight: bold;
+      }
+      .btn {
+        text-transform: none !important;
+        font-weight: bold !important;
       }
     "))
   )
