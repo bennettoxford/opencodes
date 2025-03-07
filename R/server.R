@@ -44,6 +44,29 @@ app_server <- function(input, output, session) {
     }
   })
 
+  output$dynamic_code_pattern_input <- renderUI({
+    req(input$dataset)
+    label_text <- if (input$dataset == "icd10") {
+      "ICD-10 category"
+    } else if (input$dataset == "opcs4") {
+      "OPCS-4 category"
+    } else {
+      NULL
+    }
+
+    textInput(
+      "code_pattern_search",
+      tooltip(
+        span(
+          label_text,
+          bs_icon("info-circle")
+        ),
+        "Enter the beginning of a code to search by chapter or subchapter. Multiple chapters can be combined using '|'.",
+        options = list(customClass = "left-align-tooltip")
+      )
+    )
+  })
+
   # Update code search choices depending on selected dataset
   observe({
     updateSelectizeInput(
@@ -136,7 +159,7 @@ app_server <- function(input, output, session) {
 
         if (!is.null(input$code_pattern_search) && input$code_pattern_search != "") {
           data <- data |>
-            filter(grepl(input$code_pattern_search, code, ignore.case = TRUE))
+            filter(grepl(paste("^", input$code_pattern_search, sep = ""), code, ignore.case = TRUE))
         }
 
         if (!is.null(input$description_search) && input$description_search != "") {

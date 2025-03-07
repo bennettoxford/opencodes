@@ -58,19 +58,6 @@ app_ui <- function(request) {
           options = list(maxOptions = 15)
         ),
         textInput(
-          "code_pattern_search",
-          tooltip(
-            span(
-              "Code pattern",
-              bs_icon("info-circle")
-            ),
-            "Enter any part of a code (e.g. letters indicating the category of an ICD-10 code). Multiple patterns can be combined using '|'.",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
-          )
-        ),
-        textInput(
           "description_search",
           tooltip(
             span(
@@ -82,6 +69,10 @@ app_ui <- function(request) {
               customClass = "left-align-tooltip"
             )
           )
+        ),
+        conditionalPanel(
+          condition = "input.dataset == 'icd10' || input.dataset == 'opcs4'",
+          uiOutput("dynamic_code_pattern_input")
         )
       ),
       card(
