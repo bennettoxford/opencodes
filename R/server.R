@@ -66,7 +66,6 @@ app_server <- function(input, output, session) {
     )
   })
 
-
   output$dynamic_code_pattern_input <- renderUI({
     req(input$dataset)
     label_text <- if (input$dataset == "icd10") {
