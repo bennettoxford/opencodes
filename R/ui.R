@@ -16,19 +16,14 @@ app_ui <- function(request) {
     title = "opencodes: Explore clinical code usage in England",
     sidebar = sidebar(
       card(
-        card_header(
+        card_header("Select data"),
+        radioButtons(
+          "dataset",
           tooltip(
-            span(
-              "Select dataset",
-              bs_icon("info-circle")
-            ),
+            span("Dataset", bs_icon("info-circle")),
             "SNOMED CT (Systematized Nomenclature of Medicine Clinical Terms); ICD-10 (International Classification of Diseases); OPCS-4 Classification of Interventions and Procedures",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
-          )
-        ),
-        radioButtons("dataset", NULL,
+            options = list(customClass = "left-align-tooltip")
+          ),
           choices = c(
             # Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT)
             "SNOMED-CT" = "snomedct",
@@ -37,7 +32,8 @@ app_ui <- function(request) {
             # OPCS-4 Classification of Interventions and Procedures (OPCS-4)
             "OPCS-4" = "opcs4"
           )
-        )
+        ),
+        uiOutput("dynamic_date_slider")
       ),
       card(
         card_header("Select codes"),

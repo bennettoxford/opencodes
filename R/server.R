@@ -44,6 +44,29 @@ app_server <- function(input, output, session) {
     }
   })
 
+  output$dynamic_date_slider <- renderUI({
+    req(selected_data())
+
+    available_start_dates <- sort(unique(selected_data()$start_date))
+    available_end_dates <- sort(unique(selected_data()$end_date))
+
+    sliderInput(
+      "date_range",
+      label = tooltip(
+        span("Date range", bs_icon("info-circle")),
+        "Slide to filter data by selecting from available start and end dates.",
+        options = list(customClass = "left-align-tooltip")
+      ),
+      min = min(available_start_dates),
+      max = max(available_end_dates),
+      value = range(available_start_dates, available_end_dates),
+      step = 365,
+      timeFormat = "%Y-%m",
+      ticks = TRUE
+    )
+  })
+
+
   output$dynamic_code_pattern_input <- renderUI({
     req(input$dataset)
     label_text <- if (input$dataset == "icd10") {
@@ -145,10 +168,13 @@ app_server <- function(input, output, session) {
 
   # Filtered usage data
   filtered_data <- reactive({
-    req(selected_data())
+    req(selected_data(), input$date_range)
 
     withProgress(message = "Filtering data ...", {
       data <- selected_data()
+
+      data <- data |>
+        filter(start_date >= input$date_range[1] & start_date <= input$date_range[2])
 
       # Apply filters based on the current filtering method
       if (rv_search_method() == "search") {
