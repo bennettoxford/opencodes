@@ -58,19 +58,6 @@ app_ui <- function(request) {
           options = list(maxOptions = 15)
         ),
         textInput(
-          "code_pattern_search",
-          tooltip(
-            span(
-              "ICD-10 or OPCS-4 category",
-              bs_icon("info-circle")
-            ),
-            "Enter the beginning of an ICD-10 or OPCS-4 code to search by chapter or subchapter. Multiple chapters can be combined using '|'.",
-            options = list(
-              customClass = "left-align-tooltip"
-            )
-          )
-        ),
-        textInput(
           "description_search",
           tooltip(
             span(
@@ -82,6 +69,10 @@ app_ui <- function(request) {
               customClass = "left-align-tooltip"
             )
           )
+        ),
+        conditionalPanel(
+          condition = "input.dataset == 'icd10' || input.dataset == 'opcs4'",
+          uiOutput("dynamic_code_pattern_input")
         )
       ),
       card(
