@@ -143,15 +143,19 @@ app_server <- function(input, output, session) {
   }) |>
     bindEvent(input$load_codelist)
 
-  # Reset codelist when reset button is clicked
+  # Reset all search methods when reset button is clicked
   observe({
-    req(input$reset_codelist)
+    req(input$reset_search_methods)
     rv_codelist(NULL)
     rv_search_method("none")
+    updateCheckboxInput(session, "show_individual_codes", value = FALSE)
+    updateSelectizeInput(session, "code_specific_search", selected = character(0))
+    updateTextInput(session, "code_pattern_search", value = "")
+    updateTextInput(session, "description_search", value = "")
     updateTextInput(session, "codelist_slug", value = "")
-    showNotification("Codelist filter has been reset.", type = "default")
+    showNotification("The code selection has been reset.", type = "default")
   }) |>
-    bindEvent(input$reset_codelist)
+    bindEvent(input$reset_search_methods)
 
   # Set filtering method to search when search inputs change
   observe({
