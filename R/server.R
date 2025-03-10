@@ -54,15 +54,15 @@ app_server <- function(input, output, session) {
       "date_range",
       label = tooltip(
         span("Date range", bs_icon("info-circle")),
-        "Slide to filter data by selecting from available start and end dates.",
+        "Filter available data by selecting start and end year.",
         options = list(customClass = "left-align-tooltip")
       ),
       min = min(available_start_dates),
       max = max(available_end_dates),
       value = range(available_start_dates, available_end_dates),
       step = 365,
-      timeFormat = "%Y-%m",
-      ticks = TRUE
+      timeFormat = "%Y",
+      ticks = FALSE
     )
   })
 
@@ -177,7 +177,7 @@ app_server <- function(input, output, session) {
       data <- selected_data()
 
       data <- data |>
-        filter(start_date >= input$date_range[1] & start_date <= input$date_range[2])
+        filter(start_date >= input$date_range[1] & end_date <= input$date_range[2])
 
       # Apply filters based on the current filtering method
       if (rv_search_method() == "search") {
