@@ -159,6 +159,15 @@ app_server <- function(input, output, session) {
 
   # Set filtering method to search when search inputs change
   observe({
+    # If a codelist is loaded AND the user is not entering a new search, do nothing
+    if (rv_search_method() == "codelist" &&
+      (is.null(input$code_specific_search) || length(input$code_specific_search) == 0) &&
+      (is.null(input$code_pattern_search) || input$code_pattern_search == "") &&
+      (is.null(input$description_search) || input$description_search == "")) {
+      return()
+    }
+
+    # If any search input is used, switch to "search"
     if (!is.null(input$code_specific_search) && length(input$code_specific_search) > 0 ||
       !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
       !is.null(input$description_search) && input$description_search != "") {
@@ -166,8 +175,7 @@ app_server <- function(input, output, session) {
     } else {
       rv_search_method("none")
     }
-  }) |>
-    bindEvent(input$code_specific_search, input$code_pattern_search, input$description_search)
+  }) |> bindEvent(input$code_specific_search, input$code_pattern_search, input$description_search)
 
   # Filtered usage data
   filtered_data <- reactive({
