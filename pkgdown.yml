@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   app: app.html
@@ -7,7 +7,7 @@ articles:
   extract-snomedct-sem-tag: extract-snomedct-sem-tag.html
   how-to-use-R-pkg: how-to-use-R-pkg.html
   how-to-use-shiny-app: how-to-use-shiny-app.html
-last_built: 2025-10-17T08:23Z
+last_built: 2025-11-11T11:44Z
 urls:
   reference: https://bennettoxford.github.io/opencodecounts/reference
   article: https://bennettoxford.github.io/opencodecounts/articles

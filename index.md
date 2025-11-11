@@ -1,0 +1,42 @@
+# opencodecounts
+
+The `opencodecounts` R package provides easy access to yearly summaries
+of clinical code usage in England. The package makes NHS England’s
+published datasets available in R and an interactive online tool,
+covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in
+secondary care.
+
+You can launch the interactive Shiny app by clicking on [*Launch Shiny
+app*](https://bennettoxford.github.io/opencodecounts/articles/app.html).
+For work in R, all available functions (including datasets) are
+documented in the [*R
+Reference*](https://bennettoxford.github.io/opencodecounts/reference/index.html)
+section.
+
+## Installation
+
+You can install the `opencodecounts` package in R with:
+
+``` r
+remotes::install_github("bennettoxford/opencodecounts")
+```
+
+## How-to guides
+
+- [How to use the Shiny
+  app](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-shiny-app.html)
+- [How to use the R
+  package](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.html)
+- [How to extract semantic tags from SNOMED CT
+  descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html)
+- [Learn about the available
+  datasets](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html)
+
+## Data sources
+
+The original data is available from NHS Digital at:
+
+- [SNOMED Code Usage in Primary
+  Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care)
+- [ICD-10 and OPCS-4 Code Usage in Inpatient Secondary
+  Care](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity)
