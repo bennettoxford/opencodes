@@ -10,6 +10,7 @@ library(here)
 url_start <- "https://files.digital.nhs.uk/"
 
 snomed_code_usage_urls <- list(
+  "2024to2025" = paste0(url_start, "9F/527A2C/SNOMED_code_usage_2024-25.txt"),
   "2023to2024" = paste0(url_start, "B8/7D8335/SNOMED_code_usage_2023-24.txt"),
   "2022to2023" = paste0(url_start, "09/E1218D/SNOMED_code_usage_2022-23.txt"),
   "2021to2022" = paste0(url_start, "71/6C02F5/SNOMED_code_usage_2021-22.txt"),
@@ -48,7 +49,8 @@ snomed_code_usage_urls <- list(
 # The following files show the number of times each listed SNOMED code was added to a GP patient record within the period 1 Aug to 31 July for the years available, aggregated at England level.
 
 snomed_usage <- snomed_code_usage_urls %>%
-  map(read_tsv,
+  map(
+    read_tsv,
     col_types = list(
       SNOMED_Concept_ID = "c",
       Description = "c",
@@ -68,7 +70,7 @@ snomed_usage <- snomed_code_usage_urls %>%
 
 # Count number of usage with NAs
 sum(is.na(snomed_usage$usage))
-# [1] 406178
+# [1] 454671
 
 # Replace NAs with 5
 snomed_usage <- snomed_usage |>
@@ -85,7 +87,10 @@ snomed_usage |>
 # A tibble: 0 × 3
 
 # Check encoding problems before fix
-codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
+codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(
+  snomed_usage,
+  snomed_code
+)
 # [1] "1011271000000107"   "1011311000000107"   "13445001"           "83901003"           "40956001"           "201281002"
 # [7] "190818004"          "111303009"          "43234007"           "150091000000106"    "266994001"          "313005"
 # [13] "275542004"          "408521009"          "236504007"          "239912009"          "27982003"           "75895005"
@@ -110,9 +115,12 @@ opencodecounts:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
 # character(0)
 
 # Check (but dont fix) codes with multiple descriptions
-codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(snomed_usage, snomed_code)
+codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
+  snomed_usage,
+  snomed_code
+)
 length(codes_with_multiple_desc)
-# [1] 8520
+# [1] 10230
 
 usethis::use_data(
   snomed_usage,

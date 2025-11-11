@@ -3,9 +3,9 @@ NULL
 
 #' Yearly SNOMED CT Code Usage in Primary Care in England
 #'
-#' Yearly summary of SNOMED CT code usage from 1st August 2011 to 31st July 2023.
+#' Yearly summary of SNOMED CT code usage from 1st August 2011 to 31st July 2025.
 #' The variables in this dataset include:
-#' @format A data frame with 1,366,513 rows and 6 columns:
+#' @format A data frame with 1,682,534 rows and 7 columns:
 #' \describe{
 #'   \item{start_date}{Start date of code usage count}
 #'   \item{end_date}{End date of code usage count}
