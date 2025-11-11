@@ -3,6 +3,13 @@
   options(rmarkdown.html_vignette.check_title = FALSE)
 }
 
+#' @importFrom utils citation
+.onAttach <- function(libname, pkgname) {
+  cit <- utils::citation(pkgname)
+  doi_url <- paste0("https://doi.org/", cit$doi)
+  packageStartupMessage("To cite ", pkgname, " use: ", doi_url)
+}
+
 utils::globalVariables(c(
   "annual_proportion",
   "start_date",
