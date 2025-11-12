@@ -7,74 +7,119 @@ library(httr)
 url_start <- "https://files.digital.nhs.uk/"
 
 icd10_code_usage_urls <- list(
+  "fy24to25" = list(
+    url = paste0(
+      url_start,
+      "CC/EA025D/hosp-epis-stat-admi-diag-2024-25-tab.xlsx"
+    ),
+    sheet = 6,
+    skip_rows = 12,
+    usage_col = 8
+  ),
   "fy23to24" = list(
-    url = paste0(url_start, "A5/5B8474/hosp-epis-stat-admi-diag-2023-24-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "A5/5B8474/hosp-epis-stat-admi-diag-2023-24-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy22to23" = list(
-    url = paste0(url_start, "7A/DB1B00/hosp-epis-stat-admi-diag-2022-23-tab_V2.xlsx"),
+    url = paste0(
+      url_start,
+      "7A/DB1B00/hosp-epis-stat-admi-diag-2022-23-tab_V2.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy21to22" = list(
-    url = paste0(url_start, "0E/E70963/hosp-epis-stat-admi-diag-2021-22-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "0E/E70963/hosp-epis-stat-admi-diag-2021-22-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy20to21" = list(
-    url = paste0(url_start, "5B/AD892C/hosp-epis-stat-admi-diag-2020-21-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "5B/AD892C/hosp-epis-stat-admi-diag-2020-21-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy19to20" = list(
-    url = paste0(url_start, "37/8D9781/hosp-epis-stat-admi-diag-2019-20-tab%20supp.xlsx"),
+    url = paste0(
+      url_start,
+      "37/8D9781/hosp-epis-stat-admi-diag-2019-20-tab%20supp.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy18to19" = list(
-    url = paste0(url_start, "1C/B2AD9B/hosp-epis-stat-admi-diag-2018-19-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "1C/B2AD9B/hosp-epis-stat-admi-diag-2018-19-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy17to18" = list(
-    url = paste0(url_start, "B2/5CEC8D/hosp-epis-stat-admi-diag-2017-18-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "B2/5CEC8D/hosp-epis-stat-admi-diag-2017-18-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy16to17" = list(
-    url = paste0(url_start, "publication/7/d/hosp-epis-stat-admi-diag-2016-17-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publication/7/d/hosp-epis-stat-admi-diag-2016-17-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy15to16" = list(
-    url = paste0(url_start, "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-diag-2015-16-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-diag-2015-16-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy14to15" = list(
-    url = paste0(url_start, "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-diag-2014-15-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-diag-2014-15-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 12,
     usage_col = 8
   ),
   "fy13to14" = list(
-    url = paste0(url_start, "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-diag-2013-14-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-diag-2013-14-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 18,
     usage_col = 3
   ),
   "fy12to13" = list(
-    url = paste0(url_start, "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-diag-2012-13-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-diag-2012-13-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 19,
     usage_col = 3
@@ -133,7 +178,7 @@ icd10_usage <- icd10_code_usage_urls |>
 
 # Count number of usage with NAs
 sum(is.na(icd10_usage$usage))
-# [1] 323
+# [1] 341
 
 # Replace NAs with 5
 icd10_usage <- icd10_usage |>
@@ -155,7 +200,10 @@ icd10_usage <- icd10_usage |>
   filter(!is.na(description))
 
 # Check encoding problems before fix
-codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
+codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(
+  icd10_usage,
+  icd10_code
+)
 # [1] "C841" "C880" "D510" "D511" "D513" "D518" "D519" "E672" "E750" "G375" "G610" "H810" "L705"
 # [14] "L813" "M350" "M352" "M911" "M931" "T470" "Y441" "Y530"
 
@@ -168,7 +216,10 @@ opencodecounts:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
 # character(0)
 
 # Check (but dont fix) codes with multiple descriptions
-codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(icd10_usage, icd10_code)
+codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
+  icd10_usage,
+  icd10_code
+)
 length(codes_with_multiple_desc)
 # [1] 214
 

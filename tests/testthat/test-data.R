@@ -93,7 +93,7 @@ test_that("Test icd10_usage column types", {
 
 test_that("Test icd10_usage rows", {
   test_nrow <- nrow(icd10_usage)
-  expect_equal(test_nrow, 136136L)
+  expect_equal(test_nrow, 147483L)
 })
 
 test_that("Test icd10_usage date range", {
@@ -102,11 +102,11 @@ test_that("Test icd10_usage date range", {
 
   expect_equal(
     test_range_start_date,
-    c(as.Date("2012-04-01"), as.Date("2023-04-01"))
+    c(as.Date("2012-04-01"), as.Date("2024-04-01"))
   )
   expect_equal(
     test_range_end_date,
-    c(as.Date("2013-03-31"), as.Date("2024-03-31"))
+    c(as.Date("2013-03-31"), as.Date("2025-03-31"))
   )
 })
 
@@ -117,7 +117,7 @@ test_that("Test icd10_usage minimum usage", {
 
 test_that("Test cummulative ICD-10 usage", {
   test_sum_usage <- sum(icd10_usage$usage)
-  expect_equal(test_sum_usage, 1333659515)
+  expect_equal(test_sum_usage, 1498723323)
 })
 
 test_that("Test ICD-10 usage are all integers", {
