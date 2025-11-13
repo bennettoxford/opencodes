@@ -5,7 +5,7 @@
 \alias{opcs4_usage}
 \title{Yearly OPCS-4 Code Usage from Hospital Admitted Patient Care Activity in England}
 \format{
-A data frame with 107,376 rows and 5 columns:
+A data frame with 116,680 rows and 5 columns:
 \describe{
 \item{start_date}{Start date of code usage count}
 \item{end_date}{End date of code usage count}
@@ -22,7 +22,7 @@ Note that the punctuation from the code has been removed for compatibility with 
 opcs4_usage
 }
 \description{
-Yearly summary of 4-character OPCS-4 code usage from 1st April 2013 to 31st March 2024.
+Yearly summary of 4-character OPCS-4 code usage from 1st April 2013 to 31st March 2025.
 The code usage represents the total annual count of each procedure, recorded across the primary and the secondary procedure positions.
 Restricted codes for which annual usage is not published have been removed.
 }

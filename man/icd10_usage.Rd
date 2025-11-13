@@ -5,7 +5,7 @@
 \alias{icd10_usage}
 \title{Yearly ICD-10 Code Usage from Hospital Admitted Patient Care Activity in England}
 \format{
-A data frame with 135,951 rows and 5 columns:
+A data frame with 147,483 rows and 5 columns:
 \describe{
 \item{start_date}{Start date of code usage count}
 \item{end_date}{End date of code usage count}
@@ -22,10 +22,10 @@ Note that the punctuation from the code has been removed for compatibility with 
 icd10_usage
 }
 \description{
-Yearly summary of 4-character ICD-10 code usage from 1st April 2013 to 31st March 2024.
+Yearly summary of 4-character ICD-10 code usage from 1st April 2013 to 31st March 2025.
 The code usage represents the annual count of all episodes which record the given ICD-10 code in any primary or secondary position.
 Restricted codes for which annual usage is not published have been removed.
-Yearly summary of 4-character ICD-10 code usage from 1st April 2013 to 31st March 2024.
+Yearly summary of 4-character ICD-10 code usage from 1st April 2013 to 31st March 2025.
 The code usage represents the annual count of all episodes which record the given ICD-10 code in any primary or secondary position.
 Restricted codes for which annual usage is not published have been removed.
 }

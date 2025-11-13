@@ -150,7 +150,7 @@ test_that("Test opcs4_usage column types", {
 
 test_that("Test opcs4_usage rows", {
   test_nrow <- nrow(opcs4_usage)
-  expect_equal(test_nrow, 107379L)
+  expect_equal(test_nrow, 116680L)
 })
 
 test_that("Test opcs4_usage date range", {
@@ -159,11 +159,11 @@ test_that("Test opcs4_usage date range", {
 
   expect_equal(
     test_range_start_date,
-    c(as.Date("2012-04-01"), as.Date("2023-04-01"))
+    c(as.Date("2012-04-01"), as.Date("2024-04-01"))
   )
   expect_equal(
     test_range_end_date,
-    c(as.Date("2013-03-31"), as.Date("2024-03-31"))
+    c(as.Date("2013-03-31"), as.Date("2025-03-31"))
   )
 })
 
