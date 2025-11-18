@@ -30,7 +30,7 @@ test_that("Test snomed_usage column types", {
 
 test_that("Test snomed_usage rows", {
   test_nrow <- nrow(snomed_usage)
-  expect_equal(test_nrow, 1523967L)
+  expect_equal(test_nrow, 1682534L)
 })
 
 test_that("Test snomed_usage date range", {
@@ -39,17 +39,17 @@ test_that("Test snomed_usage date range", {
 
   expect_equal(
     test_range_start_date,
-    c(as.Date("2011-08-01"), as.Date("2023-08-01"))
+    c(as.Date("2011-08-01"), as.Date("2024-08-01"))
   )
   expect_equal(
     test_range_end_date,
-    c(as.Date("2012-07-31"), as.Date("2024-07-31"))
+    c(as.Date("2012-07-31"), as.Date("2025-07-31"))
   )
 })
 
 test_that("Test sum of usage", {
   test_usage_sum <- sum(snomed_usage$usage)
-  expect_equal(test_usage_sum, 41721589830)
+  expect_equal(test_usage_sum, 47861217775)
 })
 
 test_that("Minimum SNOMED usage", {
@@ -58,7 +58,10 @@ test_that("Minimum SNOMED usage", {
 })
 
 test_that("Test no non-alphanumeric characters in SNOMED codes", {
-  non_alphanumeric_codes_snomed <- snomed_usage$snomed_code[grep("\\s?[^[:alnum:]]+\\s?", snomed_usage$snomed_code)]
+  non_alphanumeric_codes_snomed <- snomed_usage$snomed_code[grep(
+    "\\s?[^[:alnum:]]+\\s?",
+    snomed_usage$snomed_code
+  )]
   expect_equal(length(non_alphanumeric_codes_snomed), 0)
 })
 
@@ -72,7 +75,9 @@ test_that("Test SNOMEDCT missing description", {
 # $ python -c 'print(int(float("39733011000001106")))'
 # 39733011000001104
 test_that("Atorvastatin code is correct", {
-  atorvastatin_code <- snomed_usage[snomed_usage$description == "Atorvastatin 20mg tablets (product)",]$snomed_code
+  atorvastatin_code <- snomed_usage[
+    snomed_usage$description == "Atorvastatin 20mg tablets (product)",
+  ]$snomed_code
   expect_identical(unique(atorvastatin_code), "39733011000001106")
 })
 
@@ -88,7 +93,7 @@ test_that("Test icd10_usage column types", {
 
 test_that("Test icd10_usage rows", {
   test_nrow <- nrow(icd10_usage)
-  expect_equal(test_nrow, 136136L)
+  expect_equal(test_nrow, 147483L)
 })
 
 test_that("Test icd10_usage date range", {
@@ -97,11 +102,11 @@ test_that("Test icd10_usage date range", {
 
   expect_equal(
     test_range_start_date,
-    c(as.Date("2012-04-01"), as.Date("2023-04-01"))
+    c(as.Date("2012-04-01"), as.Date("2024-04-01"))
   )
   expect_equal(
     test_range_end_date,
-    c(as.Date("2013-03-31"), as.Date("2024-03-31"))
+    c(as.Date("2013-03-31"), as.Date("2025-03-31"))
   )
 })
 
@@ -112,7 +117,7 @@ test_that("Test icd10_usage minimum usage", {
 
 test_that("Test cummulative ICD-10 usage", {
   test_sum_usage <- sum(icd10_usage$usage)
-  expect_equal(test_sum_usage, 1333659515)
+  expect_equal(test_sum_usage, 1498723323)
 })
 
 test_that("Test ICD-10 usage are all integers", {
@@ -121,7 +126,10 @@ test_that("Test ICD-10 usage are all integers", {
 })
 
 test_that("Test no non-alphanumeric characters in ICD-10 codes", {
-  non_alphanumeric_codes_icd10 <- icd10_usage$icd10_code[grep("\\s?[^[:alnum:]]+\\s?", icd10_usage$icd10_code)]
+  non_alphanumeric_codes_icd10 <- icd10_usage$icd10_code[grep(
+    "\\s?[^[:alnum:]]+\\s?",
+    icd10_usage$icd10_code
+  )]
   expect_equal(length(non_alphanumeric_codes_icd10), 0)
 })
 
@@ -142,7 +150,7 @@ test_that("Test opcs4_usage column types", {
 
 test_that("Test opcs4_usage rows", {
   test_nrow <- nrow(opcs4_usage)
-  expect_equal(test_nrow, 107379L)
+  expect_equal(test_nrow, 116680L)
 })
 
 test_that("Test opcs4_usage date range", {
@@ -151,11 +159,11 @@ test_that("Test opcs4_usage date range", {
 
   expect_equal(
     test_range_start_date,
-    c(as.Date("2012-04-01"), as.Date("2023-04-01"))
+    c(as.Date("2012-04-01"), as.Date("2024-04-01"))
   )
   expect_equal(
     test_range_end_date,
-    c(as.Date("2013-03-31"), as.Date("2024-03-31"))
+    c(as.Date("2013-03-31"), as.Date("2025-03-31"))
   )
 })
 
@@ -170,7 +178,10 @@ test_that("Test OPCS-4 usage are all integers", {
 })
 
 test_that("Test no non-alphanumeric characters in OPCS-4 codes", {
-  non_alphanumeric_codes_opcs4 <- opcs4_usage$opcs4_code[grep("\\s?[^[:alnum:]]+\\s?", opcs4_usage$opcs4_code)]
+  non_alphanumeric_codes_opcs4 <- opcs4_usage$opcs4_code[grep(
+    "\\s?[^[:alnum:]]+\\s?",
+    opcs4_usage$opcs4_code
+  )]
   expect_equal(length(non_alphanumeric_codes_opcs4), 0)
 })
 

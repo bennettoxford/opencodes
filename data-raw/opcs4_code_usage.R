@@ -6,74 +6,119 @@ library(httr)
 url_start <- "https://files.digital.nhs.uk/"
 
 opcs4_code_usage_urls <- list(
+  "fy24to25" = list(
+    url = paste0(
+      url_start,
+      "6D/C40538/hosp-epis-stat-admi-proc-2024-25-tab.xlsx"
+    ),
+    sheet = 6,
+    skip_rows = 11,
+    usage_col = 8
+  ),
   "fy23to24" = list(
-    url = paste0(url_start, "92/DB66C9/hosp-epis-stat-admi-proc-2023-24-tab-v2.xlsx"),
+    url = paste0(
+      url_start,
+      "92/DB66C9/hosp-epis-stat-admi-proc-2023-24-tab-v2.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy22to23" = list(
-    url = paste0(url_start, "CB/515826/hosp-epis-stat-admi-proc-2022-23-tab-V2.xlsx"),
+    url = paste0(
+      url_start,
+      "CB/515826/hosp-epis-stat-admi-proc-2022-23-tab-V2.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy21to22" = list(
-    url = paste0(url_start, "FA/DA0567/hosp-epis-stat-admi-proc-2021-22-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "FA/DA0567/hosp-epis-stat-admi-proc-2021-22-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy20to21" = list(
-    url = paste0(url_start, "A6/43CDC1/hosp-epis-stat-admi-proc-2020-21-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "A6/43CDC1/hosp-epis-stat-admi-proc-2020-21-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy19to20" = list(
-    url = paste0(url_start, "20/0864E6/hosp-epis-stat-admi-proc-2019-20-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "20/0864E6/hosp-epis-stat-admi-proc-2019-20-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy18to19" = list(
-    url = paste0(url_start, "77/0C8B3F/hosp-epis-stat-admi-proc-2018-19-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "77/0C8B3F/hosp-epis-stat-admi-proc-2018-19-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy17to18" = list(
-    url = paste0(url_start, "B6/E239FA/hosp-epis-stat-admi-proc-2017-18-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "B6/E239FA/hosp-epis-stat-admi-proc-2017-18-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy16to17" = list(
-    url = paste0(url_start, "publication/7/g/hosp-epis-stat-admi-proc-2016-17-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publication/7/g/hosp-epis-stat-admi-proc-2016-17-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy15to16" = list(
-    url = paste0(url_start, "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-proc-2015-16-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-proc-2015-16-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy14to15" = list(
-    url = paste0(url_start, "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-proc-2014-15-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-proc-2014-15-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 11,
     usage_col = 8
   ),
   "fy13to14" = list(
-    url = paste0(url_start, "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-proc-2013-14-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-proc-2013-14-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 18,
     usage_col = 3
   ),
   "fy12to13" = list(
-    url = paste0(url_start, "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-proc-2012-13-tab.xlsx"),
+    url = paste0(
+      url_start,
+      "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-proc-2012-13-tab.xlsx"
+    ),
     sheet = 6,
     skip_rows = 19,
     usage_col = 3
@@ -132,7 +177,7 @@ opcs4_usage <- opcs4_code_usage_urls |>
 
 # Count number of usage with NAs
 sum(is.na(opcs4_usage$usage))
-# [1] 143
+# [1] 151
 
 # Replace NAs with 5
 opcs4_usage <- opcs4_usage |>
@@ -154,11 +199,17 @@ opcs4_usage <- opcs4_usage |>
   filter(!is.na(description))
 
 # Check encoding problems before fix
-codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(opcs4_usage, opcs4_code)
+codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(
+  opcs4_usage,
+  opcs4_code
+)
 # character(0)
 
 # Check (but dont fix) codes with multiple descriptions
-codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(opcs4_usage, opcs4_code)
+codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
+  opcs4_usage,
+  opcs4_code
+)
 length(codes_with_multiple_desc)
 # [1] 99
 

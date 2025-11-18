@@ -21,7 +21,8 @@ app_ui <- function(request) {
             p("Analyse"),
             card(
               card_header("Select data"),
-              radioButtons("dataset",
+              radioButtons(
+                "dataset",
                 tooltip(
                   span("Dataset", bs_icon("info-circle")),
                   "SNOMED CT (Systematized Nomenclature of Medicine Clinical Terms); ICD-10 (International Classification of Diseases); OPCS-4 Classification of Interventions and Procedures",
@@ -93,10 +94,19 @@ app_ui <- function(request) {
                     placeholder = "https://www.opencodelists.org/codelist/opensafely/anxiety-disorders/6aef605a/",
                     NULL
                   ),
-                  actionButton("load_codelist", "Load codelist", class = "btn-outline-primary", style = "width: 100%;")
+                  actionButton(
+                    "load_codelist",
+                    "Load codelist",
+                    class = "btn-outline-primary",
+                    style = "width: 100%;"
+                  )
                 )
               ),
-              actionButton("reset_search_methods", "Reset code selection", class = "btn-outline-dark")
+              actionButton(
+                "reset_search_methods",
+                "Reset code selection",
+                class = "btn-outline-dark"
+              )
             )
           ),
           nav_panel(
@@ -106,11 +116,22 @@ app_ui <- function(request) {
               p(
                 "This Shiny app was developed to support healthcare researchers in exploring clinical coding data in England. ",
                 "This project was designed and built by the ",
-                a("Bennett Institute for Applied Data Science", href = "https://www.bennett.ox.ac.uk/", target = "_blank"),
+                a(
+                  "Bennett Institute for Applied Data Science",
+                  href = "https://www.bennett.ox.ac.uk/",
+                  target = "_blank"
+                ),
                 ". For fruther documentation and support, visit the ",
-                a("opencodecounts", href = "https://bennettoxford.github.io/opencodecounts/", target = "_blank"),
+                a(
+                  "opencodecounts",
+                  href = "https://bennettoxford.github.io/opencodecounts/",
+                  target = "_blank"
+                ),
                 "R package website or contact us at ",
-                a("bennett@phc.ox.ac.uk", href = "mailto:bennett@phc.ox.ac.uk?subject=opencodecounts%20Feedback"),
+                a(
+                  "bennett@phc.ox.ac.uk",
+                  href = "mailto:bennett@phc.ox.ac.uk?subject=opencodecounts%20Feedback"
+                ),
                 "."
               )
             ),
@@ -119,25 +140,29 @@ app_ui <- function(request) {
               p("Here is a list of our how-to guides:"),
               tags$ul(
                 tags$li(
-                  a("How to use the Shiny app",
+                  a(
+                    "How to use the Shiny app",
                     href = "https://bennettoxford.github.io/opencodecounts/articles/how-to-use-shiny-app.html",
                     target = "_blank"
                   )
                 ),
                 tags$li(
-                  a("How to use the R package",
+                  a(
+                    "How to use the R package",
                     href = "https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.html",
                     target = "_blank"
                   )
                 ),
                 tags$li(
-                  a("How to extract semantic tags from SNOMED CT descriptions",
+                  a(
+                    "How to extract semantic tags from SNOMED CT descriptions",
                     href = "https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html",
                     target = "_blank"
                   )
                 ),
                 tags$li(
-                  a("Learn about the available datasets",
+                  a(
+                    "Learn about the available datasets",
                     href = "https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html",
                     target = "_blank"
                   )
@@ -149,13 +174,15 @@ app_ui <- function(request) {
               p("The original data is available from NHS Digital at:"),
               tags$ul(
                 tags$li(
-                  a("SNOMED Code Usage in Primary Care",
+                  a(
+                    "SNOMED Code Usage in Primary Care",
                     href = "https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care",
                     target = "_blank"
                   )
                 ),
                 tags$li(
-                  a("ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care",
+                  a(
+                    "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care",
                     href = "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity",
                     target = "_blank"
                   )
@@ -261,7 +288,8 @@ app_ui <- function(request) {
     ),
 
     # CSS styles
-    tags$style(HTML("
+    tags$style(HTML(
+      "
       .left-align-tooltip .tooltip-inner {
         text-align: left;
         max-width: 500px;
@@ -315,6 +343,7 @@ app_ui <- function(request) {
       .bslib-page-sidebar {
         flex: 1;
       }
-    "))
+    "
+    ))
   )
 }
