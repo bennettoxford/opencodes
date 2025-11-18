@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,20 +124,20 @@ Digital, for data pre-processing see
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return SNOMED code usage data</span></span>
 <span><span class="va">snomed_usage</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,523,967 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,682,534 × 7</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   snomed_code      description      usage active_at_start</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2023-08-01 2024-07-31 279991000000102  Short message … 4.41<span style="color: #949494;">e</span>8 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2023-08-01 2024-07-31 184103008        Patient teleph… 1.91<span style="color: #949494;">e</span>8 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2023-08-01 2024-07-31 428481002        Patient mobile… 1.16<span style="color: #949494;">e</span>8 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2023-08-01 2024-07-31 423876004        Clinical docum… 7.81<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2023-08-01 2024-07-31 72313002         Systolic arter… 6.87<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2023-08-01 2024-07-31 1091811000000102 Diastolic arte… 6.87<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2023-08-01 2024-07-31 1000731000000107 Serum creatini… 4.82<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2023-08-01 2024-07-31 60621009         Body mass inde… 4.65<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2023-08-01 2024-07-31 1000661000000107 Serum sodium l… 4.63<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2023-08-01 2024-07-31 1000651000000109 Serum potassiu… 4.62<span style="color: #949494;">e</span>7 TRUE           </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,523,957 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2024-08-01 2025-07-31 279991000000102  Short message … 4.27<span style="color: #949494;">e</span>8 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2024-08-01 2025-07-31 184103008        Patient teleph… 2.77<span style="color: #949494;">e</span>8 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2024-08-01 2025-07-31 423876004        Clinical docum… 8.83<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2024-08-01 2025-07-31 72313002         Systolic arter… 7.06<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2024-08-01 2025-07-31 1091811000000102 Diastolic arte… 7.06<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2024-08-01 2025-07-31 1068881000000101 eConsultation … 6.17<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2024-08-01 2025-07-31 60621009         Body mass inde… 5.08<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2024-08-01 2025-07-31 1000731000000107 Serum creatini… 5.02<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2024-08-01 2025-07-31 27113001         Body weight (o… 4.89<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2024-08-01 2025-07-31 1000661000000107 Serum sodium l… 4.83<span style="color: #949494;">e</span>7 TRUE           </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,682,524 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: active_at_end &lt;lgl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -169,20 +169,20 @@ Digital, for data pre-processing see
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return ICD-10 code usage data</span></span>
 <span><span class="va">icd10_usage</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 136,136 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 147,483 × 5</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   icd10_code description                            usage</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2023-04-01 2024-03-31 A000       Cholera due to Vibrio cholerae 01, bi…     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2023-04-01 2024-03-31 A009       Cholera, unspecified                      40</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2023-04-01 2024-03-31 A010       Typhoid fever                            884</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2023-04-01 2024-03-31 A011       Paratyphoid fever A                      139</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2023-04-01 2024-03-31 A012       Paratyphoid fever B                       13</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2023-04-01 2024-03-31 A013       Paratyphoid fever C                        2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2023-04-01 2024-03-31 A014       Paratyphoid fever, unspecified            68</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2023-04-01 2024-03-31 A020       Salmonella enteritis                    <span style="text-decoration: underline;">2</span>165</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2023-04-01 2024-03-31 A021       Salmonella sepsis                        319</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2023-04-01 2024-03-31 A022       Localized salmonella infections           82</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 136,126 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2024-04-01 2025-03-31 A000       Cholera due to Vibrio cholerae 01, bi…     9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2024-04-01 2025-03-31 A009       Cholera, unspecified                      40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2024-04-01 2025-03-31 A010       Typhoid fever                            896</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2024-04-01 2025-03-31 A011       Paratyphoid fever A                      101</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2024-04-01 2025-03-31 A012       Paratyphoid fever B                       14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2024-04-01 2025-03-31 A013       Paratyphoid fever C                        2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2024-04-01 2025-03-31 A014       Paratyphoid fever, unspecified            54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2024-04-01 2025-03-31 A020       Salmonella enteritis                    <span style="text-decoration: underline;">2</span>446</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2024-04-01 2025-03-31 A021       Salmonella sepsis                        358</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2024-04-01 2025-03-31 A022       Localized salmonella infections           76</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 147,473 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="opcs-4-code-usage-in-inpatient-admissions-in-england">OPCS-4 code usage in inpatient admissions in England<a class="anchor" aria-label="anchor" href="#opcs-4-code-usage-in-inpatient-admissions-in-england"></a>
@@ -208,20 +208,20 @@ Digital, for the data pre-processing see
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return OPCS-4 code usage data</span></span>
 <span><span class="va">opcs4_usage</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 107,379 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 116,680 × 5</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   opcs4_code description                            usage</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2023-04-01 2024-03-31 A011       Hemispherectomy                            7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2023-04-01 2024-03-31 A012       Total lobectomy of brain                  36</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2023-04-01 2024-03-31 A013       Partial lobectomy of brain               134</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2023-04-01 2024-03-31 A018       Other specified major excision of tis…    27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2023-04-01 2024-03-31 A019       Unspecified major excision of tissue …     3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2023-04-01 2024-03-31 A021       Excision of lesion of tissue of front…  <span style="text-decoration: underline;">1</span>399</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2023-04-01 2024-03-31 A022       Excision of lesion of tissue of tempo…   971</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2023-04-01 2024-03-31 A023       Excision of lesion of tissue of parie…   704</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2023-04-01 2024-03-31 A024       Excision of lesion of tissue of occip…   260</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2023-04-01 2024-03-31 A025       Excision of lesion of tissue of cereb…   604</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 107,369 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2024-04-01 2025-03-31 A011       Hemispherectomy                           17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2024-04-01 2025-03-31 A012       Total lobectomy of brain                  29</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2024-04-01 2025-03-31 A013       Partial lobectomy of brain               126</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2024-04-01 2025-03-31 A018       Other specified major excision of tis…    25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2024-04-01 2025-03-31 A019       Unspecified major excision of tissue …     6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2024-04-01 2025-03-31 A021       Excision of lesion of tissue of front…  <span style="text-decoration: underline;">1</span>442</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2024-04-01 2025-03-31 A022       Excision of lesion of tissue of tempo…   994</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2024-04-01 2025-03-31 A023       Excision of lesion of tissue of parie…   644</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2024-04-01 2025-03-31 A024       Excision of lesion of tissue of occip…   236</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2024-04-01 2025-03-31 A025       Excision of lesion of tissue of cereb…   585</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 116,670 more rows</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -230,7 +230,7 @@ Digital, for the data pre-processing see
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Milan Wiedemann, Arina A. Tamborska, Rose Higgins, Viveck Kingsley, Louis Fisher, Lola Ojedele, Kunle Oreagba, Wellcome Trust.</p>
+  <p>Developed by Milan Wiedemann, Arina A. Tamborska, Rose Higgins, Viveck Kingsley, Louis Fisher, Lola Ojedele, Kunle Oreagba, Kaylee Poon, Wellcome Trust.</p>
 </div>
 
 <div class="pkgdown-footer-right">

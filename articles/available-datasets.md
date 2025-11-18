@@ -63,20 +63,20 @@ for data pre-processing see `/data-raw/snomed_code_usage.R`.
 ``` r
 # Return SNOMED code usage data
 snomed_usage
-#> # A tibble: 1,523,967 × 7
+#> # A tibble: 1,682,534 × 7
 #>    start_date end_date   snomed_code      description      usage active_at_start
 #>    <date>     <date>     <chr>            <chr>            <int> <lgl>          
-#>  1 2023-08-01 2024-07-31 279991000000102  Short message … 4.41e8 TRUE           
-#>  2 2023-08-01 2024-07-31 184103008        Patient teleph… 1.91e8 TRUE           
-#>  3 2023-08-01 2024-07-31 428481002        Patient mobile… 1.16e8 TRUE           
-#>  4 2023-08-01 2024-07-31 423876004        Clinical docum… 7.81e7 TRUE           
-#>  5 2023-08-01 2024-07-31 72313002         Systolic arter… 6.87e7 TRUE           
-#>  6 2023-08-01 2024-07-31 1091811000000102 Diastolic arte… 6.87e7 TRUE           
-#>  7 2023-08-01 2024-07-31 1000731000000107 Serum creatini… 4.82e7 TRUE           
-#>  8 2023-08-01 2024-07-31 60621009         Body mass inde… 4.65e7 TRUE           
-#>  9 2023-08-01 2024-07-31 1000661000000107 Serum sodium l… 4.63e7 TRUE           
-#> 10 2023-08-01 2024-07-31 1000651000000109 Serum potassiu… 4.62e7 TRUE           
-#> # ℹ 1,523,957 more rows
+#>  1 2024-08-01 2025-07-31 279991000000102  Short message … 4.27e8 TRUE           
+#>  2 2024-08-01 2025-07-31 184103008        Patient teleph… 2.77e8 TRUE           
+#>  3 2024-08-01 2025-07-31 423876004        Clinical docum… 8.83e7 TRUE           
+#>  4 2024-08-01 2025-07-31 72313002         Systolic arter… 7.06e7 TRUE           
+#>  5 2024-08-01 2025-07-31 1091811000000102 Diastolic arte… 7.06e7 TRUE           
+#>  6 2024-08-01 2025-07-31 1068881000000101 eConsultation … 6.17e7 TRUE           
+#>  7 2024-08-01 2025-07-31 60621009         Body mass inde… 5.08e7 TRUE           
+#>  8 2024-08-01 2025-07-31 1000731000000107 Serum creatini… 5.02e7 TRUE           
+#>  9 2024-08-01 2025-07-31 27113001         Body weight (o… 4.89e7 TRUE           
+#> 10 2024-08-01 2025-07-31 1000661000000107 Serum sodium l… 4.83e7 TRUE           
+#> # ℹ 1,682,524 more rows
 #> # ℹ 1 more variable: active_at_end <lgl>
 ```
 
@@ -110,20 +110,20 @@ for data pre-processing see `/data-raw/icd10_usage.R`.
 ``` r
 # Return ICD-10 code usage data
 icd10_usage
-#> # A tibble: 136,136 × 5
+#> # A tibble: 147,483 × 5
 #>    start_date end_date   icd10_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>
-#>  1 2023-04-01 2024-03-31 A000       Cholera due to Vibrio cholerae 01, bi…     2
-#>  2 2023-04-01 2024-03-31 A009       Cholera, unspecified                      40
-#>  3 2023-04-01 2024-03-31 A010       Typhoid fever                            884
-#>  4 2023-04-01 2024-03-31 A011       Paratyphoid fever A                      139
-#>  5 2023-04-01 2024-03-31 A012       Paratyphoid fever B                       13
-#>  6 2023-04-01 2024-03-31 A013       Paratyphoid fever C                        2
-#>  7 2023-04-01 2024-03-31 A014       Paratyphoid fever, unspecified            68
-#>  8 2023-04-01 2024-03-31 A020       Salmonella enteritis                    2165
-#>  9 2023-04-01 2024-03-31 A021       Salmonella sepsis                        319
-#> 10 2023-04-01 2024-03-31 A022       Localized salmonella infections           82
-#> # ℹ 136,126 more rows
+#>  1 2024-04-01 2025-03-31 A000       Cholera due to Vibrio cholerae 01, bi…     9
+#>  2 2024-04-01 2025-03-31 A009       Cholera, unspecified                      40
+#>  3 2024-04-01 2025-03-31 A010       Typhoid fever                            896
+#>  4 2024-04-01 2025-03-31 A011       Paratyphoid fever A                      101
+#>  5 2024-04-01 2025-03-31 A012       Paratyphoid fever B                       14
+#>  6 2024-04-01 2025-03-31 A013       Paratyphoid fever C                        2
+#>  7 2024-04-01 2025-03-31 A014       Paratyphoid fever, unspecified            54
+#>  8 2024-04-01 2025-03-31 A020       Salmonella enteritis                    2446
+#>  9 2024-04-01 2025-03-31 A021       Salmonella sepsis                        358
+#> 10 2024-04-01 2025-03-31 A022       Localized salmonella infections           76
+#> # ℹ 147,473 more rows
 ```
 
 ## OPCS-4 code usage in inpatient admissions in England
@@ -152,18 +152,18 @@ for the data pre-processing see `/data-raw/opcs4_usage.R`.
 ``` r
 # Return OPCS-4 code usage data
 opcs4_usage
-#> # A tibble: 107,379 × 5
+#> # A tibble: 116,680 × 5
 #>    start_date end_date   opcs4_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>
-#>  1 2023-04-01 2024-03-31 A011       Hemispherectomy                            7
-#>  2 2023-04-01 2024-03-31 A012       Total lobectomy of brain                  36
-#>  3 2023-04-01 2024-03-31 A013       Partial lobectomy of brain               134
-#>  4 2023-04-01 2024-03-31 A018       Other specified major excision of tis…    27
-#>  5 2023-04-01 2024-03-31 A019       Unspecified major excision of tissue …     3
-#>  6 2023-04-01 2024-03-31 A021       Excision of lesion of tissue of front…  1399
-#>  7 2023-04-01 2024-03-31 A022       Excision of lesion of tissue of tempo…   971
-#>  8 2023-04-01 2024-03-31 A023       Excision of lesion of tissue of parie…   704
-#>  9 2023-04-01 2024-03-31 A024       Excision of lesion of tissue of occip…   260
-#> 10 2023-04-01 2024-03-31 A025       Excision of lesion of tissue of cereb…   604
-#> # ℹ 107,369 more rows
+#>  1 2024-04-01 2025-03-31 A011       Hemispherectomy                           17
+#>  2 2024-04-01 2025-03-31 A012       Total lobectomy of brain                  29
+#>  3 2024-04-01 2025-03-31 A013       Partial lobectomy of brain               126
+#>  4 2024-04-01 2025-03-31 A018       Other specified major excision of tis…    25
+#>  5 2024-04-01 2025-03-31 A019       Unspecified major excision of tissue …     6
+#>  6 2024-04-01 2025-03-31 A021       Excision of lesion of tissue of front…  1442
+#>  7 2024-04-01 2025-03-31 A022       Excision of lesion of tissue of tempo…   994
+#>  8 2024-04-01 2025-03-31 A023       Excision of lesion of tissue of parie…   644
+#>  9 2024-04-01 2025-03-31 A024       Excision of lesion of tissue of occip…   236
+#> 10 2024-04-01 2025-03-31 A025       Excision of lesion of tissue of cereb…   585
+#> # ℹ 116,670 more rows
 ```
