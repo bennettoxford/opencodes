@@ -189,3 +189,96 @@ test_that("Test OPCS-4 missing description", {
   test_sum_missing_description <- sum(is.na(opcs4_usage$description))
   expect_equal(test_sum_missing_description, 0)
 })
+
+
+# OPCS-4 Breakdowns Tests
+
+test_that("Test opcs4_usage_breakdowns column names", {
+  test_names <- names(opcs4_usage_breakdowns)
+  expect_equal(
+    test_names,
+    c(
+      "start_date",
+      "end_date",
+      "opcs4_code",
+      "description",
+      "breakdown",
+      "usage"
+    )
+  )
+})
+
+test_that("Test opcs4_usage_breakdowns column types", {
+  expect_s3_class(opcs4_usage_breakdowns$start_date, "Date")
+  expect_s3_class(opcs4_usage_breakdowns$end_date, "Date")
+  expect_type(opcs4_usage_breakdowns$opcs4_code, "character")
+  expect_type(opcs4_usage_breakdowns$description, "character")
+  expect_type(opcs4_usage_breakdowns$breakdown, "character")
+  expect_type(opcs4_usage_breakdowns$usage, "integer")
+})
+
+test_that("Test opcs4_usage_breakdowns date range", {
+  test_range_start_date <- range(opcs4_usage_breakdowns$start_date)
+  test_range_end_date <- range(opcs4_usage_breakdowns$end_date)
+
+  expect_equal(
+    test_range_start_date,
+    c(as.Date("2012-04-01"), as.Date("2024-04-01"))
+  )
+  expect_equal(
+    test_range_end_date,
+    c(as.Date("2013-03-31"), as.Date("2025-03-31"))
+  )
+})
+
+test_that("Test opcs4_usage_breakdowns breakdown values", {
+  expected_breakdowns <- c(
+    "all_procedures", "main_procedure",
+    "male", "female", "gender_unknown",
+    "age_0", "age_1_4", "age_5_9", "age_10_14",
+    "age_15", "age_16", "age_17", "age_18", "age_19",
+    "age_20_24", "age_25_29", "age_30_34", "age_35_39", "age_40_44",
+    "age_45_49", "age_50_54", "age_55_59", "age_60_64", "age_65_69",
+    "age_70_74", "age_75_79", "age_80_84", "age_85_89", "age_90plus"
+  )
+  actual_breakdowns <- unique(opcs4_usage_breakdowns$breakdown)
+  expect_setequal(actual_breakdowns, expected_breakdowns)
+})
+
+test_that("Test no non-alphanumeric characters in OPCS-4 breakdown codes", {
+  non_alphanumeric_codes <- opcs4_usage_breakdowns$opcs4_code[grep(
+    "\\s?[^[:alnum:]]+\\s?",
+    opcs4_usage_breakdowns$opcs4_code
+  )]
+  expect_equal(length(non_alphanumeric_codes), 0)
+})
+
+test_that("Test OPCS-4 breakdowns missing description", {
+  test_sum_missing_description <- sum(is.na(opcs4_usage_breakdowns$description))
+  expect_equal(test_sum_missing_description, 0)
+})
+
+test_that("Test OPCS-4 breakdowns totals match main dataset", {
+  # Get first 3 unique codes
+  test_codes <- unique(opcs4_usage$opcs4_code)[1:3]
+
+  for (code in test_codes) {
+    # Get usage from main dataset
+    main_usage <- opcs4_usage |>
+      dplyr::filter(opcs4_code == code) |>
+      dplyr::select(start_date, end_date, usage) |>
+      dplyr::arrange(start_date)
+
+    # Get all_procedures breakdown usage
+    breakdown_usage <- opcs4_usage_breakdowns |>
+      dplyr::filter(opcs4_code == code, breakdown == "all_procedures") |>
+      dplyr::select(start_date, end_date, usage) |>
+      dplyr::arrange(start_date)
+
+    expect_equal(
+      main_usage,
+      breakdown_usage,
+      info = paste("Mismatch for OPCS-4 code:", code)
+    )
+  }
+})
