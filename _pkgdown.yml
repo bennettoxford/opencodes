@@ -3,11 +3,14 @@ template:
   bootstrap: 5
 
 reference:
-- title: Datasets
+- title: Datasets with total counts
   contents:
   - snomed_usage
   - icd10_usage
   - opcs4_usage
+- title: Datasets with breakdowns
+  contents:
+  - opcs4_usage_breakdowns
 - title: Codelists
   contents:
   - get_codelist
