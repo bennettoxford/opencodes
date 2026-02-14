@@ -10,6 +10,7 @@ reference:
   - opcs4_usage
 - title: Datasets with breakdowns
   contents:
+  - icd10_usage_breakdowns
   - opcs4_usage_breakdowns
 - title: Codelists
   contents:
