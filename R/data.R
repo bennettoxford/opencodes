@@ -80,6 +80,36 @@ NULL
 #'   dplyr::filter(icd10_code %in% codelist$code)
 "icd10_usage"
 
+#' Yearly ICD-10 Code Usage Breakdowns from Hospital Admitted Patient Care Activity in England
+#'
+#' Yearly summary of 4-character ICD-10 code usage with demographic breakdowns
+#' from 1st April 2012 to 31st March 2025.
+#' Includes breakdowns by diagnosis type (all/main), sex, and age group.
+#' Restricted codes for which annual usage is not published have been removed.
+#' @format A data frame with 6 columns:
+#' \describe{
+#'   \item{start_date}{Start date of code usage count}
+#'   \item{end_date}{End date of code usage count}
+#'   \item{icd10_code}{The 4-character ICD-10 Code.
+#'   Note that the punctuation from the code has been removed for compatibility with OpenCodelists.}
+#'   \item{description}{Description of the ICD-10 Code}
+#'   \item{breakdown}{Type of breakdown: all_diagnoses, main_diagnosis, male, female,
+#'   gender_unknown, or age groups (age_0, age_1_4, age_5_9, ..., age_85_89, age_90plus)}
+#'   \item{usage}{Annual count of code usage. NA where suppressed due to small numbers.}
+#' }
+#' @source <https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity>
+#' @examples
+#' # Compare male vs female usage for codes containing "pregnancy"
+#' icd10_usage_breakdowns |>
+#'   dplyr::filter(grepl("pregnancy", description, ignore.case = TRUE)) |>
+#'   dplyr::filter(breakdown %in% c("male", "female"))
+#'
+#' # Get age distribution for a specific code in the most recent year
+#' icd10_usage_breakdowns |>
+#'   dplyr::filter(icd10_code == "I251" & start_date == "2024-04-01") |>
+#'   dplyr::filter(grepl("^age_", breakdown))
+"icd10_usage_breakdowns"
+
 #' Yearly OPCS-4 Code Usage from Hospital Admitted Patient Care Activity in England
 #'
 #' Yearly summary of 4-character OPCS-4 code usage from 1st April 2013 to 31st March 2025.
@@ -100,3 +130,33 @@ NULL
 #' opcs4_usage |>
 #'   dplyr::filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate::year(end_date) > 2020)
 "opcs4_usage"
+
+#' Yearly OPCS-4 Code Usage Breakdowns from Hospital Admitted Patient Care Activity in England
+#'
+#' Yearly summary of 4-character OPCS-4 code usage with demographic breakdowns
+#' from 1st April 2012 to 31st March 2025.
+#' Includes breakdowns by procedure type (all/main), sex, and age group.
+#' Restricted codes for which annual usage is not published have been removed.
+#' @format A data frame with 6 columns:
+#' \describe{
+#'   \item{start_date}{Start date of code usage count}
+#'   \item{end_date}{End date of code usage count}
+#'   \item{opcs4_code}{The 4-character OPCS-4 code.
+#'   Note that the punctuation from the code has been removed for compatibility with OpenCodelists.}
+#'   \item{description}{Description of the OPCS-4 Code}
+#'   \item{breakdown}{Type of breakdown: all_procedures, main_procedure, male, female,
+#'   gender_unknown, or age groups (age_0, age_1_4, age_5_9, ..., age_85_89, age_90plus)}
+#'   \item{usage}{Annual count of code usage. NA where suppressed due to small numbers.}
+#' }
+#' @source <https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity>
+#' @examples
+#' # Get sex breakdown for hip replacement procedures
+#' opcs4_usage_breakdowns |>
+#'   dplyr::filter(grepl("hip replacement", description, ignore.case = TRUE)) |>
+#'   dplyr::filter(breakdown %in% c("male", "female"))
+#'
+#' # Get age distribution for a specific procedure code
+#' opcs4_usage_breakdowns |>
+#'   dplyr::filter(opcs4_code == "W371" & start_date == "2024-04-01") |>
+#'   dplyr::filter(grepl("^age_", breakdown))
+"opcs4_usage_breakdowns"
