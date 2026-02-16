@@ -1,6 +1,6 @@
 # Package index
 
-## Datasets
+## Datasets with total counts
 
 - [`snomed_usage`](https://bennettoxford.github.io/opencodecounts/reference/snomed_usage.md)
   : Yearly SNOMED CT Code Usage in Primary Care in England
@@ -10,6 +10,15 @@
 - [`opcs4_usage`](https://bennettoxford.github.io/opencodecounts/reference/opcs4_usage.md)
   : Yearly OPCS-4 Code Usage from Hospital Admitted Patient Care
   Activity in England
+
+## Datasets with breakdowns
+
+- [`icd10_usage_breakdowns`](https://bennettoxford.github.io/opencodecounts/reference/icd10_usage_breakdowns.md)
+  : Yearly ICD-10 Code Usage Breakdowns from Hospital Admitted Patient
+  Care Activity in England
+- [`opcs4_usage_breakdowns`](https://bennettoxford.github.io/opencodecounts/reference/opcs4_usage_breakdowns.md)
+  : Yearly OPCS-4 Code Usage Breakdowns from Hospital Admitted Patient
+  Care Activity in England
 
 ## Codelists
 

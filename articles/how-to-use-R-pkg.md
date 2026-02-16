@@ -60,8 +60,12 @@ top3_icd10_xix_codes <- df_icd10_xix |>
   ungroup() |>
   slice_max(total_usage, n = 3) |>
   pull(icd10_code)
-#> `summarise()` has grouped output by 'icd10_code'. You can override using the
-#> `.groups` argument.
+#> `summarise()` has regrouped the output.
+#> ℹ Summaries were computed grouped by icd10_code and description.
+#> ℹ Output is grouped by icd10_code.
+#> ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+#> ℹ Use `summarise(.by = c(icd10_code, description))` for per-operation grouping
+#>   (`?dplyr::dplyr_by`) instead.
 ```
 
 ## Visualise trends over time
