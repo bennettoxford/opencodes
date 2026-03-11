@@ -27,7 +27,8 @@ section.
 You can install the `opencodecounts` package in R with:
 
 ``` r
-remotes::install_github("bennettoxford/opencodecounts")
+# install.packages("pak")
+pak::pak("bennettoxford/opencodecounts")
 ```
 
 ## How-to guides
