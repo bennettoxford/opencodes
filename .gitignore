@@ -10,3 +10,5 @@ inst/doc
 /Meta/
 opencodecounts.Rproj
 /.quarto/
+README.html
+**/*.quarto_ipynb

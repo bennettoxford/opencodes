@@ -1,0 +1,116 @@
+---
+title: "How to use ICD-10 and OPCS-4 breakdowns"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{how-to-use-breakdowns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Overview
+
+The following code usage breakdowns are available for ICD-10 and OPCS-4:
+
+1. Position - `main_diagnosis` and `main_procedure` describe the main reason for inpatient treatment, while co-existing conditions and other procedures are recorded under `all_diagnoses` and `all_procedures`; 
+
+2. Sex;
+
+3. Age - roughly 5-year age groups, with ages 0, 15, 16, 17, 18, and 19 recorded separately, and all ages over 90 aggregated.
+
+```{r setup, message = FALSE}
+library(opencodecounts)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(stringr)
+library(forcats)
+library(readr)
+```
+
+```{r show-available-breakdowns}
+# Available breakdowns for ICD-10
+unique(icd10_usage_breakdowns$breakdown)
+```
+
+The same breakdowns are available for OPCS-4, but the position breakdowns are called `all_procedures` and `main_procedure` instead.
+
+# Worked examples
+
+In these examples we're looking the ICD-10 code F90.0, which is used to record ADHD (Attention Deficit Hyperactivity Disorder).
+
+```{r filter-adhd-code}
+icd10_adhd_breakdowns <- icd10_usage_breakdowns |>
+  filter(icd10_code == "F900")
+```
+
+## Calculating the percentage of main diagnosis coding
+
+```{r calc-main-pct}
+adhd_diag_positions <- icd10_adhd_breakdowns |> 
+  filter(breakdown %in% c("all_diagnoses", "main_diagnosis")) |> 
+  group_by(icd10_code, description, breakdown) |>
+  summarise(n = sum(usage), .groups = "drop") |>
+  # pivot_wider(names_from = breakdown, values_from = n)
+  mutate(pct = round(n / n[breakdown == "all_diagnoses"] * 100, 2))
+
+adhd_diag_positions
+```
+
+Only 0.67% of F90.0 coding is recorded as the main diagnosis, indicating that ADHD is typically recorded as a co-existing condition and not the main condition being treated.
+
+## Visualising trends in sex breakdowns
+
+```{r plot-sex-breakdowns}
+plot_adhd_sex_breakdowns <- icd10_adhd_breakdowns |>
+  filter(breakdown %in% c("male", "female", "gender_unknown")) |> 
+  ggplot(aes(
+    x = end_date,
+    y = usage,
+    colour = breakdown,
+    shape = breakdown)
+  ) +
+  geom_line(alpha = .3) +  
+  geom_point() +
+  scale_y_continuous(labels = scales::label_number(accuracy = 1)) +
+  scale_x_date() +
+  scale_colour_viridis_d(end = .7) +
+  labs(
+    x = NULL, y = "Usage count",
+    colour = NULL, shape = NULL
+  )
+
+plot_adhd_sex_breakdowns
+```
+
+## Visualising trends in age breakdowns
+
+```{r plot-age-breakdowns}
+plot_adhd_age_breakdowns <- icd10_adhd_breakdowns |>
+  filter(str_starts(breakdown, "age")) |> 
+  mutate(breakdown = fct_reorder(breakdown, parse_number(breakdown))) |> 
+  ggplot(aes(
+    x = end_date,
+    y = usage,
+    colour = breakdown)
+  ) +
+  geom_line(alpha = .3) +  
+  geom_point() +
+  scale_y_continuous(labels = scales::label_number(accuracy = 1)) +
+  scale_x_date() +
+  scale_colour_viridis_d(end = .75) +
+  labs(
+    x = NULL, y = "Usage count",
+    colour = NULL, shape = NULL
+  ) +
+  theme(legend.position = "none") +
+  facet_wrap(~breakdown, ncol = 4)
+
+plot_adhd_age_breakdowns
+```
