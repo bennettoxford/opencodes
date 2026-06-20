@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ebmdatalab/codeusage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ebmdatalab/codeusage/actions/workflows/R-CMD-check.yaml)
-
+[![R-CMD-check](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `opencodecounts` R package provides easy access to yearly summaries
@@ -27,7 +26,8 @@ section.
 You can install the `opencodecounts` package in R with:
 
 ``` r
-remotes::install_github("bennettoxford/opencodecounts")
+# install.packages("pak")
+pak::pak("bennettoxford/opencodecounts")
 ```
 
 ## How-to guides

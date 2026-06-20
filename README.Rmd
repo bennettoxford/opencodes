@@ -17,8 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ebmdatalab/codeusage/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ebmdatalab/codeusage/actions/workflows/R-CMD-check.yaml)
-
+[![R-CMD-check](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The `opencodecounts` R package provides easy access to yearly summaries of clinical code usage in England. The package makes NHS England's published datasets available in R and an interactive online tool, covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in secondary care.
@@ -30,7 +29,8 @@ You can launch the interactive Shiny app by clicking on [*Launch Shiny app*](htt
 You can install the `opencodecounts` package in R with:  
 
 ```r
-remotes::install_github("bennettoxford/opencodecounts")
+# install.packages("pak")
+pak::pak("bennettoxford/opencodecounts")
 ```
 
 ## How-to guides
