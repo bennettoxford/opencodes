@@ -20,7 +20,6 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(stringr)
-library(forcats)
 library(readr)
 library(scales)
 ```
@@ -100,7 +99,7 @@ x_breaks_short <- x_breaks[seq(1, length(x_breaks), by = 4)]
 # Create figure for age breakdowns
 fig_adhd_age_breakdowns <- icd10_adhd_breakdowns |>
   filter(str_starts(breakdown, "age")) |> 
-  mutate(breakdown = fct_reorder(breakdown, parse_number(breakdown))) |> 
+  mutate(breakdown = reorder(breakdown, parse_number(breakdown))) |>
   ggplot(aes( x = end_date, y = usage, colour = breakdown)) +
   geom_line(alpha = .3) +  
   geom_point() +
