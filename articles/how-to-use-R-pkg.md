@@ -3,12 +3,14 @@
 ## First package installation
 
 ``` r
+
 remotes::install_github("bennettoxford/opencodecounts")
 ```
 
 ## Setup
 
 ``` r
+
 library(opencodecounts)
 library(tibble)
 library(dplyr)
@@ -18,6 +20,7 @@ library(ggplot2)
 ## Load codelist
 
 ``` r
+
 # Import the codelist from OpenCodelists.org
 icd10_xix_codelist <- get_codelist("https://www.opencodelists.org/codelist/opensafely/icd-10-chapter-xix/4dce479b/")
 
@@ -42,6 +45,7 @@ as_tibble(icd10_xix_codelist)
 ## Filter code usage data
 
 ``` r
+
 # Filter ICD-10 code usage to only include
 #  1. codes from icd10_xix_codelist
 #  2. code usage data from 2014 onwards
@@ -53,6 +57,7 @@ df_icd10_xix <- icd10_usage |>
 ## Calculate codes with most usage
 
 ``` r
+
 # Select 3 most frequently used codes
 top3_icd10_xix_codes <- df_icd10_xix |>
   group_by(icd10_code, description) |>
@@ -71,6 +76,7 @@ top3_icd10_xix_codes <- df_icd10_xix |>
 ## Visualise trends over time
 
 ``` r
+
 plot_top3_icd10_xix <- df_icd10_xix |>
   filter(icd10_code %in% top3_icd10_xix_codes) |>
   ggplot(aes(

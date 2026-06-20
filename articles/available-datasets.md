@@ -31,6 +31,7 @@ To work with the datasets in R, ensure that the *opencodecounts* package
 is loaded.
 
 ``` r
+
 # Load opencodecounts package
 library(opencodecounts)
 #> To cite opencodecounts use: https://doi.org/10.1101/2025.10.14.25338005
@@ -61,6 +62,7 @@ This is only a selection of the full dataset published by NHS Digital,
 for data pre-processing see `/data-raw/snomed_code_usage.R`.
 
 ``` r
+
 # Return SNOMED code usage data
 snomed_usage
 #> # A tibble: 1,682,534 × 7
@@ -108,6 +110,7 @@ This is only a selection of the full dataset published by NHS Digital,
 for data pre-processing see `/data-raw/icd10_usage.R`.
 
 ``` r
+
 # Return ICD-10 code usage data
 icd10_usage
 #> # A tibble: 147,483 × 5
@@ -150,6 +153,7 @@ This is only a selection of the full dataset published by NHS Digital,
 for the data pre-processing see `/data-raw/opcs4_usage.R`.
 
 ``` r
+
 # Return OPCS-4 code usage data
 opcs4_usage
 #> # A tibble: 116,680 × 5
