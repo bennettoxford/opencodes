@@ -23,12 +23,11 @@ Description: SNOMED and ICD-10 Code Usage Counts in England provided by NHS Digi
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
 LazyData: true
 LazyDataCompression: bzip2
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
@@ -56,3 +55,4 @@ Imports:
     tibble,
     tidyr
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
