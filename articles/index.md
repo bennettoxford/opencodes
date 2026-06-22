@@ -8,6 +8,8 @@
   opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.md):
 - [How to extract semantic tags from SNOMED CT
   descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.md):
+- [How to use ICD-10 and OPCS-4
+  breakdowns](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-breakdowns.md):
 - [How to use the R
   package](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.md):
 - [How to use the Shiny
