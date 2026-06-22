@@ -44,6 +44,8 @@ navbar:
           href: articles/how-to-use-shiny-app.html
         - text: "How to use the R package"
           href: articles/how-to-use-R-pkg.html
+        - text: "How to use ICD-10 and OPCS-4 breakdowns"
+          href: articles/how-to-use-breakdowns.html
         - text: "How to extract SNOMED CT semantic tag in R"
           href: articles/extract-snomedct-sem-tag.html
         - text: "Learn about the available datasets"

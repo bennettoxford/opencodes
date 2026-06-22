@@ -36,6 +36,8 @@ pak::pak("bennettoxford/opencodecounts")
   app](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-shiny-app.html)
 - [How to use the R
   package](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.html)
+- [How to use ICD-10 and OPCS-4
+  breakdowns](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-breakdowns.html)
 - [How to extract semantic tags from SNOMED CT
   descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html)
 - [Learn about the available
