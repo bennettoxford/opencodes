@@ -42,6 +42,7 @@ plot_summary <- function(data) {
 
 #' Helper function to plot individual code usage
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_date scale_y_continuous labs theme theme_classic element_text
+#' @importFrom dplyr group_by mutate ungroup
 #' @importFrom lubridate month year
 #' @importFrom scales label_date_short label_comma comma
 #' @keywords internal
@@ -50,13 +51,8 @@ plot_individual <- function(data) {
   
   data <- data |>
     group_by(start_date, end_date) |>
-    summarise(
-      code = code,
-      description = description,
-      usage = usage,
-      annual_proportion = usage / sum(usage, na.rm = TRUE)
-    )
-
+    mutate(annual_proportion = usage / sum(usage, na.rm = TRUE)) |>
+    ungroup()
 
   ggplot(
     data,
