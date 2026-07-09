@@ -1,5 +1,5 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   app: app.html
@@ -8,7 +8,7 @@ articles:
   how-to-use-breakdowns: how-to-use-breakdowns.html
   how-to-use-R-pkg: how-to-use-R-pkg.html
   how-to-use-shiny-app: how-to-use-shiny-app.html
-last_built: 2026-06-22T15:01Z
+last_built: 2026-07-09T13:42Z
 urls:
   reference: https://bennettoxford.github.io/opencodecounts/reference
   article: https://bennettoxford.github.io/opencodecounts/articles
