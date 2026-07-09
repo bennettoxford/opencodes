@@ -26,7 +26,7 @@ It can be launched locally with the `run_app()` function or accessed online at [
 
 The Shiny app has a sidebar to select one of the available datasets (i.e., SNOMED CT, ICD-10, or OPCS-4) and search for a specific code or a collection of codes, including codelists from [OpenCodelists.org](http://opencodelists.org/).
 
-```{r, echo=FALSE, fig.cap="**Figure 1.**  Select dataset for anlysis."}
+```{r, echo=FALSE, fig.cap="**Figure 1.**  Select dataset for analysis."}
 knitr::include_graphics("img/shiny_app_datasets.png")
 ```
 
@@ -50,7 +50,7 @@ knitr::include_graphics("img/shiny_app_load_codelist.png")
 
 There are three main tabs to review the results:
 
-**Trends over time**: You can explore visualisations summarising overall trends and inspect individual code usage over time. You can hover over data points for detailed information. Toggle "Show individual codes" to see separate lines for each code (available when ≤500 codes selected).
+**Trends over time**: You can explore visualisations summarising overall trends and inspect individual code usage over time. You can hover over (or tap) data points for detailed information. Toggle "Show individual codes" to see separate lines for each code (available when ≤500 codes selected). Use the expand button in the bottom-right corner of the card to view the chart in full screen.
 
 ```{r, echo=FALSE, fig.cap="**Figure 4.** Main page showing *Trends over time*."}
 knitr::include_graphics("img/shiny_app_trends.png")
@@ -62,7 +62,7 @@ knitr::include_graphics("img/shiny_app_trends.png")
 knitr::include_graphics("img/shiny_app_usage_table.png")
 ```
 
-**Selected codes**: Additionally, the app presents a structured list of all selected codes along with their descriptions and a column specifiying if usage data was reported. This list can be downloaded as a CSV file for use in EHR research or for upload to [OpenCodelists.org](http://opencodelists.org/).
+**Selected codes**: Additionally, the app presents a structured list of all selected codes along with their descriptions and a column specifying if usage data was reported. This list can be downloaded as a CSV file for use in EHR research or for upload to [OpenCodelists.org](http://opencodelists.org/).
 
 
 ```{r, echo=FALSE, fig.cap="**Figure 6.** Main page showing *Selected codes*."}

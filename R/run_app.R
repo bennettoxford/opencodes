@@ -6,7 +6,7 @@ run_app <- function() {
     "www",
     system.file("shiny/www", package = "opencodecounts")
   )
-  
+
   shiny::shinyApp(
     ui = app_ui,
     server = app_server

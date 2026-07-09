@@ -1,11 +1,24 @@
+#' Pick x-axis breaks from the yearly reporting end dates
+#'
+#' Breaks always fall on actual end dates of the yearly reporting periods.
+#' When there are more than `n_max`, only every k-th end date is shown,
+#' anchored on the most recent period so the latest data is always labelled.
+#' @keywords internal
+end_date_breaks <- function(end_dates, n_max = 6) {
+  breaks <- sort(unique(end_dates))
+  if (length(breaks) > n_max) {
+    step <- ceiling(length(breaks) / n_max)
+    breaks <- breaks[rev(seq(length(breaks), 1, by = -step))]
+  }
+  breaks
+}
+
 #' Helper function to plot code usage summary
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_date scale_y_continuous labs theme theme_classic element_text
 #' @importFrom lubridate month year
-#' @importFrom scales label_date_short label_comma comma
+#' @importFrom scales label_date_short label_comma comma breaks_pretty label_number cut_short_scale
 #' @keywords internal
 plot_summary <- function(data) {
-  scale_x_date_breaks <- unique(data$end_date)
-  
   ggplot(
     data,
     aes(x = end_date, y = total_usage)
@@ -17,38 +30,42 @@ plot_summary <- function(data) {
     geom_point(
       colour = "#239b89ff",
       size = 2,
-      aes(text = paste0(
-        "<b>Timeframe:</b> ",
-        lubridate::month(start_date, label = TRUE), " ",
-        lubridate::year(start_date), " to ",
-        lubridate::month(end_date, label = TRUE), " ",
-        lubridate::year(end_date),
-        "<br>",
-        "<b>Code usage:</b> ", scales::comma(total_usage)
-      ))
+      aes(
+        text = paste0(
+          "<b>Timeframe:</b> ",
+          lubridate::month(start_date, label = TRUE),
+          " ",
+          lubridate::year(start_date),
+          " to ",
+          lubridate::month(end_date, label = TRUE),
+          " ",
+          lubridate::year(end_date),
+          "<br>",
+          "<b>Code usage:</b> ",
+          scales::comma(total_usage)
+        )
+      )
     ) +
     scale_x_date(
-      breaks = scale_x_date_breaks,
+      breaks = end_date_breaks(data$end_date),
       labels = scales::label_date("%b\n%Y")
     ) +
     scale_y_continuous(
       limits = c(0, NA),
-      labels = scales::label_number(accuracy = 1)
+      labels = scales::label_number(scale_cut = scales::cut_short_scale())
     ) +
-    labs(x = "End date of yearly time interval", y = "Recorded events") +
+    labs(x = "End of yearly interval", y = "Recorded events") +
     theme_classic() +
-    theme(text = element_text(size = 14))
+    theme(text = element_text(size = 13))
 }
 
 #' Helper function to plot individual code usage
 #' @importFrom ggplot2 ggplot aes geom_line geom_point scale_x_date scale_y_continuous labs theme theme_classic element_text
 #' @importFrom dplyr group_by mutate ungroup
 #' @importFrom lubridate month year
-#' @importFrom scales label_date_short label_comma comma
+#' @importFrom scales label_date_short label_comma comma breaks_pretty label_number cut_short_scale
 #' @keywords internal
 plot_individual <- function(data) {
-  scale_x_date_breaks <- unique(data$end_date)
-  
   data <- data |>
     group_by(start_date, end_date) |>
     mutate(annual_proportion = usage / sum(usage, na.rm = TRUE)) |>
@@ -65,32 +82,44 @@ plot_individual <- function(data) {
     geom_line(alpha = .4) +
     geom_point(
       size = 2,
-      aes(text = paste0(
-        "<b>Timeframe:</b> ",
-        lubridate::month(start_date, label = TRUE), " ",
-        lubridate::year(start_date), " to ",
-        lubridate::month(end_date, label = TRUE), " ",
-        lubridate::year(end_date),
-        "<br>",
-        "<b>Code:</b> ", code, "<br>",
-        "<b>Description:</b> ", description, "<br>",
-        "<b>Code usage:</b> ", scales::comma(usage), "<br>",
-        "<b>Proportion of annual usage: </b>", scales::percent(annual_proportion, accuracy = 0.01)
-      ))
+      aes(
+        text = paste0(
+          "<b>Timeframe:</b> ",
+          lubridate::month(start_date, label = TRUE),
+          " ",
+          lubridate::year(start_date),
+          " to ",
+          lubridate::month(end_date, label = TRUE),
+          " ",
+          lubridate::year(end_date),
+          "<br>",
+          "<b>Code:</b> ",
+          code,
+          "<br>",
+          "<b>Description:</b> ",
+          description,
+          "<br>",
+          "<b>Code usage:</b> ",
+          scales::comma(usage),
+          "<br>",
+          "<b>Proportion of annual usage: </b>",
+          scales::percent(annual_proportion, accuracy = 0.01)
+        )
+      )
     ) +
     scale_x_date(
-      breaks = scale_x_date_breaks,
+      breaks = end_date_breaks(data$end_date),
       labels = scales::label_date("%b\n%Y")
     ) +
     scale_y_continuous(
       limits = c(0, NA),
-      labels = scales::label_number(accuracy = 1)
+      labels = scales::label_number(scale_cut = scales::cut_short_scale())
     ) +
     ggplot2::scale_colour_viridis_d() +
-    labs(x = "End date of yearly time interval", y = "Recorded events") +
+    labs(x = "End of yearly interval", y = "Recorded events") +
     theme_classic() +
     theme(
-      text = element_text(size = 14),
+      text = element_text(size = 13),
       legend.position = "none"
     )
 }
@@ -106,9 +135,12 @@ plot_sparkline <- function(data) {
 
   plot_ly(data_spark, hoverinfo = "none") |>
     add_lines(
-      x = ~end_date, y = ~total_usage,
-      color = I("black"), span = I(1),
-      fill = "tozeroy", alpha = 0.2
+      x = ~end_date,
+      y = ~total_usage,
+      color = I("black"),
+      span = I(1),
+      fill = "tozeroy",
+      alpha = 0.2
     ) |>
     layout(
       xaxis = list(visible = F, showgrid = F, title = ""),

@@ -1,20 +1,15 @@
 #' Helper function to create code usage table
-#' @importFrom DT datatable formatPercentage formatStyle styleEqual
+#' @importFrom DT datatable formatPercentage formatRound formatStyle styleEqual
 #' @keywords internal
 datatable_usage <- function(data) {
-  datatable(data,
+  datatable(
+    data,
     colnames = c("Code", "Description", "Usage", "Percentage"),
     rownames = FALSE,
     options = list(
-      columnDefs = list(
-        list(width = "60px", targets = 0),
-        list(width = "350px", targets = 1),
-        list(width = "60px", targets = 2),
-        list(width = "40px", targets = 3)
-      ),
       pageLength = 10,
       scrollY = TRUE,
-      scrollX = FALSE,
+      scrollX = TRUE,
       searching = TRUE
     ),
     width = "100%",
@@ -23,6 +18,10 @@ datatable_usage <- function(data) {
     formatPercentage(
       "total_pct",
       digits = 3
+    ) |>
+    formatRound(
+      "total_usage",
+      digits = 0
     )
 }
 
@@ -36,16 +35,13 @@ datatable_codelist <- function(data, data_desc) {
     colnames = c("Code", "Description", "Usage data"),
     rownames = FALSE,
     options = list(
-      columnDefs = list(
-        list(width = "50px", targets = 0),
-        list(width = "400px", targets = 1),
-        list(width = "100px", targets = 2)
+      language = list(
+        emptyTable = "No codes selected, please select codes or load a codelist."
       ),
-      language = list(emptyTable = "No codes selected, please select codes or load a codelist."),
       order = list(list(2, "desc")),
       pageLength = 10,
       scrollY = FALSE,
-      scrollX = FALSE,
+      scrollX = TRUE,
       searching = TRUE
     ),
     width = "100%",

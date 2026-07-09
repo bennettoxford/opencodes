@@ -8,12 +8,19 @@ vignette: >
 ---
 
 <style>
+/* Fill everything below the site navbar with the app and stop the page
+   itself from scrolling; the app manages its own scrolling internally.
+   The frame top is set from the real navbar height by the script below
+   (fallback 56px), so it works when the navbar wraps on small screens. */
+body {
+  overflow: hidden;
+}
 .shiny-app-frame {
   position: fixed;
   left: 0;
-  top: 50px;
-  bottom: 0;
   right: 0;
+  bottom: 0;
+  top: var(--shiny-frame-top, 56px);
 }
 .shiny-app-frame iframe {
   width: 100%;
@@ -22,7 +29,19 @@ vignette: >
 }
 </style>
 
-<div class="shiny-app-frame"> 
-<iframe src="https://milanwiedemann.shinyapps.io/opencodecounts/">
+<div class="shiny-app-frame">
+<iframe src="https://milanwiedemann.shinyapps.io/opencodecounts/" title="opencodecounts Shiny app">
 </iframe>
 </div>
+
+<script>
+(function() {
+  function setFrameTop() {
+    var nav = document.querySelector("nav.navbar");
+    var top = nav ? Math.max(nav.getBoundingClientRect().bottom, 0) : 56;
+    document.documentElement.style.setProperty("--shiny-frame-top", top + "px");
+  }
+  setFrameTop();
+  window.addEventListener("resize", setFrameTop);
+})();
+</script>

@@ -1,0 +1,101 @@
+.left-align-tooltip .tooltip-inner {
+  text-align: left;
+  max-width: 500px;
+}
+.card-header {
+  font-weight: bold;
+}
+.btn {
+  text-transform: none !important;
+  font-weight: bold !important;
+}
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid #dee2e6;
+  padding: 15px 0;
+}
+.footer img {
+  max-height: 60px;
+  max-width: 100%;
+  width: auto;
+  margin: 0 20px;
+}
+
+/* Scale the logos down and tighten spacing on narrow screens */
+@media (max-width: 575.98px) {
+  .footer {
+    padding: 10px 0;
+  }
+  .footer img {
+    max-height: 40px;
+    margin: 0 8px;
+  }
+}
+.footer a {
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+.footer a:hover {
+  opacity: 0.8;
+}
+.footer p a {
+  text-decoration: underline !important;
+  transition: opacity 0.3s ease;
+}
+.footer p a:hover {
+  opacity: 0.8;
+  text-decoration: underline !important;
+}
+
+/* Allow the main content area to shrink below its content's natural width,
+   otherwise the tab row forces the page wider than the viewport */
+.bslib-sidebar-layout > .main,
+main.bslib-page-main {
+  min-width: 0;
+}
+
+/* bslib defaults this to 576px, which forces a horizontal scrollbar on the
+   main pane at tablet widths when the sidebar is open */
+:root {
+  --bslib-page-main-min-width: 300px;
+}
+
+/* Compact tabs below the lg breakpoint: hide icons and tighten padding so
+   the main tabset fits on one row without ragged wrapping */
+@media (max-width: 991.98px) {
+  .nav-tabs .nav-link {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  .nav-tabs .nav-link svg.bi {
+    display: none;
+  }
+}
+
+/* Tables: wrap long descriptions and tighten controls on narrow screens.
+   Numbers stay unbroken; the table scrolls inside its card if needed. */
+table.dataTable td {
+  white-space: normal;
+}
+@media (max-width: 575.98px) {
+  table.dataTable {
+    font-size: 0.875rem;
+  }
+  .dataTables_length {
+    display: none;
+  }
+}
+
+/* Ensure footer stays at bottom */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.bslib-page-sidebar {
+  flex: 1;
+}

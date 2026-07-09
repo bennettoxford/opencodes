@@ -1,6 +1,6 @@
 Package: opencodecounts
 Title: Clinical Code Usage in England
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: c(
     person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1991-282X")),
@@ -28,6 +28,7 @@ Depends:
 LazyData: true
 LazyDataCompression: bzip2
 Suggests:
+    gt,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
@@ -41,8 +42,6 @@ Imports:
     dplyr,
     DT,
     ggplot2,
-    gt,
-    here,
     httr2,
     lubridate,
     plotly,
