@@ -29,6 +29,7 @@ LazyData: true
 LazyDataCompression: bzip2
 Suggests:
     knitr,
+    quarto,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
@@ -54,5 +55,5 @@ Imports:
     stringr,
     tibble,
     tidyr
-VignetteBuilder: knitr
+VignetteBuilder: knitr, quarto
 Config/roxygen2/version: 8.0.0

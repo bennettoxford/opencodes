@@ -50,6 +50,8 @@ navbar:
           href: articles/extract-snomedct-sem-tag.html
         - text: "Learn about the available datasets"
           href: articles/available-datasets.html
+        - text: "Manuscript: OpenCodeCounts"
+          href: articles/manuscript.html
 
 
     launch_shiny:
