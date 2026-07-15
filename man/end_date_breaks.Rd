@@ -4,7 +4,7 @@
 \alias{end_date_breaks}
 \title{Pick x-axis breaks from the yearly reporting end dates}
 \usage{
-end_date_breaks(end_dates, n_max = 7)
+end_date_breaks(end_dates, n_max = 6)
 }
 \description{
 Breaks always fall on actual end dates of the yearly reporting periods.
