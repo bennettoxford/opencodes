@@ -13,6 +13,10 @@ author:
     orcid: 0000-0002-9171-6922
     affiliation:
       - ref: ox-phc-bennett
+  - name: Kiana K Collins
+    orcid: 0000-0002-3736-6976
+    affiliation:
+      - ref: ox-phc
   - name: Viveck Kingsley
     orcid: 0009-0003-0864-7132
     affiliation:
@@ -21,23 +25,32 @@ author:
     orcid: 0009-0008-4895-6913
     affiliation:
       - ref: ox-phc-bennett
+  - name: Kaylee Poon
+    orcid: 0009-0001-6846-4501
+    affiliation:
+      - ref: ox-phc-bennett
   - name: Kunle Oreagba
     orcid: 0009-0004-5079-1362
     affiliation:
       - ref: ox-phc-bennett
   - name: Jon Massey
+    orcid: 0000-0002-2497-4040
     affiliation:
       - ref: ox-phc-bennett
   - name: Andrea Schaffer
+    orcid: 0000-0002-3701-4997
     affiliation:
       - ref: ox-phc-bennett
   - name: Amelia Green
+    orcid: 0000-0002-7246-2074
     affiliation:
       - ref: ox-phc-bennett
   - name: William Hulme
+    orcid: 0000-0002-9162-4999
     affiliation:
       - ref: ox-phc-bennett
   - name: Brian MacKenna
+    orcid: 0000-0002-3786-9063
     affiliation:
       - ref: ox-phc-bennett
   - name: Helen J Curtis
@@ -46,6 +59,10 @@ author:
       - ref: ox-phc-bennett
   - name: Louis Fisher
     orcid: 0000-0002-0295-3812
+    affiliation:
+      - ref: ox-phc-bennett
+  - name: Ben Goldacre
+    orcid: 0000-0002-5127-4728
     affiliation:
       - ref: ox-phc-bennett
   - name: Milan Wiedemann
@@ -57,11 +74,19 @@ author:
 affiliations:
   - id: ox-phc-bennett
     name: Bennett Institute for Applied Data Science, Nuffield Department of Primary Care Health Sciences, University of Oxford
+  - id: ox-phc
+    name: Nuffield Department of Primary Care Health Sciences, University of Oxford
     city: Oxford
     postal-code: OX2 6GG
     country: UK
 bibliography: references.bib
-format: html
+format:
+  html: default
+  docx:
+    link-citations: true
+    reference-doc: ../../publish/reference.docx
+    fig-dpi: 300
+  pdf: default
 execute:
   echo: false
   warning: false
@@ -88,9 +113,9 @@ Knowing how frequently certain codes are recorded can be invaluable in planning 
 For example, not all events are recorded with equal frequency, so knowing the usage of specific codes helps determine research feasibility.
 
 In England, data on the frequency of clinical code recording is openly available for three classification systems used in primary and secondary care: SNOMED CT, ICD-10 and OPCS-4.
-However, these valuable datasets, showing how frequently individual clinical code were used, are difficult to access and analyse in their current format, hindering their application in research and service evaluation.
+However, these valuable datasets, showing how frequently individual clinical codes were used, are difficult to access and analyse in their current format, hindering their application in research and service evaluation.
 
-We developed *OpenCodeCounts*, an interactive online tool with an accompanying R package that help users explore and analyse England's primary and secondary care clinical coding data.
+We developed *OpenCodeCounts*, an interactive online tool with an accompanying R package that helps users explore and analyse England's primary and secondary care clinical coding data.
 Both are compatible with *OpenCodelists.org*: a publicly available and free-to-use platform for codelist development and sharing.
 This article describes the underlying datasets, the development of the *opencodecounts* R package and the interactive app, and showcases their applications for electronic health records research.
 
@@ -210,33 +235,41 @@ To account for the reporting changes described above, we used data from 2012 onw
 We standardised the codes to remove inconsistencies, non-alphanumeric characters and language encoding errors similar to those described above (which affected ICD-10 year 2022).
 In the source ICD-10 and OPCS-4 datasets, the small counts are suppressed only for codes considered sensitive, such as [non-spontaneous abortions](https://www.gov.uk/government/statistics/abortion-statistics-for-england-and-wales-2022/guide-to-abortion-statistics-england-and-wales-2022).
 For consistency across the datasets, we imputed a value of 5.
-To minimise package size, we did not incorporate breakdowns by age and gender.
-While these variables are informative, they increase the dataset size, making the package less efficient for general use.
+In addition to the total counts, we provide ICD-10 and OPCS-4 usage broken down by diagnosis or procedure position (all or main), sex and age group.
+To keep the main datasets small and efficient for general use, these breakdowns are held in separate datasets.
+No equivalent breakdowns are published for the primary care SNOMED CT data.
 In the current version of the package, the columns available for each dataset are presented in @tbl-datasets.
 
 ```{r}
 #| label: tbl-datasets
 #| tbl-cap: "Available column names for each clinical coding system dataset in *opencodecounts* R package."
-tribble(
-  ~column           , ~example                      , ~snomed , ~icd10 , ~opcs4 ,
-  "start_date"      , "Date: YYYY-MM-DD"            , "+"     , "+"    , "+"    ,
-  "end_date"        , "Date: YYYY-MM-DD"            , "+"     , "+"    , "+"    ,
-  "code *"          , "String: 1234 or A000"        , "+"     , "+"    , "+"    ,
-  "description"     , "String: Description of code" , "+"     , "+"    , "+"    ,
-  "usage"           , "Numeric: 100000"             , "+"     , "+"    , "+"    ,
-  "active_at_start" , "Boolean: TRUE"               , "+"     , "–" , "–" ,
-  "active_at_end"   , "Boolean: FALSE"              , "+"     , "–" , "–"
+tab_datasets <- tribble(
+  ~column           , ~example                      , ~snomed , ~icd10_opcs4 , ~icd10_opcs4_bd ,
+  "start_date"      , "Date: YYYY-MM-DD"            , "+"     , "+"          , "+"             ,
+  "end_date"        , "Date: YYYY-MM-DD"            , "+"     , "+"          , "+"             ,
+  "code *"          , "String: 1234 or A000"        , "+"     , "+"          , "+"             ,
+  "description"     , "String: Description of code" , "+"     , "+"          , "+"             ,
+  "usage"           , "Numeric: 100000"             , "+"     , "+"          , "+"             ,
+  "breakdown"       , "String: female or age_45_49" , "–"  , "–"       , "+"             ,
+  "active_at_start" , "Boolean: TRUE"               , "+"     , "–"       , "–"          ,
+  "active_at_end"   , "Boolean: FALSE"              , "+"     , "–"       , "–"
 ) |>
   gt() |>
-  tab_spanner(label = "Dataset", columns = c(snomed, icd10, opcs4)) |>
+  tab_spanner(
+    label = "Dataset",
+    columns = c(snomed, icd10_opcs4, icd10_opcs4_bd)
+  ) |>
   cols_label(
     column = "Column",
     example = "Example",
     snomed = md("*snomed_usage*"),
-    icd10 = md("*icd10_usage*"),
-    opcs4 = md("*opcs4_usage*")
+    icd10_opcs4 = md("*icd10_usage*<br>*opcs4_usage*"),
+    icd10_opcs4_bd = md("*icd10_usage_breakdowns*<br>*opcs4_usage_breakdowns*")
   ) |>
-  cols_align(align = "center", columns = c(snomed, icd10, opcs4)) |>
+  cols_align(
+    align = "center",
+    columns = c(snomed, icd10_opcs4, icd10_opcs4_bd)
+  ) |>
   tab_style(
     style = cell_text(weight = "bold"),
     locations = cells_column_labels(columns = everything())
@@ -246,6 +279,13 @@ tribble(
       "*Note*. '+' indicates that the column is available; '–' indicates that the column is not available. More details and examples for each dataset can be found in the online package documentation or using the *help()* function in R. \\* SNOMED CT codes are represented by numbers (e.g., 11111), while ICD-10 and OPCS4 codes have a leading character, followed by numbers (e.g., A100)."
     )
   )
+
+if (knitr::is_html_output()) {
+  tab_datasets
+} else {
+  gtsave(tab_datasets, "img/manuscript_table1.png")
+  knitr::include_graphics("img/manuscript_table1.png")
+}
 ```
 
 #### Interactive online tool
@@ -263,18 +303,20 @@ Additionally, the tool presents a structured list of all selected codes along wi
 
 @tbl-functions provides a summary of datasets and functions available to the users.
 One of these is a function `run_app()` which requires no arguments and launches the interactive tool described above.
-The current version of the package consists of two broad components: (1) three standardised datasets containing code usage counts for different clinical coding systems, and (2) a function to import specific codelists from [OpenCodelists.org](https://www.opencodelists.org/) into R and the accompanying interactive tool (*Shiny* app).
+The current version of the package consists of two broad components: (1) five standardised datasets containing code usage counts for different clinical coding systems, including breakdowns by sex and age group for the hospital datasets, and (2) a function to import specific codelists from [OpenCodelists.org](https://www.opencodelists.org/) into R and the accompanying interactive tool (*Shiny* app).
 
 ```{r}
 #| label: tbl-functions
 #| tbl-cap: "Main functions of the *opencodecounts* R package."
-tribble(
-  ~component          , ~description                                                                          , ~group      ,
-  "`snomed_usage`"    , "SNOMED CT code usage in primary care starting from 2011"                             , "Datasets"  ,
-  "`icd10_usage`"     , "ICD-10 code usage in secondary care admissions in acute hospitals starting from 2012" , "Datasets"  ,
-  "`opcs4_usage`"     , "OPCS-4 code usage in secondary care admissions in acute hospitals starting from 2012" , "Datasets"  ,
-  "`get_codelist()`"  , "Import a codelist from [OpenCodelists.org](https://www.opencodelists.org/)"          , "Functions" ,
-  "`run_app()`"       , "Launch interactive *Shiny* app locally"                                              , "Functions"
+tab_functions <- tribble(
+  ~component                  , ~description                                                                                            , ~group      ,
+  "`snomed_usage`"            , "SNOMED CT code usage in primary care starting from 2011"                                               , "Datasets"  ,
+  "`icd10_usage`"             , "ICD-10 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
+  "`opcs4_usage`"             , "OPCS-4 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
+  "`icd10_usage_breakdowns`"  , "ICD-10 code usage with breakdowns by diagnosis position, sex and age group starting from 2012"         , "Datasets"  ,
+  "`opcs4_usage_breakdowns`"  , "OPCS-4 code usage with breakdowns by procedure position, sex and age group starting from 2012"         , "Datasets"  ,
+  "`get_codelist()`"          , "Import a codelist from [OpenCodelists.org](https://www.opencodelists.org/)"                            , "Functions" ,
+  "`run_app()`"               , "Launch interactive *Shiny* app locally"                                                                , "Functions"
 ) |>
   group_by(group) |>
   gt() |>
@@ -300,11 +342,18 @@ tribble(
       "*Note*. More details and examples for each function can be found in the online package documentation or using the *help()* function in R."
     )
   )
+
+if (knitr::is_html_output()) {
+  tab_functions
+} else {
+  gtsave(tab_functions, "img/manuscript_table2.png")
+  knitr::include_graphics("img/manuscript_table2.png")
+}
 ```
 
 ### Operation
 
-The *opencodecounts* R package is freely available from [Github](https://github.com/bennettoxford/opencodecounts) and can be installed in R using `remotes::install_github("bennettoxford/opencodecounts")` and loaded using `library(opencodecounts)`.
+The *opencodecounts* R package is freely available from [Github](https://github.com/bennettoxford/opencodecounts) and can be installed in R using `pak::pak("bennettoxford/opencodecounts")` and loaded using `library(opencodecounts)`.
 It requires an installation of R Version 4.1.0 or higher on Linux, Mac and Windows.
 The online tool is available using the *Launch Shiny App* tab at the top of the page on <https://bennettoxford.github.io/opencodecounts/>.
 
@@ -350,23 +399,25 @@ The difference in numbers also highlights that individuals with homelessness rec
 
 ### Use case 3: Bespoke analyses in R
 
-The online tool allows users to select a custom group of codes, download the data and visualise trends.
-For bespoke analysis or visualisation, users can also work directly within R with access to the underlying data.
-This means users can produce visualisations and analysis for any of their chosen codes, across any available years and in a preferred graphical style.
-The `get_codelist()` function allows users to access codelists from [OpenCodelists.org](https://www.opencodelists.org/).
-The following examples demonstrate how to extract semantic tags from SNOMED CT codes (see @fig-semantic-tags) and how to find the three most used ICD-10 codes from a selected codelist and visualise their trends over time (see @fig-top-icd10).
+The online tool allows users to select a custom group of codes, download the data and visualise trends over time.
+For bespoke analyses, users can also work directly within R with access to the underlying data of the online tool.
+Codelists can be imported from [OpenCodelists.org](https://www.opencodelists.org/) using the `get_codelist()` function or defined directly in R.
+The following example examines trends in the coding of prostate biopsy and magnetic resonance imaging (MRI) procedures around the May 2019 update of the NICE guideline on prostate cancer diagnosis and management [NG131, @NationalInstituteForHealthAndCareExcellence2021a], which recommended offering multiparametric MRI before biopsy.
+The example combines coding activity from primary care (SNOMED CT) and hospital admitted care (OPCS-4) in one analysis (see @fig-biopsy-mri-codes) and uses the demographic breakdowns to examine age-specific trends in hospital procedures (see @fig-biopsy-age).
 
-#### Extracting semantic tags from SNOMED CT codes
+#### Trends in prostate biopsy and MRI procedures across care settings
 
-Using the codelist for [Depression screening codes](https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/depscrn_cod/20250627/), we grouped code usage by semantic tag to explore how different tags were used over time.
-@fig-semantic-tags shows the yearly code usage across semantic tags such as "Procedure", "Observable entity", and "Finding", highlighting an increased coding of observable entities (scores of depression screenings) in recent years.
+We selected the OPCS-4 codes for perineal (M702) and rectal (M703) needle biopsy of prostate in hospital admitted care, and the most frequently used SNOMED CT codes for prostate biopsy and prostate MRI procedures in primary care.
+In hospital admitted care, coding of perineal needle biopsy of prostate increased steadily before the 2019 NICE guideline and rose more sharply in the years that followed.
+Coding of rectal needle biopsy of prostate showed the opposite pattern, declining gradually before 2019 and more rapidly afterwards.
+In primary care, coding of transperineal biopsy and MRI procedures increased throughout the study period, with a steeper rise in recent years (@fig-biopsy-mri-codes).
 
 ```{r}
-#| label: fig-semantic-tags
+#| label: fig-biopsy-mri-codes
 #| echo: true
-#| fig-cap: "Trends over time in depression screening code usage grouped by semantic tag."
+#| fig-cap: "Annual coding activity for prostate biopsy and MRI procedures by individual clinical codes in hospital admitted care (OPCS-4) and primary care (SNOMED CT). The dashed line marks the publication of the NICE guideline NG131 in May 2019."
 #| fig-width: 9
-#| fig-height: 5.5
+#| fig-height: 4
 # Load packages
 library(dplyr)
 library(stringr)
@@ -374,88 +425,78 @@ library(ggplot2)
 library(scales)
 library(opencodecounts)
 
-# Get depression screening codes from OpenCodelists.org
-depscrn_codelist <- get_codelist(
-  "https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/depscrn_cod/20250627/"
-)
+# Define clinical codes for prostate biopsy and MRI procedures
+codes_opcs4_biopsy <- c("M702", "M703")
+# Transperineal needle biopsy of prostate
+code_snomedct_biopsy <- "265593007"
+# Magnetic resonance imaging of prostate
+code_snomedct_mri <- "75691003"
 
-# Group data from codelist by semantic tags and calculate yearly sums
-depscrn_cod_usage <- snomed_usage |>
-  filter(snomed_code %in% depscrn_codelist$code) |>
-  mutate(
-    semantic_tag = extract_semantic_tag(description),
-    semantic_tag = str_to_sentence(semantic_tag),
-    description_short = strip_semantic_tag(description)
-  ) |>
-  group_by(end_date, semantic_tag) |>
-  summarise(total_usage = sum(usage), .groups = "drop")
+# Publication date of NICE guideline NG131 on prostate cancer diagnosis
+date_nice_ng131 <- as.Date("2019-05-09")
 
-# Visualise the trends over time for semantic tags from codelist
-depscrn_cod_usage |>
-  ggplot(aes(y = total_usage, x = end_date,
-             colour = semantic_tag, shape = semantic_tag)) +
-  geom_line(alpha = 0.2) +
-  geom_point(size = 2) +
-  labs(x = "End date of yearly interval", y = "Usage count",
-       colour = NULL, shape = NULL) +
-  scale_x_date(breaks = unique(depscrn_cod_usage$end_date),
-               date_labels = "%b\n%Y") +
-  scale_y_continuous(labels = label_number(accuracy = 1), limits = c(0, NA)) +
-  theme(legend.position = "bottom") +
-  scale_colour_viridis_d(end = .8)
-```
+# Combine coding activity from hospital admitted care and primary care
+df_biopsy_mri <- bind_rows(
+  opcs4_usage |>
+    filter(opcs4_code %in% codes_opcs4_biopsy) |>
+    mutate(setting = "Hospital admitted care - Biopsy"),
+  snomed_usage |>
+    filter(snomed_code %in% code_snomedct_biopsy) |>
+    mutate(setting = "Primary care - Biopsy"),
+  snomed_usage |>
+    filter(snomed_code %in% code_snomedct_mri) |>
+    mutate(setting = "Primary care - MRI")
+) |>
+  mutate(description = strip_semantic_tag(description))
 
-#### Identifying the most frequently used ICD-10 codes
-
-Using the [ICD-10 Chapter XIX](https://www.opencodelists.org/codelist/opensafely/icd-10-chapter-xix/4dce479b/) codelist (injury, poisoning, and certain other consequences of external causes), we identified the three most frequently used codes since 2014 and plotted their usage over time.
-The results highlight a relatively stable pattern for the most used code *Fracture of neck of femur* (S720), an increase in usage for *Poisoning: 4-Aminophenol derivatives* (T391) up until March 2020 and a decrease in code usage of *Superficial injury of other parts of head* (S008) from March 2022 onwards, see @fig-top-icd10.
-
-```{r}
-#| label: fig-top-icd10
-#| echo: true
-#| fig-cap: "Trends over time in usage of the three most common ICD-10 Chapter XIX codes."
-#| fig-width: 9
-#| fig-height: 5.5
-# Load packages
-library(dplyr)
-library(ggplot2)
-library(scales)
-library(opencodecounts)
-
-# Get codelist from OpenCodelists.org
-icd10_xix_codelist <- get_codelist(
-  "https://www.opencodelists.org/codelist/opensafely/icd-10-chapter-xix/4dce479b/"
-)
-
-# Filter ICD-10 code usage to only include
-#  1. codes from icd10_xix_codelist
-#  2. code usage data from 2014 onwards
-df_icd10_xix <- icd10_usage |>
-  filter(icd10_code %in% icd10_xix_codelist$code) |>
-  filter(start_date >= "2014-03-31")
-
-# Select 3 most frequently used codes
-top3_icd10_xix_codes <- df_icd10_xix |>
-  group_by(icd10_code, description) |>
-  summarise(total_usage = sum(usage)) |>
-  ungroup() |>
-  slice_max(total_usage, n = 3) |>
-  pull(icd10_code)
-
-# Visualise trends over time for the 3 selected codes
-df_icd10_xix |>
-  filter(icd10_code %in% top3_icd10_xix_codes) |>
-  ggplot(aes(
-    x = end_date, y = usage,
-    colour = paste0(description, " (", icd10_code, ")"),
-    shape = paste0(description, " (", icd10_code, ")")
-  )) +
+# Visualise trends over time by care setting
+df_biopsy_mri |>
+  ggplot(aes(x = end_date, y = usage,
+             colour = description, shape = description)) +
+  geom_vline(xintercept = date_nice_ng131,
+             linetype = "dashed", colour = "grey60") +
   geom_line(alpha = .3) +
   geom_point() +
-  scale_y_continuous(labels = label_number(accuracy = 1)) +
-  scale_x_date(breaks = unique(df_icd10_xix$end_date), date_labels = "%b\n%Y") +
-  scale_colour_viridis_d(end = .7) +
-  labs(x = "End date of yearly interval", y = "Usage count",
+  facet_wrap(~setting) +
+  scale_x_date(date_breaks = "4 years", date_labels = "%b\n%Y") +
+  scale_y_continuous(labels = label_number(accuracy = 1), limits = c(0, NA)) +
+  scale_colour_viridis_d(end = .75) +
+  labs(x = "End date of annual reporting period", y = "Code usage",
+       colour = NULL, shape = NULL) +
+  theme(legend.position = "bottom") +
+  guides(colour = guide_legend(nrow = 2), shape = guide_legend(nrow = 2))
+```
+
+#### Age-specific trends in hospital biopsy procedures
+
+The breakdown datasets allow these trends to be examined by sex and age group without any patient-level data.
+@fig-biopsy-age shows the annual OPCS-4 coding activity for prostate biopsy procedures broken down by age group, with the shift from rectal to perineal biopsy procedures visible across all age groups.
+
+```{r}
+#| label: fig-biopsy-age
+#| echo: true
+#| fig-cap: "Trends in hospital admitted care procedures for prostate biopsy by age group. The dashed line marks the publication of the NICE guideline NG131 in May 2019."
+#| fig-width: 9
+#| fig-height: 8
+# Get OPCS-4 code usage for prostate biopsy procedures by age group
+df_biopsy_age <- opcs4_usage_breakdowns |>
+  filter(opcs4_code %in% codes_opcs4_biopsy) |>
+  filter(str_detect(breakdown, "^age_(4[5-9]|[5-8][0-9])")) |>
+  mutate(age_group = str_replace(breakdown, "^age_(\\d+)_(\\d+)$", "Age \\1 - \\2"))
+
+# Visualise trends over time by age group
+df_biopsy_age |>
+  ggplot(aes(x = end_date, y = usage,
+             colour = description, shape = description)) +
+  geom_vline(xintercept = date_nice_ng131,
+             linetype = "dashed", colour = "grey60") +
+  geom_line(alpha = .3) +
+  geom_point() +
+  facet_wrap(~age_group, ncol = 3) +
+  scale_x_date(date_breaks = "4 years", date_labels = "%b\n%Y") +
+  scale_y_continuous(labels = label_number(accuracy = 1), limits = c(0, NA)) +
+  scale_colour_viridis_d(end = .75) +
+  labs(x = "End date of annual reporting period", y = "Code usage",
        colour = NULL, shape = NULL) +
   theme(legend.position = "bottom")
 ```
@@ -493,7 +534,8 @@ Identifying when certain codes began to be used via the *OpenCodeCounts* can pro
 
 Our tools only use a proportion of publicly available data.
 For example, OPCS-4 and ICD-10 code counts only use data from admitted patient care statistics, which do not capture hospital outpatient services.
-NHS publications also provide breakdowns by sex and age, which could be informative, but come at the cost of increasing the package size and reducing processing speeds.
+The breakdowns by sex and age published for the hospital data are provided as separate datasets, so that the main datasets remain small and fast to work with.
+No equivalent breakdowns are published for the primary care SNOMED CT data.
 However, the constraints of including the data in an R package are balanced by making it readily available for analysis in an open-access environment and a language commonly used for EHR research.
 
 Clinical coding has been increasing over the years, and the reasons for that are currently unclear.
@@ -519,23 +561,23 @@ YB is funded by an individual fellowship from the Peter Bennett Foundation.
 
 ## Competing Interests Statement
 
-BMK is also employed by NHS England working on medicines policy and clinical lead for primary care medicines data.
+BG has received research funding from the Bennett Foundation, the Laura and John Arnold Foundation, the NHS National Institute for Health Research (NIHR), the NIHR School of Primary Care Research, NHS England, the NIHR Oxford Biomedical Research Centre, the Mohn-Westlake Foundation, NIHR Applied Research Collaboration Oxford and Thames Valley, the Wellcome Trust, the Good Thinking Foundation, Health Data Research UK, the Health Foundation, the World Health Organisation, UKRI MRC, Asthma UK, the British Lung Foundation, and the Longitudinal Health and Wellbeing strand of the National Core Studies programme; he has previously been a Non-Executive Director at NHS Digital; he also receives personal income from speaking and writing for lay audiences on the misuse of science.
 Other authors declare no competing interests.
 
 ## Authors contributions
 
-Conceptualization: AAT, RH, BMK, HJC, LF, MW.\
+Conceptualization: AAT, RH, BMK, HJC, LF, BG, MW.\
 Data curation: AAT, VK, LO, KO, LF, MW.\
-Formal Analysis: AAT, YB, MW.\
-Funding acquisition: RH, AS, AG, WH, BMK, HJC.\
+Formal Analysis: AAT, YB, KKC, KP, MW.\
+Funding acquisition: RH, AS, AG, WH, BMK, HJC, BG.\
 Methodology: AAT, RH, BMK, HJC, LF, MW.\
-Codelists (subset of methodology): RH, YB.\
+Codelists (subset of methodology): RH, YB, KKC.\
 Project administration: AAT, RH, MW.\
-Software: AAT, RH, VK, LO, KO, LF, MW.\
+Software: AAT, RH, VK, LO, KP, KO, LF, MW.\
 Supervision: HJC, MW\
 Validation: AAT, RH, YB, VK, AS, WH, BMK, HJC, MW\
-Visualization: AAT, RH, MW\
-Writing -- original draft: AAT, YB, MW\
-Writing -- review & editing: AAT, RH, YB, VK, LO, KO, JM, AS, AG, WH, BMK, HJC, LF, MW
+Visualization: AAT, RH, KKC, MW\
+Writing -- original draft: AAT, YB, KKC, MW\
+Writing -- review & editing: AAT, RH, YB, KKC, VK, LO, KP, KO, JM, AS, AG, WH, BMK, HJC, LF, MW, BG.
 
 ## References

@@ -11,3 +11,10 @@
 ^rsconnect$
 ^doc$
 ^Meta$
+publish/
+^vignettes/.*\.html$
+^vignettes/.*\.pdf$
+^vignettes/.*\.md$
+^vignettes/.*\.docx$
+^vignettes/_publish_ids\.yml$
+justfile

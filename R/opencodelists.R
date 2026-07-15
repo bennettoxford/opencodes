@@ -65,7 +65,11 @@ get_codelist_organisation <- function(codelist_slug) {
 #' @export
 #' @examples
 #' # Get the 'cpeptide_cod' codelist from OpenCodelists.org
-#' cpeptide_cod <- get_codelist("https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/cpeptide_cod/20200812/")
+#' codelist_url <- paste0(
+#'   "https://www.opencodelists.org/codelist/",
+#'   "nhsd-primary-care-domain-refsets/cpeptide_cod/20200812/"
+#' )
+#' cpeptide_cod <- get_codelist(codelist_url)
 #'
 #' # Return all codes
 #' cpeptide_cod$code

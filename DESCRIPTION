@@ -28,6 +28,7 @@ Depends:
 LazyData: true
 LazyDataCompression: bzip2
 Suggests:
+    gt,
     knitr,
     quarto,
     rmarkdown,
@@ -42,7 +43,6 @@ Imports:
     dplyr,
     DT,
     ggplot2,
-    gt,
     here,
     httr2,
     lubridate,

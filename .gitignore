@@ -12,3 +12,8 @@ opencodecounts.Rproj
 /.quarto/
 README.html
 **/*.quarto_ipynb
+vignettes/*.html
+vignettes/*.pdf
+vignettes/*.md
+vignettes/*.docx
+vignettes/_publish_ids.yml
