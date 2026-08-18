@@ -26,6 +26,7 @@ Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 4.1)
 Suggests:
+    gt,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
@@ -41,7 +42,6 @@ Imports:
     dplyr,
     DT,
     ggplot2,
-    gt,
     here,
     httr2,
     jsonlite,

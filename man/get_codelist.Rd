@@ -14,7 +14,8 @@ Get codelist from \href{https://www.opencodelists.org}{OpenCodelists}
 }
 \examples{
 # Get the 'cpeptide_cod' codelist from OpenCodelists.org
-cpeptide_cod <- get_codelist("https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/cpeptide_cod/20200812/")
+cpeptide_slug <- "nhsd-primary-care-domain-refsets/cpeptide_cod/20200812"
+cpeptide_cod <- get_codelist(paste0("https://www.opencodelists.org/codelist/", cpeptide_slug))
 
 # Return all codes
 cpeptide_cod$code
