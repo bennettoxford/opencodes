@@ -45,13 +45,13 @@ pak::pak("bennettoxford/opencodecounts")
 
 ## Available datasets
 
-| Function | Source | First period | Last period | Tidy data |
-|:---|:---|---:|---:|:---|
-| `get_snomed_usage()` | [Code Usage in Primary Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care) | 2011-08-01 | 2025-07-31 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
-| `get_icd10_usage()` | [Hospital Admitted Patient Care Activity](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity) | 2012-04-01 | 2025-03-31 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
-| `get_icd10_usage_breakdowns()` | [Hospital Admitted Patient Care Activity](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity) | 2012-04-01 | 2025-03-31 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
-| `get_opcs4_usage()` | [Hospital Admitted Patient Care Activity](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity) | 2012-04-01 | 2025-03-31 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
-| `get_opcs4_usage_breakdowns()` | [Hospital Admitted Patient Care Activity](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity) | 2012-04-01 | 2025-03-31 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
+| Function | First period | Last period | Version | Tidy data |
+|:---|---:|---:|---:|:---|
+| `get_snomed_usage()` | 2011-08-01 | 2025-07-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
+| `get_icd10_usage()` | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
+| `get_icd10_usage_breakdowns()` | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
+| `get_opcs4_usage()` | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
+| `get_opcs4_usage_breakdowns()` | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
 
 ## For developers
 
