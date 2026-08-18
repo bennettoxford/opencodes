@@ -5,7 +5,7 @@
 #' @keywords internal
 plot_summary <- function(data) {
   scale_x_date_breaks <- unique(data$end_date)
-  
+
   ggplot(
     data,
     aes(x = end_date, y = total_usage)
@@ -17,15 +17,21 @@ plot_summary <- function(data) {
     geom_point(
       colour = "#239b89ff",
       size = 2,
-      aes(text = paste0(
-        "<b>Timeframe:</b> ",
-        lubridate::month(start_date, label = TRUE), " ",
-        lubridate::year(start_date), " to ",
-        lubridate::month(end_date, label = TRUE), " ",
-        lubridate::year(end_date),
-        "<br>",
-        "<b>Code usage:</b> ", scales::comma(total_usage)
-      ))
+      aes(
+        text = paste0(
+          "<b>Timeframe:</b> ",
+          lubridate::month(start_date, label = TRUE),
+          " ",
+          lubridate::year(start_date),
+          " to ",
+          lubridate::month(end_date, label = TRUE),
+          " ",
+          lubridate::year(end_date),
+          "<br>",
+          "<b>Code usage:</b> ",
+          scales::comma(total_usage)
+        )
+      )
     ) +
     scale_x_date(
       breaks = scale_x_date_breaks,
@@ -48,7 +54,7 @@ plot_summary <- function(data) {
 #' @keywords internal
 plot_individual <- function(data) {
   scale_x_date_breaks <- unique(data$end_date)
-  
+
   data <- data |>
     group_by(start_date, end_date) |>
     mutate(annual_proportion = usage / sum(usage, na.rm = TRUE)) |>
@@ -65,18 +71,30 @@ plot_individual <- function(data) {
     geom_line(alpha = .4) +
     geom_point(
       size = 2,
-      aes(text = paste0(
-        "<b>Timeframe:</b> ",
-        lubridate::month(start_date, label = TRUE), " ",
-        lubridate::year(start_date), " to ",
-        lubridate::month(end_date, label = TRUE), " ",
-        lubridate::year(end_date),
-        "<br>",
-        "<b>Code:</b> ", code, "<br>",
-        "<b>Description:</b> ", description, "<br>",
-        "<b>Code usage:</b> ", scales::comma(usage), "<br>",
-        "<b>Proportion of annual usage: </b>", scales::percent(annual_proportion, accuracy = 0.01)
-      ))
+      aes(
+        text = paste0(
+          "<b>Timeframe:</b> ",
+          lubridate::month(start_date, label = TRUE),
+          " ",
+          lubridate::year(start_date),
+          " to ",
+          lubridate::month(end_date, label = TRUE),
+          " ",
+          lubridate::year(end_date),
+          "<br>",
+          "<b>Code:</b> ",
+          code,
+          "<br>",
+          "<b>Description:</b> ",
+          description,
+          "<br>",
+          "<b>Code usage:</b> ",
+          scales::comma(usage),
+          "<br>",
+          "<b>Proportion of annual usage: </b>",
+          scales::percent(annual_proportion, accuracy = 0.01)
+        )
+      )
     ) +
     scale_x_date(
       breaks = scale_x_date_breaks,
@@ -106,9 +124,12 @@ plot_sparkline <- function(data) {
 
   plot_ly(data_spark, hoverinfo = "none") |>
     add_lines(
-      x = ~end_date, y = ~total_usage,
-      color = I("black"), span = I(1),
-      fill = "tozeroy", alpha = 0.2
+      x = ~end_date,
+      y = ~total_usage,
+      color = I("black"),
+      span = I(1),
+      fill = "tozeroy",
+      alpha = 0.2
     ) |>
     layout(
       xaxis = list(visible = F, showgrid = F, title = ""),

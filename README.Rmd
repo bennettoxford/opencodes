@@ -11,6 +11,12 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+# Load the package from source (not the installed version) so the datasets
+# table below always reflects the current working tree - this also means
+# README.Rmd renders standalone (e.g. via the IDE's Preview/Render button),
+# not just through `just render-readme`.
+devtools::load_all(quiet = TRUE)
 ```
 
 # opencodecounts
@@ -41,9 +47,34 @@ pak::pak("bennettoxford/opencodecounts")
 - [How to extract semantic tags from SNOMED CT descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html)
 - [Learn about the available datasets](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html)
 
-## Data sources
+## Available datasets
 
-The original data is available from NHS Digital at:
+```{r datasets-table, echo = FALSE, message = FALSE}
+snomed_source <- "[Code Usage in Primary Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care)"
+hes_source <- "[Hospital Admitted Patient Care Activity](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity)"
 
-- [SNOMED Code Usage in Primary Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care)
-- [ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity)
+dataset_info <- list(
+  list(id = "snomed_usage", fn = "get_snomed_usage()", source = snomed_source, data = get_snomed_usage()),
+  list(id = "icd10_usage", fn = "get_icd10_usage()", source = hes_source, data = get_icd10_usage()),
+  list(id = "icd10_usage_breakdowns", fn = "get_icd10_usage_breakdowns()", source = hes_source, data = get_icd10_usage_breakdowns()),
+  list(id = "opcs4_usage", fn = "get_opcs4_usage()", source = hes_source, data = get_opcs4_usage()),
+  list(id = "opcs4_usage_breakdowns", fn = "get_opcs4_usage_breakdowns()", source = hes_source, data = get_opcs4_usage_breakdowns())
+)
+
+tidy_sources <- load_tidy_sources_config()
+
+purrr::map_dfr(dataset_info, function(d) {
+  tibble::tibble(
+    Function = paste0("`", d$fn, "`"),
+    Source = d$source,
+    `First period` = format(min(d$data$start_date), "%Y-%m-%d"),
+    `Last period` = format(max(d$data$end_date), "%Y-%m-%d"),
+    `Tidy data` = paste0("[Download](", tidy_sources[[d$id]]$url, ")")
+  )
+}) |>
+  knitr::kable(align = c("l", "l", "r", "r", "l"))
+```
+
+## For developers
+
+See [DEVELOPERS.md](DEVELOPERS.md).

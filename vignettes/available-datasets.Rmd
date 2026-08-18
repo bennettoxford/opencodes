@@ -37,7 +37,7 @@ This is only a selection of the full dataset published by NHS Digital, for data 
 
 ```{r snomed-usage}
 # Return SNOMED code usage data
-snomed_usage
+get_snomed_usage()
 ```
 
 ## ICD-10 code usage in inpatient admissions in England
@@ -46,11 +46,11 @@ ICD-10 is a global classification system, containing 18,000 diagnoses coded as f
 
 Activity in HES-APC is captured in episodes of care under one consultant, known as Finished Consultant Episodes (FCEs). Each FCE can be assigned up to 20 clinical diagnoses (ICD-10 codes). The usage count for ICD-10 codes equals the number of FCEs with a specific four-character ICD-10 code recorded in any diagnostic position. This means that each diagnoses can be counted only once per FCE. To be included in the dataset, each diagnosis code must have been used at least once across the selected years. The counts in HES-APC are not rounded and codes with no usage are excluded.
 
-This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/icd10_usage.R`.
+This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/icd10_code_usage.R`.
 
 ```{r icd10-usage}
 # Return ICD-10 code usage data
-icd10_usage
+get_icd10_usage()
 ```
 
 ## OPCS-4 code usage in inpatient admissions in England
@@ -59,9 +59,9 @@ OPCS-4 consists of 11,500 four-letter alphanumeric codes and was developed by NH
 
 Activity in HES-APC is captured in episodes of care under one consultant, known as Finished Consultant Episodes (FCEs). Each FCE can be assigned up to 24 procedures (OPCS-4 codes). The usage count for the OPCS-4 codes equals the number of times each 4-character OPCS-4 code is listed across all FCEs in a given year. This means that unlike diagnoses, a procedure can be counted multiple times within one FCE. To be included in the dataset, each procedure code must have been used at least once across the selected years. The counts in HES-APC are not rounded and codes with no usage are excluded.
 
-This is only a selection of the full dataset published by NHS Digital, for the data pre-processing see `/data-raw/opcs4_usage.R`.
+This is only a selection of the full dataset published by NHS Digital, for the data pre-processing see `/data-raw/opcs4_code_usage.R`.
 
 ```{r opcs-4-usage}
 # Return OPCS-4 code usage data
-opcs4_usage
+get_opcs4_usage()
 ```

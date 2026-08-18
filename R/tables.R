@@ -2,7 +2,8 @@
 #' @importFrom DT datatable formatPercentage formatStyle styleEqual
 #' @keywords internal
 datatable_usage <- function(data) {
-  datatable(data,
+  datatable(
+    data,
     colnames = c("Code", "Description", "Usage", "Percentage"),
     rownames = FALSE,
     options = list(
@@ -41,7 +42,9 @@ datatable_codelist <- function(data, data_desc) {
         list(width = "400px", targets = 1),
         list(width = "100px", targets = 2)
       ),
-      language = list(emptyTable = "No codes selected, please select codes or load a codelist."),
+      language = list(
+        emptyTable = "No codes selected, please select codes or load a codelist."
+      ),
       order = list(list(2, "desc")),
       pageLength = 10,
       scrollY = FALSE,

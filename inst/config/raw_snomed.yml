@@ -1,0 +1,30 @@
+# Where to find each year of the "SNOMED Code Usage in Primary Care" file
+# on NHS Digital's website.
+#
+# Only read when rebuilding the data (data-raw/snomed_code_usage.R). Not
+# used when someone just downloads the finished dataset - that's
+# inst/config/tidy_data_sources.yml instead.
+#
+# Each year is labelled e.g. "2024to2025" - a label we made up ourselves,
+# not something NHS Digital provides.
+#
+# To add a new year: add one entry under `periods:` below. You shouldn't
+# need to change any R code, unless NHS Digital has changed how the file
+# is laid out.
+
+periods:
+  2024to2025: https://files.digital.nhs.uk/9F/527A2C/SNOMED_code_usage_2024-25.txt
+  2023to2024: https://files.digital.nhs.uk/B8/7D8335/SNOMED_code_usage_2023-24.txt
+  2022to2023: https://files.digital.nhs.uk/09/E1218D/SNOMED_code_usage_2022-23.txt
+  2021to2022: https://files.digital.nhs.uk/71/6C02F5/SNOMED_code_usage_2021-22.txt
+  2020to2021: https://files.digital.nhs.uk/8A/09BBE6/SNOMED_code_usage_2020-21.txt
+  2019to2020: https://files.digital.nhs.uk/8F/882EB3/SNOMED_code_usage_2019-20.txt
+  2018to2019: https://files.digital.nhs.uk/13/F2956B/SNOMED_code_usage_2018-19.txt
+  2017to2018: https://files.digital.nhs.uk/9F/024949/SNOMED_code_usage_2017-18.txt
+  2016to2017: https://files.digital.nhs.uk/E2/79561E/SNOMED_code_usage_2016-17.txt
+  2015to2016: https://files.digital.nhs.uk/8B/15EAA1/SNOMED_code_usage_2015-16.txt
+  2014to2015: https://files.digital.nhs.uk/BB/47E566/SNOMED_code_usage_2014-15.txt
+  2013to2014: https://files.digital.nhs.uk/82/40F702/SNOMED_code_usage_2013-14.txt
+  2012to2013: https://files.digital.nhs.uk/69/866A44/SNOMED_code_usage_2012-13.txt
+  2011to2012: https://files.digital.nhs.uk/53/C8F877/SNOMED_code_usage_2011-12.txt
+

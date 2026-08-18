@@ -1,0 +1,122 @@
+# Where to find each year of the "ICD-10 (Hospital Admitted Patient Care
+# Activity)" file on NHS Digital's website. Both icd10_usage and
+# icd10_usage_breakdowns come from this same yearly file - they just read
+# different parts of it - so they share this one list instead of repeating
+# the same web address twice.
+#
+# Only read when rebuilding the data (data-raw/icd10_code_usage.R and
+# data-raw/icd10_usage_breakdowns.R). Not used when someone just downloads
+# the finished dataset - that's inst/config/tidy_data_sources.yml instead.
+#
+# Each year is labelled e.g. "2024to2025" - a label we made up ourselves,
+# not something NHS Digital provides.
+#
+# To add a new year: add one entry under `periods:` below. You shouldn't
+# need to change any R code, unless NHS Digital has changed how the file
+# is laid out.
+
+periods:
+  2024to2025:
+    url: https://files.digital.nhs.uk/CC/EA025D/hosp-epis-stat-admi-diag-2024-25-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11359
+  2023to2024:
+    url: https://files.digital.nhs.uk/A5/5B8474/hosp-epis-stat-admi-diag-2023-24-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11359
+  2022to2023:
+    url: https://files.digital.nhs.uk/7A/DB1B00/hosp-epis-stat-admi-diag-2022-23-tab_V2.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11337
+  2021to2022:
+    url: https://files.digital.nhs.uk/0E/E70963/hosp-epis-stat-admi-diag-2021-22-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11341
+  2020to2021:
+    url: https://files.digital.nhs.uk/5B/AD892C/hosp-epis-stat-admi-diag-2020-21-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11218
+  2019to2020:
+    url: https://files.digital.nhs.uk/37/8D9781/hosp-epis-stat-admi-diag-2019-20-tab%20supp.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11390
+  2018to2019:
+    url: https://files.digital.nhs.uk/1C/B2AD9B/hosp-epis-stat-admi-diag-2018-19-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11392
+  2017to2018:
+    url: https://files.digital.nhs.uk/B2/5CEC8D/hosp-epis-stat-admi-diag-2017-18-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11386
+  2016to2017:
+    url: https://files.digital.nhs.uk/publication/7/d/hosp-epis-stat-admi-diag-2016-17-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11418
+  2015to2016:
+    url: https://files.digital.nhs.uk/publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-diag-2015-16-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11353
+  2014to2015:
+    url: https://files.digital.nhs.uk/publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-diag-2014-15-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 12
+      usage_col: 8
+    breakdowns:
+      range: A11:AK11345
+  2013to2014:
+    url: https://files.digital.nhs.uk/publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-diag-2013-14-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 18
+      usage_col: 3
+    breakdowns:
+      range: A17:AF11357
+  2012to2013:
+    url: https://files.digital.nhs.uk/publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-diag-2012-13-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 19
+      usage_col: 3
+    breakdowns:
+      range: A18:AF11400

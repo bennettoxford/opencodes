@@ -1,0 +1,41 @@
+# Controls what shows up in the Shiny app's "Select data" list, and how
+# each option behaves. To add a dataset to the app, add one entry here
+# pointing at a function that already exists (like get_snomed_usage) -
+# you don't need to edit any of the app's R code.
+#
+# This is different from the other two config files: this one is only
+# about what the app shows people. inst/config/tidy_data_sources.yml is
+# about where to download data from, and inst/config/raw_<name>.yml is
+# about where the original NHS Digital files live.
+#
+# icd10_usage_breakdowns and opcs4_usage_breakdowns exist and can be
+# downloaded (via get_icd10_usage_breakdowns()/get_opcs4_usage_breakdowns())
+# but aren't listed here, so they don't show up in the app.
+datasets:
+  snomedct:
+    label: "General practice (SNOMED CT)"
+    get_function: "get_snomed_usage"
+    code_column: "snomed_code"
+    description_column: "description"
+    has_code_pattern_search: false
+    code_pattern_label: ~
+    source_label: "SNOMED Code Usage in Primary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care"
+  icd10:
+    label: "Hospital admissions (ICD-10)"
+    get_function: "get_icd10_usage"
+    code_column: "icd10_code"
+    description_column: "description"
+    has_code_pattern_search: true
+    code_pattern_label: "ICD-10 category"
+    source_label: "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity"
+  opcs4:
+    label: "Hospital admissions (OPCS-4)"
+    get_function: "get_opcs4_usage"
+    code_column: "opcs4_code"
+    description_column: "description"
+    has_code_pattern_search: true
+    code_pattern_label: "OPCS-4 category"
+    source_label: "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity"

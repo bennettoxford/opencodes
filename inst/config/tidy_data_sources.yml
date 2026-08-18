@@ -1,0 +1,44 @@
+# This file tells the R package where to download each ready-to-use dataset
+# from. Every dataset has a list of versions, newest first - the newest one
+# is what people get when they run get_snomed_usage() etc without asking for
+# a specific version.
+#
+# The download link for a release is always:
+# https://github.com/bennettoxford/opencodecounts/releases/download/{tag}/{dataset}.parquet
+# where {tag} is {dataset name with dashes instead of underscores}-v{version},
+# e.g. version 0.1.0 of snomed_usage has the tag "snomed-usage-v0.1.0".
+#
+# To publish a new version of a dataset:
+#   1. Get the new source file listed in the matching
+#      inst/config/raw_<name>.yml file, then run the matching
+#      data-raw/<dataset>.R script (or `just build-data` to rebuild
+#      everything)
+#   2. Add a new entry at the top of that dataset's list below (keep the
+#      older ones underneath - the top one is always the default)
+#   3. Run `just release <dataset> <version>` to publish it on GitHub
+#   4. Double check the url below matches the one on the GitHub release page
+#
+# Version numbers are currently 0.1.0 for every dataset while the dataset
+# names and structure are still settling - expect these to bump again once
+# that's finalised.
+datasets:
+  snomed_usage:
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet"
+  icd10_usage:
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet"
+  icd10_usage_breakdowns:
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet"
+  opcs4_usage:
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet"
+  opcs4_usage_breakdowns:
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet"

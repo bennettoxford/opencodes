@@ -28,11 +28,7 @@ app_ui <- function(request) {
                   "SNOMED CT (Systematized Nomenclature of Medicine Clinical Terms); ICD-10 (International Classification of Diseases); OPCS-4 Classification of Interventions and Procedures",
                   options = list(customClass = "left-align-tooltip")
                 ),
-                choices = c(
-                  "General practice (SNOMED CT)" = "snomedct",
-                  "Hospital admissions (ICD-10)" = "icd10",
-                  "Hospital admissions (OPCS-4)" = "opcs4"
-                )
+                choices = dataset_choices()
               ),
               uiOutput("dynamic_date_slider")
             ),
@@ -71,10 +67,7 @@ app_ui <- function(request) {
                       )
                     )
                   ),
-                  conditionalPanel(
-                    condition = "input.dataset == 'icd10' || input.dataset == 'opcs4'",
-                    uiOutput("dynamic_code_pattern_input")
-                  )
+                  uiOutput("dynamic_code_pattern_input")
                 ),
                 nav_panel(
                   "Load OpenCodelist",
@@ -173,19 +166,17 @@ app_ui <- function(request) {
               card_header("Data sources"),
               p("The original data is available from NHS Digital at:"),
               tags$ul(
-                tags$li(
-                  a(
-                    "SNOMED Code Usage in Primary Care",
-                    href = "https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care",
-                    target = "_blank"
-                  )
-                ),
-                tags$li(
-                  a(
-                    "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care",
-                    href = "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity",
-                    target = "_blank"
-                  )
+                lapply(
+                  unique(lapply(load_dataset_registry(), \(d) {
+                    list(d$source_label, d$source_url)
+                  })),
+                  \(source) {
+                    tags$li(a(
+                      source[[1]],
+                      href = source[[2]],
+                      target = "_blank"
+                    ))
+                  }
                 )
               )
             )

@@ -22,8 +22,16 @@ app_server <- function(input, output, session) {
   # Reset search inputs when dataset changes
   observe({
     rv_search_method("none")
-    updateSelectizeInput(session, "code_specific_search", selected = character(0))
-    updateSelectizeInput(session, "code_pattern_search", selected = character(0))
+    updateSelectizeInput(
+      session,
+      "code_specific_search",
+      selected = character(0)
+    )
+    updateSelectizeInput(
+      session,
+      "code_pattern_search",
+      selected = character(0)
+    )
     updateTextInput(session, "description_search", value = "")
   }) |>
     bindEvent(input$dataset)
@@ -32,16 +40,17 @@ app_server <- function(input, output, session) {
   selected_data <- reactive({
     updateCheckboxInput(session, "show_individual_codes", value = FALSE)
 
-    if (input$dataset == "snomedct") {
-      opencodecounts::snomed_usage |>
-        select(start_date, end_date, code = snomed_code, description, usage)
-    } else if (input$dataset == "icd10") {
-      opencodecounts::icd10_usage |>
-        select(start_date, end_date, code = icd10_code, description, usage)
-    } else if (input$dataset == "opcs4") {
-      opencodecounts::opcs4_usage |>
-        select(start_date, end_date, code = opcs4_code, description, usage)
-    }
+    dataset_cfg <- get_dataset_by_id(input$dataset)
+    get_fn <- getExportedValue("opencodecounts", dataset_cfg$get_function)
+
+    get_fn() |>
+      select(
+        start_date,
+        end_date,
+        code = all_of(dataset_cfg$code_column),
+        description = all_of(dataset_cfg$description_column),
+        usage
+      )
   })
 
   output$dynamic_date_slider <- renderUI({
@@ -67,19 +76,14 @@ app_server <- function(input, output, session) {
 
   output$dynamic_code_pattern_input <- renderUI({
     req(input$dataset)
-    label_text <- if (input$dataset == "icd10") {
-      "ICD-10 category"
-    } else if (input$dataset == "opcs4") {
-      "OPCS-4 category"
-    } else {
-      NULL
-    }
+    dataset_cfg <- get_dataset_by_id(input$dataset)
+    req(dataset_cfg$has_code_pattern_search)
 
     textInput(
       "code_pattern_search",
       tooltip(
         span(
-          label_text,
+          dataset_cfg$code_pattern_label,
           bs_icon("info-circle")
         ),
         "Enter the beginning of a code to search by chapter or subchapter. Multiple chapters can be combined using '|'.",
@@ -91,7 +95,8 @@ app_server <- function(input, output, session) {
   # Update code search choices depending on selected dataset
   observe({
     updateSelectizeInput(
-      session, "code_specific_search",
+      session,
+      "code_specific_search",
       choices = unique(selected_data()$code),
       server = TRUE
     )
@@ -108,25 +113,41 @@ app_server <- function(input, output, session) {
 
           if (codelist_s7@coding_system == input$dataset) {
             showNotification(
-              paste0("Successfully loaded ", codelist_s7@coding_system, " codelist."),
+              paste0(
+                "Successfully loaded ",
+                codelist_s7@coding_system,
+                " codelist."
+              ),
               type = "default"
             )
 
             # Store the codelist data
-            rv_codelist(codelist_s7 |>
-              tibble::as_tibble() |>
-              dplyr::select(1:2))
+            rv_codelist(
+              codelist_s7 |>
+                tibble::as_tibble() |>
+                dplyr::select(1:2)
+            )
 
             # Set filtering method to codelist
             rv_search_method("codelist")
 
             # Reset search inputs
-            updateSelectizeInput(session, "code_specific_search", selected = character(0))
+            updateSelectizeInput(
+              session,
+              "code_specific_search",
+              selected = character(0)
+            )
             updateTextInput(session, "code_pattern_search", value = "")
             updateTextInput(session, "description_search", value = "")
           } else {
             showNotification(
-              paste0("Loaded codelist (", codelist_s7@coding_system, ") does not match selected data (", input$dataset, ")."),
+              paste0(
+                "Loaded codelist (",
+                codelist_s7@coding_system,
+                ") does not match selected data (",
+                input$dataset,
+                ")."
+              ),
               type = "error"
             )
           }
@@ -148,7 +169,11 @@ app_server <- function(input, output, session) {
     rv_codelist(NULL)
     rv_search_method("none")
     updateCheckboxInput(session, "show_individual_codes", value = FALSE)
-    updateSelectizeInput(session, "code_specific_search", selected = character(0))
+    updateSelectizeInput(
+      session,
+      "code_specific_search",
+      selected = character(0)
+    )
     updateTextInput(session, "code_pattern_search", value = "")
     updateTextInput(session, "description_search", value = "")
     updateTextInput(session, "codelist_url", value = "")
@@ -157,29 +182,44 @@ app_server <- function(input, output, session) {
     bindEvent(input$reset_search_methods)
 
   # Create a debounced version of the description search input
-  # Currently 500 milliseconds (0.5 seconds) delay 
-  description_search_debounced <- reactive(input$description_search) |> 
+  # Currently 500 milliseconds (0.5 seconds) delay
+  description_search_debounced <- reactive(input$description_search) |>
     debounce(500)
-  
+
   # Set filtering method to search when search inputs change
   observe({
     # If a codelist is loaded AND the user is not entering a new search, do nothing
-    if (rv_search_method() == "codelist" &&
-      (is.null(input$code_specific_search) || length(input$code_specific_search) == 0) &&
-      (is.null(input$code_pattern_search) || input$code_pattern_search == "") &&
-      (is.null(description_search_debounced()) || description_search_debounced() == "")) {
+    if (
+      rv_search_method() == "codelist" &&
+        (is.null(input$code_specific_search) ||
+          length(input$code_specific_search) == 0) &&
+        (is.null(input$code_pattern_search) ||
+          input$code_pattern_search == "") &&
+        (is.null(description_search_debounced()) ||
+          description_search_debounced() == "")
+    ) {
       return()
     }
 
     # If any search input is used, switch to "search"
-    if (!is.null(input$code_specific_search) && length(input$code_specific_search) > 0 ||
-      !is.null(input$code_pattern_search) && input$code_pattern_search != "" ||
-      !is.null(description_search_debounced()) && description_search_debounced() != "") {
+    if (
+      !is.null(input$code_specific_search) &&
+        length(input$code_specific_search) > 0 ||
+        !is.null(input$code_pattern_search) &&
+          input$code_pattern_search != "" ||
+        !is.null(description_search_debounced()) &&
+          description_search_debounced() != ""
+    ) {
       rv_search_method("search")
     } else {
       rv_search_method("none")
     }
-  }) |> bindEvent(input$code_specific_search, input$code_pattern_search, description_search_debounced())
+  }) |>
+    bindEvent(
+      input$code_specific_search,
+      input$code_pattern_search,
+      description_search_debounced()
+    )
 
   # Filtered usage data
   filtered_data <- reactive({
@@ -189,23 +229,41 @@ app_server <- function(input, output, session) {
       data <- selected_data()
 
       data <- data |>
-        filter(end_date >= input$date_range[1] & end_date <= input$date_range[2])
+        filter(
+          end_date >= input$date_range[1] & end_date <= input$date_range[2]
+        )
 
       # Apply filters based on the current filtering method
       if (rv_search_method() == "search") {
-        if (!is.null(input$code_specific_search) && length(input$code_specific_search) > 0) {
+        if (
+          !is.null(input$code_specific_search) &&
+            length(input$code_specific_search) > 0
+        ) {
           data <- data |>
             filter(code %in% input$code_specific_search)
         }
 
-        if (!is.null(input$code_pattern_search) && input$code_pattern_search != "") {
+        if (
+          !is.null(input$code_pattern_search) && input$code_pattern_search != ""
+        ) {
           data <- data |>
-            filter(grepl(paste("^", input$code_pattern_search, sep = ""), code, ignore.case = TRUE))
+            filter(grepl(
+              paste("^", input$code_pattern_search, sep = ""),
+              code,
+              ignore.case = TRUE
+            ))
         }
 
-        if (!is.null(description_search_debounced()) && description_search_debounced() != "") {
+        if (
+          !is.null(description_search_debounced()) &&
+            description_search_debounced() != ""
+        ) {
           data <- data |>
-            filter(grepl(description_search_debounced(), description, ignore.case = TRUE))
+            filter(grepl(
+              description_search_debounced(),
+              description,
+              ignore.case = TRUE
+            ))
         }
       } else if (rv_search_method() == "codelist") {
         req(rv_codelist())
@@ -250,7 +308,10 @@ app_server <- function(input, output, session) {
       selected_codes <- tibble::tibble(
         code = character(0),
         description = character(0),
-        usage_data_available = factor(character(0), levels = c("Usage data available", "No usage data reported"))
+        usage_data_available = factor(
+          character(0),
+          levels = c("Usage data available", "No usage data reported")
+        )
       )
     } else if (rv_search_method() == "codelist") {
       # Get all codes with usage data
@@ -285,8 +346,10 @@ app_server <- function(input, output, session) {
       paste0(
         input$dataset,
         "_selected_codes_usage_",
-        "from_", min(filtered_data()$start_date),
-        "_to_", max(filtered_data()$end_date),
+        "from_",
+        min(filtered_data()$start_date),
+        "_to_",
+        max(filtered_data()$end_date),
         ".csv"
       )
     },
@@ -307,8 +370,10 @@ app_server <- function(input, output, session) {
       paste0(
         input$dataset,
         "_selected_codes_",
-        "from_", min(filtered_data()$start_date),
-        "_to_", max(filtered_data()$end_date),
+        "from_",
+        min(filtered_data()$start_date),
+        "_to_",
+        max(filtered_data()$end_date),
         ".csv"
       )
     },
@@ -319,7 +384,10 @@ app_server <- function(input, output, session) {
           tibble::tibble(
             code = character(0),
             description = character(0),
-            usage_data_available = factor(character(0), levels = c("Usage data available", "No usage data reported"))
+            usage_data_available = factor(
+              character(0),
+              levels = c("Usage data available", "No usage data reported")
+            )
           ),
           file
         )
@@ -328,7 +396,8 @@ app_server <- function(input, output, session) {
 
       selected_codes <- if (rv_search_method() == "codelist") {
         codes_with_usage_data <- filtered_data() |> pull(code)
-        rv_codelist() |> mutate(usage_data_available = code %in% codes_with_usage_data)
+        rv_codelist() |>
+          mutate(usage_data_available = code %in% codes_with_usage_data)
       } else if (rv_search_method() == "search") {
         filtered_data() |>
           select(code, description) |>
@@ -343,7 +412,6 @@ app_server <- function(input, output, session) {
   # PLOT: Trends over time
   output$usage_plot <- renderPlotly({
     withProgress(message = "Plotting data ...", {
-      
       # Check if filtered_data is empty
       # As a workaround we are adding a plot with text only if the
       # search criteria match no data. At some point in the future we
@@ -365,23 +433,25 @@ app_server <- function(input, output, session) {
             axis.line = element_blank(),
             panel.grid = element_blank()
           )
-        
-        return(ggplotly(p, tooltip = "text") |>
-                 plotly::config(displayModeBar = FALSE))
+
+        return(
+          ggplotly(p, tooltip = "text") |>
+            plotly::config(displayModeBar = FALSE)
+        )
       }
-      
+
       unique_codes <- length(unique(filtered_data()$code))
-      
-      # When there are 500 or less selected codes, impute 0 usage 
+
+      # When there are 500 or less selected codes, impute 0 usage
       # in the annual usage gaps. We do this because the absence of data for
-      # any particular year between two available years implies that the usage 
+      # any particular year between two available years implies that the usage
       # for that year is 0. However, the plots do not show zero but interpolate
       # a line between the two last available data points, which is misleading.
-      # We impute 0 usage in annual usage gaps in the summary plot 
+      # We impute 0 usage in annual usage gaps in the summary plot
       # when the number of selected codes is =< 500 and in the individual
       # codes plot (which, by default, can only be displayed with =< 500
       # selected codes). This cut-off was selected for efficiency, since if the user
-      # selects >500 codes, the imputation will take longer, but the total usage 
+      # selects >500 codes, the imputation will take longer, but the total usage
       # shown on the summary plot for any year is unlikely to be zero, making
       # imputation redundant.
       if (unique_codes <= 500) {

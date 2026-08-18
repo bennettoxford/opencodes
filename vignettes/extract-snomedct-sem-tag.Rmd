@@ -39,7 +39,7 @@ depscrn_cod <- get_codelist(
 )
 
 # Get data for both codelists and extract semantic tag
-depscrn_cod_usage <- snomed_usage |>
+depscrn_cod_usage <- get_snomed_usage() |>
   filter(snomed_code %in% c(depscrn_cod$code)) |>
   mutate(
     semantic_tag = extract_semantic_tag(description),

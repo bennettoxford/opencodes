@@ -11,3 +11,7 @@
 ^rsconnect$
 ^doc$
 ^Meta$
+tests/integration.R
+justfile
+DEVELOPERS.md
+^DEVELOPERS\.Rmd$
