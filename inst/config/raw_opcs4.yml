@@ -1,19 +1,4 @@
-# Where to find each year of the "OPCS-4 (Hospital Admitted Patient Care
-# Activity)" file on NHS Digital's website. Both opcs4_usage and
-# opcs4_usage_breakdowns come from this same yearly file - they just read
-# different parts of it - so they share this one list instead of repeating
-# the same web address twice.
-#
-# Only read when rebuilding the data (data-raw/opcs4_code_usage.R and
-# data-raw/opcs4_usage_breakdowns.R). Not used when someone just downloads
-# the finished dataset - that's inst/config/tidy_data_sources.yml instead.
-#
-# Each year is labelled e.g. "2024to2025" - a label we made up ourselves,
-# not something NHS Digital provides.
-#
-# To add a new year: add one entry under `periods:` below. You shouldn't
-# need to change any R code, unless NHS Digital has changed how the file
-# is laid out.
+# Links to "OPCS-4 (Hospital Admitted Patient Care Activity)" file on NHS Digital's website
 
 periods:
   2024to2025:
