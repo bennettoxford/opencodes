@@ -17,6 +17,6 @@ get_dataset_by_id(dataset_id)
 
 ## Value
 
-A list with `label`, `get_function`, `code_column`,
+A list with `label`, `dataset`, `get_function`, `code_column`,
 `description_column`, `has_code_pattern_search`, `code_pattern_label`,
 `source_label`, `source_url`
