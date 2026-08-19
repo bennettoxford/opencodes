@@ -2,6 +2,8 @@
 #'
 #' @export
 run_app <- function() {
+  ensure_app_datasets_cached()
+
   shiny::addResourcePath(
     "www",
     system.file("shiny/www", package = "opencodecounts")

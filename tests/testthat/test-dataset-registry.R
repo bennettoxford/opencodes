@@ -2,6 +2,7 @@ test_that("load_dataset_registry() parses the package's shiny_app_datasets.yml",
   registry <- load_dataset_registry()
 
   expect_named(registry, c("snomedct", "icd10", "opcs4"))
+  expect_equal(registry$snomedct$dataset, "snomed_usage")
   expect_equal(registry$snomedct$get_function, "get_snomed_usage")
 })
 
@@ -52,6 +53,18 @@ test_that("every registry entry's get_function is an exported opencodecounts fun
     get_fn_name <- registry[[dataset_id]]$get_function
     expect_true(
       exists(get_fn_name, where = asNamespace("opencodecounts"), inherits = FALSE),
+      info = dataset_id
+    )
+  }
+})
+
+test_that("every registry entry's dataset field is a known tidy_data_sources.yml dataset", {
+  registry <- load_dataset_registry()
+  known_datasets <- names(load_tidy_sources_config())
+
+  for (dataset_id in names(registry)) {
+    expect_true(
+      registry[[dataset_id]]$dataset %in% known_datasets,
       info = dataset_id
     )
   }

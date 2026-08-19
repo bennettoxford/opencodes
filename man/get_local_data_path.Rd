@@ -19,7 +19,12 @@ Character path, or \code{NULL} if no local copy exists
 \verb{inst/app-data/} before deploying the Shiny app, so the hosted app reads
 data straight off disk instead of downloading it on every cold start (see
 \code{copy_app_data_for_deploy()}). Local installs and package users never have
-this directory, so this returns \code{NULL} for them and \code{get_dataset()} falls
-back to the normal cache-and-download path.
+this directory, so this returns \code{NULL} for them.
+}
+\details{
+Only \code{get_app_dataset()} calls this. \code{get_dataset()} (and therefore every
+exported \verb{get_*()} accessor) never does, so a stray \verb{inst/app-data/}
+left over from a deploy cannot change what a package user's \verb{get_*()}
+call does: it always downloads and caches.
 }
 \keyword{internal}

@@ -38,7 +38,7 @@ dataset_choices <- function() {
 #'
 #' @param dataset_id String, dataset id as listed in `shiny_app_datasets.yml` (e.g. "snomedct")
 #'
-#' @return A list with `label`, `get_function`, `code_column`,
+#' @return A list with `label`, `dataset`, `get_function`, `code_column`,
 #'   `description_column`, `has_code_pattern_search`, `code_pattern_label`,
 #'   `source_label`, `source_url`
 #'

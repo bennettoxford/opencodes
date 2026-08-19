@@ -132,9 +132,8 @@ mod_sidebar_server <- function(id) {
     # Selected code usage dataset
     selected_data <- reactive({
       dataset_cfg <- get_dataset_by_id(input$dataset)
-      get_fn <- getExportedValue("opencodecounts", dataset_cfg$get_function)
 
-      get_fn() |>
+      get_app_dataset(dataset_cfg$dataset) |>
         select(
           start_date,
           end_date,
