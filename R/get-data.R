@@ -4,8 +4,12 @@
 #' `inst/app-data/` before deploying the Shiny app, so the hosted app reads
 #' data straight off disk instead of downloading it on every cold start (see
 #' `copy_app_data_for_deploy()`). Local installs and package users never have
-#' this directory, so this returns `NULL` for them and `get_dataset()` falls
-#' back to the normal cache-and-download path.
+#' this directory, so this returns `NULL` for them.
+#'
+#' Only `get_app_dataset()` calls this. `get_dataset()` (and therefore every
+#' exported `get_*()` accessor) never does, so a stray `inst/app-data/`
+#' left over from a deploy cannot change what a package user's `get_*()`
+#' call does: it always downloads and caches.
 #'
 #' @param dataset String, dataset name
 #' @param version String, dataset version
@@ -23,7 +27,49 @@ get_local_data_path <- function(dataset, version) {
   if (file.exists(path)) path else NULL
 }
 
+#' Make sure a dataset's parquet is in the cache, downloading it if not
+#'
+#' @param dataset String, dataset name as listed in `tidy_data_sources.yml`
+#' @param version String, dataset version, or `NULL` for the latest
+#'
+#' @return The resolved version string
+#'
+#' @keywords internal
+ensure_tidy_source_cached <- function(dataset, version = NULL) {
+  cfg <- get_tidy_source_config(dataset, version)
+
+  if (!tidy_source_cache_is_current(dataset, cfg$version)) {
+    download_tidy_source(dataset, cfg$url, cfg$version)
+  }
+
+  cfg$version
+}
+
 #' Get a dataset, downloading and caching it if necessary
+#'
+#' This is what every exported `get_*()` accessor calls, so it is the public
+#' contract package users rely on: always download-and-cache, regardless of
+#' what happens to be on disk. It deliberately never looks at
+#' `inst/app-data/` (see `get_app_dataset()` for the app's fast path).
+#'
+#' @param dataset String, dataset name as listed in `tidy_data_sources.yml`
+#' @param version String, dataset version, or `NULL` for the latest
+#'
+#' @return Tibble
+#'
+#' @keywords internal
+get_dataset <- function(dataset, version = NULL) {
+  resolved_version <- ensure_tidy_source_cached(dataset, version)
+  load_tidy_source(dataset, resolved_version)
+}
+
+#' Get a dataset for the Shiny app, preferring the bundled local copy
+#'
+#' Used only by the app's own dataset dispatch (`mod_sidebar.R`), never
+#' exposed to package users. Reads straight from `inst/app-data/` when the
+#' deployed app has one (see `get_local_data_path()`), otherwise falls back
+#' to `get_dataset()`'s normal download-and-cache path, so this also works
+#' for local development where `inst/app-data/` doesn't exist.
 #'
 #' @param dataset String, dataset name as listed in `tidy_data_sources.yml`
 #' @param version String, dataset version, or `NULL` for the latest
@@ -33,20 +79,39 @@ get_local_data_path <- function(dataset, version) {
 #' @importFrom arrow read_parquet
 #'
 #' @keywords internal
-get_dataset <- function(dataset, version = NULL) {
+get_app_dataset <- function(dataset, version = NULL) {
   cfg <- get_tidy_source_config(dataset, version)
-  resolved_version <- cfg$version
 
-  local_path <- get_local_data_path(dataset, resolved_version)
+  local_path <- get_local_data_path(dataset, cfg$version)
   if (!is.null(local_path)) {
     return(read_parquet(local_path))
   }
 
-  if (!tidy_source_cache_is_current(dataset, resolved_version)) {
-    download_tidy_source(dataset, cfg$url, resolved_version)
+  get_dataset(dataset, version)
+}
+
+#' Make sure every dataset the Shiny app can show is available before it starts
+#'
+#' Called once from `run_app()`. On the deployed app, every dataset is
+#' already bundled in `inst/app-data/`, so this is a no-op: no downloads, no
+#' parquet reads. In local development it downloads and caches whatever
+#' isn't already there, so picking a dataset from the "Select data" dropdown
+#' never stalls the UI on a first-time download once the app has started.
+#'
+#' @keywords internal
+ensure_app_datasets_cached <- function() {
+  registry <- load_dataset_registry()
+
+  for (dataset_cfg in registry) {
+    dataset <- dataset_cfg$dataset
+    cfg <- get_tidy_source_config(dataset)
+
+    if (is.null(get_local_data_path(dataset, cfg$version))) {
+      ensure_tidy_source_cached(dataset)
+    }
   }
 
-  load_tidy_source(dataset, resolved_version)
+  invisible(NULL)
 }
 
 #' Get yearly SNOMED CT code usage in primary care in England

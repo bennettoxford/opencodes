@@ -15,7 +15,10 @@ document:
     Rscript --quiet --vanilla -e 'devtools::document()'
 
 # Build and install package
+# inst/app-data/ is only meant to exist during `just deploy`.
+# If a previous deploy left it behind, remove it first: a plain.
 build:
+    rm -rf inst/app-data
     Rscript --quiet --vanilla -e 'pak::local_install()'
 
 # Rebuild all the datasets from NHS Digital's website (slow - downloads years of data)
@@ -69,6 +72,7 @@ docs-serve:
 docs: docs-build docs-serve
 
 # Deploy the Shiny app to Posit Connect Cloud. target: main (default) or beta
+# inst/app-data/ only needs to exist for rsconnect::deployApp()
 deploy target='main':
     Rscript --quiet --vanilla -e '\
         devtools::load_all(); \
@@ -76,4 +80,5 @@ deploy target='main':
         copy_app_data_for_deploy("inst/app-data")'
     Rscript --quiet --vanilla -e '\
         app_name <- if ("{{target}}" == "beta") "opencodecounts-beta" else "opencodecounts"; \
+        on.exit(unlink("inst/app-data", recursive = TRUE), add = TRUE); \
         rsconnect::deployApp(server = "connect.posit.cloud", appName = app_name, appTitle = app_name)'

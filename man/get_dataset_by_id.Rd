@@ -10,7 +10,7 @@ get_dataset_by_id(dataset_id)
 \item{dataset_id}{String, dataset id as listed in \code{shiny_app_datasets.yml} (e.g. "snomedct")}
 }
 \value{
-A list with \code{label}, \code{get_function}, \code{code_column},
+A list with \code{label}, \code{dataset}, \code{get_function}, \code{code_column},
 \code{description_column}, \code{has_code_pattern_search}, \code{code_pattern_label},
 \code{source_label}, \code{source_url}
 }

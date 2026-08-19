@@ -15,6 +15,9 @@ get_dataset(dataset, version = NULL)
 Tibble
 }
 \description{
-Get a dataset, downloading and caching it if necessary
+This is what every exported \verb{get_*()} accessor calls, so it is the public
+contract package users rely on: always download-and-cache, regardless of
+what happens to be on disk. It deliberately never looks at
+\verb{inst/app-data/} (see \code{get_app_dataset()} for the app's fast path).
 }
 \keyword{internal}
