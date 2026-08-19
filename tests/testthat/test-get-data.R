@@ -3,6 +3,7 @@ test_that("get_dataset() downloads when not cached, then loads from cache", {
   load_calls <- 0
 
   local_mocked_bindings(
+    get_local_data_path = function(dataset, version) NULL,
     tidy_source_cache_is_current = function(dataset, version) FALSE,
     download_tidy_source = function(dataset, url, version) {
       download_calls <<- download_calls + 1
@@ -21,10 +22,68 @@ test_that("get_dataset() downloads when not cached, then loads from cache", {
   expect_equal(result, tibble::tibble(x = 1))
 })
 
+test_that("get_local_data_path() returns NULL when inst/app-data doesn't exist", {
+  local_dir <- system.file("app-data", package = "opencodecounts")
+  skip_if(nzchar(local_dir) && dir.exists(local_dir), "inst/app-data already exists locally")
+
+  expect_null(get_local_data_path("snomed_usage", "1.0.0"))
+})
+
+test_that("get_local_data_path() finds a local file and ignores a missing one", {
+  app_data_dir <- file.path(system.file(package = "opencodecounts"), "app-data")
+  dir_already_existed <- dir.exists(app_data_dir)
+  if (!dir_already_existed) {
+    dir.create(app_data_dir)
+  }
+  withr::defer({
+    if (dir_already_existed) {
+      unlink(file.path(app_data_dir, "snomed_usage_1.0.0.parquet"))
+    } else {
+      unlink(app_data_dir, recursive = TRUE)
+    }
+  })
+
+  writeLines("fake parquet", file.path(app_data_dir, "snomed_usage_1.0.0.parquet"))
+
+  expect_equal(
+    get_local_data_path("snomed_usage", "1.0.0"),
+    file.path(app_data_dir, "snomed_usage_1.0.0.parquet")
+  )
+  expect_null(get_local_data_path("snomed_usage", "9.9.9"))
+})
+
+test_that("get_dataset() reads the local copy when there is one, skipping cache and download", {
+  cache_calls <- 0
+  download_calls <- 0
+
+  local_mocked_bindings(
+    get_local_data_path = function(dataset, version) "fake/path/snomed_usage_1.0.0.parquet",
+    read_parquet = function(path) {
+      expect_equal(path, "fake/path/snomed_usage_1.0.0.parquet")
+      tibble::tibble(x = 1)
+    },
+    tidy_source_cache_is_current = function(dataset, version) {
+      cache_calls <<- cache_calls + 1
+      TRUE
+    },
+    download_tidy_source = function(dataset, url, version) {
+      download_calls <<- download_calls + 1
+      invisible(NULL)
+    }
+  )
+
+  result <- get_dataset("snomed_usage")
+
+  expect_equal(result, tibble::tibble(x = 1))
+  expect_equal(cache_calls, 0)
+  expect_equal(download_calls, 0)
+})
+
 test_that("get_dataset() skips downloading when already cached", {
   download_calls <- 0
 
   local_mocked_bindings(
+    get_local_data_path = function(dataset, version) NULL,
     tidy_source_cache_is_current = function(dataset, version) TRUE,
     download_tidy_source = function(dataset, url, version) {
       download_calls <<- download_calls + 1

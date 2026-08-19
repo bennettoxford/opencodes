@@ -56,4 +56,7 @@ Run one script directly, or `just build-data` to rebuild everything (this takes 
 
 ## Deploying
 
-Still done by hand with `rsconnect::deployApp()`.
+`just deploy` copies the released parquet for every dataset into `inst/app-data/` (this is gitignored), then deploys to Posit Connect Cloud.
+This means the hosted app reads data straight off disk and never calls GitHub at runtime, so a restart doesn't need to download anything first.
+`just deploy` deploys the main app, `just deploy beta` deploys a separate beta app.
+The first time you deploy from a machine, you need to link your Posit Connect Cloud account by running `rsconnect::connectCloudUser()`.

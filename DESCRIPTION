@@ -30,6 +30,7 @@ Suggests:
     here,
     knitr,
     rmarkdown,
+    rsconnect,
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3

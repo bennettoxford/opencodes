@@ -1,3 +1,28 @@
+#' Path to a copy of a dataset shipped inside the app, if there is one
+#'
+#' `just deploy` copies the current released parquet for every dataset into
+#' `inst/app-data/` before deploying the Shiny app, so the hosted app reads
+#' data straight off disk instead of downloading it on every cold start (see
+#' `copy_app_data_for_deploy()`). Local installs and package users never have
+#' this directory, so this returns `NULL` for them and `get_dataset()` falls
+#' back to the normal cache-and-download path.
+#'
+#' @param dataset String, dataset name
+#' @param version String, dataset version
+#'
+#' @return Character path, or `NULL` if no local copy exists
+#'
+#' @keywords internal
+get_local_data_path <- function(dataset, version) {
+  local_dir <- system.file("app-data", package = "opencodecounts")
+  if (local_dir == "") {
+    return(NULL)
+  }
+
+  path <- file.path(local_dir, paste0(dataset, "_", version, ".parquet"))
+  if (file.exists(path)) path else NULL
+}
+
 #' Get a dataset, downloading and caching it if necessary
 #'
 #' @param dataset String, dataset name as listed in `tidy_data_sources.yml`
@@ -5,10 +30,17 @@
 #'
 #' @return Tibble
 #'
+#' @importFrom arrow read_parquet
+#'
 #' @keywords internal
 get_dataset <- function(dataset, version = NULL) {
   cfg <- get_tidy_source_config(dataset, version)
   resolved_version <- cfg$version
+
+  local_path <- get_local_data_path(dataset, resolved_version)
+  if (!is.null(local_path)) {
+    return(read_parquet(local_path))
+  }
 
   if (!tidy_source_cache_is_current(dataset, resolved_version)) {
     download_tidy_source(dataset, cfg$url, resolved_version)

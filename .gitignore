@@ -13,3 +13,4 @@ opencodecounts.Rproj
 README.html
 **/*.quarto_ipynb
 .claude
+inst/app-data/
