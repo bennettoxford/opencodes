@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
 <!-- badges: start -->
 
 <p>The <code>opencodecounts</code> R package provides easy access to yearly summaries of clinical code usage in England. The package makes NHS England’s published datasets available in R and an interactive online tool, covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in secondary care.</p>
-<p>You can launch the interactive Shiny app by clicking on <a href="https://bennettoxford.github.io/opencodecounts/articles/app.html"><em>Launch Shiny app</em></a>. For work in R, all available functions (including datasets) are documented in the <a href="https://bennettoxford.github.io/opencodecounts/reference/index.html"><em>R Reference</em></a> section.</p>
+<p>You can launch the interactive Shiny app by clicking on <a href="https://bennettoxford.github.io/opencodecounts/articles/app.html">Launch Shiny app</a>. For work in R, all available functions are documented in the <a href="https://bennettoxford.github.io/opencodecounts/reference/index.html">R Reference</a> section.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -83,17 +83,84 @@
 <li><a href="https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.html">How to use the R package</a></li>
 <li><a href="https://bennettoxford.github.io/opencodecounts/articles/how-to-use-breakdowns.html">How to use ICD-10 and OPCS-4 breakdowns</a></li>
 <li><a href="https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html">How to extract semantic tags from SNOMED CT descriptions</a></li>
-<li><a href="https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html">Learn about the available datasets</a></li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="data-sources">Data sources<a class="anchor" aria-label="anchor" href="#data-sources"></a>
+<h2 id="available-datasets">Available datasets<a class="anchor" aria-label="anchor" href="#available-datasets"></a>
 </h2>
-<p>The original data is available from NHS Digital at:</p>
-<ul>
-<li><a href="https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care" class="external-link">SNOMED Code Usage in Primary Care</a></li>
-<li><a href="https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity" class="external-link">ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care</a></li>
-</ul>
+<p>The table below gives an overview of all available datasets in the opencodecounts R package, including links to the tidy data as Parquet files. To learn more about the available datasets see the vignette: <a href="https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html">Available datasets in opencodecounts</a>.</p>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+<col width="20%">
+</colgroup>
+<thead><tr>
+<th align="left">Function</th>
+<th align="right">First period</th>
+<th align="right">Last period</th>
+<th align="right">Version</th>
+<th align="left">Tidy data</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left"><code><a href="reference/get_snomed_usage.html">get_snomed_usage()</a></code></td>
+<td align="right">2011-08-01</td>
+<td align="right">2025-07-31</td>
+<td align="right">0.1.0</td>
+<td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet" class="external-link">Download</a></td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/get_icd10_usage.html">get_icd10_usage()</a></code></td>
+<td align="right">2012-04-01</td>
+<td align="right">2025-03-31</td>
+<td align="right">0.1.0</td>
+<td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet" class="external-link">Download</a></td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/get_icd10_usage_breakdowns.html">get_icd10_usage_breakdowns()</a></code></td>
+<td align="right">2012-04-01</td>
+<td align="right">2025-03-31</td>
+<td align="right">0.1.0</td>
+<td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet" class="external-link">Download</a></td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/get_opcs4_usage.html">get_opcs4_usage()</a></code></td>
+<td align="right">2012-04-01</td>
+<td align="right">2025-03-31</td>
+<td align="right">0.1.0</td>
+<td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet" class="external-link">Download</a></td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/get_opcs4_usage_breakdowns.html">get_opcs4_usage_breakdowns()</a></code></td>
+<td align="right">2012-04-01</td>
+<td align="right">2025-03-31</td>
+<td align="right">0.1.0</td>
+<td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet" class="external-link">Download</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="for-developers">For developers<a class="anchor" aria-label="anchor" href="#for-developers"></a>
+</h2>
+<p>See <a href="DEVELOPERS.html">DEVELOPERS.md</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="licence">Licence<a class="anchor" aria-label="anchor" href="#licence"></a>
+</h2>
+<div class="section level3">
+<h3 id="r-package">R package<a class="anchor" aria-label="anchor" href="#r-package"></a>
+</h3>
+<p>The <code>opencodecounts</code> package is licensed under the <a href="LICENSE.html">MIT License</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="code-usage-datasets">Code usage datasets<a class="anchor" aria-label="anchor" href="#code-usage-datasets"></a>
+</h3>
+<p>All code usage datasets are Copyright NHS England and licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" class="external-link">Open Government Licence v3.0</a>. Contains public sector information licensed under the Open Government Licence v3.0.</p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

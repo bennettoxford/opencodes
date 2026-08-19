@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <h1>How to use ICD-10 and OPCS-4 breakdowns</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/bennettoxford/opencodecounts/blob/icd10-usage-breakdowns-v0.1.0/vignettes/how-to-use-breakdowns.Rmd" class="external-link"><code>vignettes/how-to-use-breakdowns.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bennettoxford/opencodecounts/blob/main/vignettes/how-to-use-breakdowns.Rmd" class="external-link"><code>vignettes/how-to-use-breakdowns.Rmd</code></a></small>
       <div class="d-none name"><code>how-to-use-breakdowns.Rmd</code></div>
     </div>
 
@@ -97,7 +97,10 @@ breakdowns are available for OPCS-4, but the position breakdowns are
 called <code>all_procedures</code> and <code>main_procedure</code>
 instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Available breakdowns for ICD-10</span></span>
+<code class="sourceCode R"><span><span class="va">icd10_usage_breakdowns</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_icd10_usage_breakdowns.html">get_icd10_usage_breakdowns</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Downloading icd10_usage_breakdowns (v0.1.0) ...</span></span>
+<span></span>
+<span><span class="co"># Available breakdowns for ICD-10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">icd10_usage_breakdowns</span><span class="op">$</span><span class="va">breakdown</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "all_diagnoses"  "main_diagnosis" "male"           "female"        </span></span>
 <span><span class="co">#&gt;  [5] "gender_unknown" "age_0"          "age_1_4"        "age_5_9"       </span></span>

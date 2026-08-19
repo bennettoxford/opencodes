@@ -1,7 +1,8 @@
-# Run `opencodecounts` [Shiny App](https://milanwiedemann.shinyapps.io/opencodecounts/) locally
+# Run `opencodecounts` [Shiny App](https://milanwiedemann-opencodecounts.share.connect.posit.cloud/) locally
 
 Run `opencodecounts` [Shiny
-App](https://milanwiedemann.shinyapps.io/opencodecounts/) locally
+App](https://milanwiedemann-opencodecounts.share.connect.posit.cloud/)
+locally
 
 ## Usage
 

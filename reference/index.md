@@ -2,23 +2,23 @@
 
 ## Datasets with total counts
 
-- [`snomed_usage`](https://bennettoxford.github.io/opencodecounts/reference/snomed_usage.md)
-  : Yearly SNOMED CT Code Usage in Primary Care in England
-- [`icd10_usage`](https://bennettoxford.github.io/opencodecounts/reference/icd10_usage.md)
-  : Yearly ICD-10 Code Usage from Hospital Admitted Patient Care
+- [`get_snomed_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_snomed_usage.md)
+  : Get yearly SNOMED CT code usage in primary care in England
+- [`get_icd10_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage.md)
+  : Get yearly ICD-10 code usage from Hospital Admitted Patient Care
   Activity in England
-- [`opcs4_usage`](https://bennettoxford.github.io/opencodecounts/reference/opcs4_usage.md)
-  : Yearly OPCS-4 Code Usage from Hospital Admitted Patient Care
+- [`get_opcs4_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage.md)
+  : Get yearly OPCS-4 code usage from Hospital Admitted Patient Care
   Activity in England
 
 ## Datasets with breakdowns
 
-- [`icd10_usage_breakdowns`](https://bennettoxford.github.io/opencodecounts/reference/icd10_usage_breakdowns.md)
-  : Yearly ICD-10 Code Usage Breakdowns from Hospital Admitted Patient
-  Care Activity in England
-- [`opcs4_usage_breakdowns`](https://bennettoxford.github.io/opencodecounts/reference/opcs4_usage_breakdowns.md)
-  : Yearly OPCS-4 Code Usage Breakdowns from Hospital Admitted Patient
-  Care Activity in England
+- [`get_icd10_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage_breakdowns.md)
+  : Get yearly ICD-10 code usage breakdowns from Hospital Admitted
+  Patient Care Activity in England
+- [`get_opcs4_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage_breakdowns.md)
+  : Get yearly OPCS-4 code usage breakdowns from Hospital Admitted
+  Patient Care Activity in England
 
 ## Codelists
 
@@ -33,7 +33,8 @@
   :
 
   Run `opencodecounts` [Shiny
-  App](https://milanwiedemann.shinyapps.io/opencodecounts/) locally
+  App](https://milanwiedemann-opencodecounts.share.connect.posit.cloud/)
+  locally
 
 ## Helper functions
 
@@ -41,3 +42,12 @@
   : Extract semantic tag from SNOMED CT description
 - [`strip_semantic_tag()`](https://bennettoxford.github.io/opencodecounts/reference/strip_semantic_tag.md)
   : Strip semantic tag from SNOMED CT description
+
+## Cache management
+
+- [`cache_info()`](https://bennettoxford.github.io/opencodecounts/reference/cache_info.md)
+  : Display cache information
+- [`cache_clear()`](https://bennettoxford.github.io/opencodecounts/reference/cache_clear.md)
+  : Clear the cache
+- [`available_versions()`](https://bennettoxford.github.io/opencodecounts/reference/available_versions.md)
+  : List available versions for a dataset

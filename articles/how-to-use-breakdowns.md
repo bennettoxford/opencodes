@@ -21,6 +21,9 @@ called `all_procedures` and `main_procedure` instead.
 
 ``` r
 
+icd10_usage_breakdowns <- get_icd10_usage_breakdowns()
+#> Downloading icd10_usage_breakdowns (v0.1.0) ...
+
 # Available breakdowns for ICD-10
 unique(icd10_usage_breakdowns$breakdown)
 #>  [1] "all_diagnoses"  "main_diagnosis" "male"           "female"        

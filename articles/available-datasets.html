@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <h1>Available datasets in opencodecounts</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/bennettoxford/opencodecounts/blob/icd10-usage-breakdowns-v0.1.0/vignettes/available-datasets.Rmd" class="external-link"><code>vignettes/available-datasets.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/bennettoxford/opencodecounts/blob/main/vignettes/available-datasets.Rmd" class="external-link"><code>vignettes/available-datasets.Rmd</code></a></small>
       <div class="d-none name"><code>available-datasets.Rmd</code></div>
     </div>
 
@@ -128,7 +128,8 @@ Digital, for data pre-processing see
 <code>/data-raw/snomed_code_usage.R</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return SNOMED code usage data</span></span>
-<span><span class="va">snomed_usage</span></span>
+<span><span class="fu"><a href="../reference/get_snomed_usage.html">get_snomed_usage</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Downloading snomed_usage (v0.1.0) ...</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,682,534 × 7</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   snomed_code      description      usage active_at_start</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          </span></span>
@@ -170,10 +171,11 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.</p>
 <p>This is only a selection of the full dataset published by NHS
 Digital, for data pre-processing see
-<code>/data-raw/icd10_usage.R</code>.</p>
+<code>/data-raw/icd10_code_usage.R</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return ICD-10 code usage data</span></span>
-<span><span class="va">icd10_usage</span></span>
+<span><span class="fu"><a href="../reference/get_icd10_usage.html">get_icd10_usage</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Downloading icd10_usage (v0.1.0) ...</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 147,483 × 5</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   icd10_code description                            usage</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -209,10 +211,11 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.</p>
 <p>This is only a selection of the full dataset published by NHS
 Digital, for the data pre-processing see
-<code>/data-raw/opcs4_usage.R</code>.</p>
+<code>/data-raw/opcs4_code_usage.R</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Return OPCS-4 code usage data</span></span>
-<span><span class="va">opcs4_usage</span></span>
+<span><span class="fu"><a href="../reference/get_opcs4_usage.html">get_opcs4_usage</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Downloading opcs4_usage (v0.1.0) ...</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 116,680 × 5</span></span></span>
 <span><span class="co">#&gt;    start_date end_date   opcs4_code description                            usage</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>

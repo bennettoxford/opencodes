@@ -64,7 +64,8 @@ for data pre-processing see `/data-raw/snomed_code_usage.R`.
 ``` r
 
 # Return SNOMED code usage data
-snomed_usage
+get_snomed_usage()
+#> Downloading snomed_usage (v0.1.0) ...
 #> # A tibble: 1,682,534 × 7
 #>    start_date end_date   snomed_code      description      usage active_at_start
 #>    <date>     <date>     <chr>            <chr>            <int> <lgl>          
@@ -107,12 +108,13 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.
 
 This is only a selection of the full dataset published by NHS Digital,
-for data pre-processing see `/data-raw/icd10_usage.R`.
+for data pre-processing see `/data-raw/icd10_code_usage.R`.
 
 ``` r
 
 # Return ICD-10 code usage data
-icd10_usage
+get_icd10_usage()
+#> Downloading icd10_usage (v0.1.0) ...
 #> # A tibble: 147,483 × 5
 #>    start_date end_date   icd10_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>
@@ -150,12 +152,13 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.
 
 This is only a selection of the full dataset published by NHS Digital,
-for the data pre-processing see `/data-raw/opcs4_usage.R`.
+for the data pre-processing see `/data-raw/opcs4_code_usage.R`.
 
 ``` r
 
 # Return OPCS-4 code usage data
-opcs4_usage
+get_opcs4_usage()
+#> Downloading opcs4_usage (v0.1.0) ...
 #> # A tibble: 116,680 × 5
 #>    start_date end_date   opcs4_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>
