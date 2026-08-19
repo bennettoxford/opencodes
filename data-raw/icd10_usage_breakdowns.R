@@ -8,114 +8,10 @@ library(httr)
 # Using xlsx files because csv structure varies across years, xlsx stays consistent
 # All data from sheet "All Diagnoses 4 Character"
 
-url_start <- "https://files.digital.nhs.uk/"
-
-# Selects columns by name - will break if column names change spelling/order
-icd10_breakdowns_xlsx_urls <- list(
-  "fy24to25" = list(
-    url = paste0(
-      url_start,
-      "CC/EA025D/hosp-epis-stat-admi-diag-2024-25-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11359"
-  ),
-  "fy23to24" = list(
-    url = paste0(
-      url_start,
-      "A5/5B8474/hosp-epis-stat-admi-diag-2023-24-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11359"
-  ),
-  "fy22to23" = list(
-    url = paste0(
-      url_start,
-      "7A/DB1B00/hosp-epis-stat-admi-diag-2022-23-tab_V2.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11337"
-  ),
-  "fy21to22" = list(
-    url = paste0(
-      url_start,
-      "0E/E70963/hosp-epis-stat-admi-diag-2021-22-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11341"
-  ),
-  "fy20to21" = list(
-    url = paste0(
-      url_start,
-      "5B/AD892C/hosp-epis-stat-admi-diag-2020-21-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11218"
-  ),
-  "fy19to20" = list(
-    url = paste0(
-      url_start,
-      "37/8D9781/hosp-epis-stat-admi-diag-2019-20-tab%20supp.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11390"
-  ),
-  "fy18to19" = list(
-    url = paste0(
-      url_start,
-      "1C/B2AD9B/hosp-epis-stat-admi-diag-2018-19-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11392"
-  ),
-  "fy17to18" = list(
-    url = paste0(
-      url_start,
-      "B2/5CEC8D/hosp-epis-stat-admi-diag-2017-18-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11386"
-  ),
-  "fy16to17" = list(
-    url = paste0(
-      url_start,
-      "publication/7/d/hosp-epis-stat-admi-diag-2016-17-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11418"
-  ),
-  "fy15to16" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-diag-2015-16-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11353"
-  ),
-  "fy14to15" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-diag-2014-15-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A11:AK11345"
-  ),
-  "fy13to14" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-diag-2013-14-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A17:AF11357"
-  ),
-  "fy12to13" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-diag-2012-13-tab.xlsx"
-    ),
-    sheet = 6,
-    range = "A18:AF11400"
-  )
+# Source urls per year, defined in inst/config/raw_icd10.yml (shared with
+# icd10_code_usage.R, which reads the same files)
+icd10_breakdowns_xlsx_urls <- opencodecounts:::get_raw_source_periods(
+  "icd10_usage_breakdowns"
 )
 
 # Download xlsx from URL and read with cleaned column names
@@ -179,14 +75,8 @@ icd10_usage_breakdowns_long <- icd10_usage_raw_list |>
   map(select_all_diag_breakdowns) |>
   map(set_col_types) |>
   bind_rows(.id = "nhs_fy") |>
-  separate(nhs_fy, c("start_date", "end_date"), "to") |>
+  opencodecounts:::add_period_dates("nhs_fy", "04-01", "03-31") |>
   mutate(
-    start_date = as.Date(
-      paste0("20", str_extract_all(start_date, "\\d+"), "-04-01")
-    ),
-    end_date = as.Date(
-      paste0("20", str_extract_all(end_date, "\\d+"), "-03-31")
-    ),
     icd10_code = gsub("\\s?[^[:alnum:]]+\\s?", "", icd10_code)
   )
 
@@ -222,8 +112,7 @@ opencodecounts:::get_codes_with_encoding_problems(
 )
 # character(0)
 
-usethis::use_data(
+arrow::write_parquet(
   icd10_usage_breakdowns,
-  compress = "bzip2",
-  overwrite = TRUE
+  here("data-raw", "icd10_usage_breakdowns.parquet")
 )

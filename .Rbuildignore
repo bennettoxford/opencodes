@@ -11,3 +11,10 @@
 ^rsconnect$
 ^doc$
 ^Meta$
+tests/integration.R
+justfile
+DEVELOPERS.md
+^DEVELOPERS\.Rmd$
+.claude
+.rscignore
+^inst/app-data$

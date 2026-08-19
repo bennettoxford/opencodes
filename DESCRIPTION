@@ -1,6 +1,6 @@
 Package: opencodecounts
 Title: Clinical Code Usage in England
-Version: 0.5.0
+Version: 0.7.1
 Authors@R: c(
     person("Milan", "Wiedemann", email = "milan.wiedemann@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1991-282X")),
@@ -23,27 +23,31 @@ Description: SNOMED and ICD-10 Code Usage Counts in England provided by NHS Digi
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-Depends: 
-    R (>= 3.5)
-LazyData: true
-LazyDataCompression: bzip2
+Depends:
+    R (>= 4.1)
 Suggests:
+    gt,
+    here,
     knitr,
+    pkgdown,
     rmarkdown,
-    testthat (>= 3.0.0)
+    rsconnect,
+    servr,
+    testthat (>= 3.0.0),
+    withr
 Config/testthat/edition: 3
 URL: https://github.com/bennettoxford/opencodecounts, https://bennettoxford.github.io/opencodecounts/
 BugReports: https://github.com/bennettoxford/opencodecounts/issues
-Imports: 
+Imports:
+    arrow,
     bsicons,
     bslib,
     data.table,
     dplyr,
     DT,
     ggplot2,
-    gt,
-    here,
     httr2,
+    jsonlite,
     lubridate,
     plotly,
     purrr,
@@ -51,8 +55,11 @@ Imports:
     S7,
     scales,
     shiny,
+    stats,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    tools,
+    yaml
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.0.0

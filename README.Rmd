@@ -11,6 +11,12 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
+# Load the package from source (not the installed version) so the datasets
+# table below always reflects the current working tree - this also means
+# README.Rmd renders standalone (e.g. via the IDE's Preview/Render button),
+# not just through `just render-readme`.
+devtools::load_all(quiet = TRUE)
 ```
 
 # opencodecounts
@@ -20,9 +26,10 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/bennettoxford/opencodecounts/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The `opencodecounts` R package provides easy access to yearly summaries of clinical code usage in England. The package makes NHS England's published datasets available in R and an interactive online tool, covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in secondary care.
+The `opencodecounts` R package provides easy access to yearly summaries of clinical code usage in England.
+The package makes NHS England's published datasets available in R and an interactive online tool, covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in secondary care.
 
-You can launch the interactive Shiny app by clicking on [*Launch Shiny app*](https://bennettoxford.github.io/opencodecounts/articles/app.html). For work in R, all available functions (including datasets) are documented in the [*R Reference*](https://bennettoxford.github.io/opencodecounts/reference/index.html) section.
+You can launch the interactive Shiny app by clicking on [Launch Shiny app](https://bennettoxford.github.io/opencodecounts/articles/app.html). For work in R, all available functions are documented in the [R Reference](https://bennettoxford.github.io/opencodecounts/reference/index.html) section.
 
 ## Installation
 
@@ -39,11 +46,47 @@ pak::pak("bennettoxford/opencodecounts")
 - [How to use the R package](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-R-pkg.html)
 - [How to use ICD-10 and OPCS-4 breakdowns](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-breakdowns.html)
 - [How to extract semantic tags from SNOMED CT descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html)
-- [Learn about the available datasets](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html)
 
-## Data sources
+## Available datasets
 
-The original data is available from NHS Digital at:
+The table below gives an overview of all available datasets in the opencodecounts R package, including links to the tidy data as Parquet files.
+To learn more about the available datasets see the vignette: [Available datasets in opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
 
-- [SNOMED Code Usage in Primary Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care)
-- [ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity)
+
+```{r datasets-table, echo = FALSE, message = FALSE}
+dataset_info <- list(
+  list(id = "snomed_usage", fn = "get_snomed_usage()", data = get_snomed_usage()),
+  list(id = "icd10_usage", fn = "get_icd10_usage()", data = get_icd10_usage()),
+  list(id = "icd10_usage_breakdowns", fn = "get_icd10_usage_breakdowns()", data = get_icd10_usage_breakdowns()),
+  list(id = "opcs4_usage", fn = "get_opcs4_usage()", data = get_opcs4_usage()),
+  list(id = "opcs4_usage_breakdowns", fn = "get_opcs4_usage_breakdowns()", data = get_opcs4_usage_breakdowns())
+)
+
+tidy_sources <- load_tidy_sources_config()
+
+purrr::map_dfr(dataset_info, function(d) {
+  tibble::tibble(
+    Function = paste0("`", d$fn, "`"),
+    `First period` = format(min(d$data$start_date), "%Y-%m-%d"),
+    `Last period` = format(max(d$data$end_date), "%Y-%m-%d"),
+    Version = tidy_sources[[d$id]]$version,
+    `Tidy data` = paste0("[Download](", tidy_sources[[d$id]]$url, ")")
+  )
+}) |>
+  knitr::kable(align = c("l", "r", "r", "r", "l"))
+```
+
+## For developers
+
+See [DEVELOPERS.md](DEVELOPERS.md).
+
+## Licence
+
+### R package
+
+The `opencodecounts` package is licensed under the [MIT License](LICENSE.md).
+
+### Code usage datasets
+
+All code usage datasets are Copyright NHS England and licensed under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+Contains public sector information licensed under the Open Government Licence v3.0.

@@ -1,0 +1,30 @@
+# Controls what shows up in the Shiny app's "Select data" list, and how each option behaves
+
+datasets:
+  snomedct:
+    label: "General practice (SNOMED CT)"
+    get_function: "get_snomed_usage"
+    code_column: "snomed_code"
+    description_column: "description"
+    has_code_pattern_search: false
+    code_pattern_label: ~
+    source_label: "SNOMED Code Usage in Primary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care"
+  icd10:
+    label: "Hospital admissions (ICD-10)"
+    get_function: "get_icd10_usage"
+    code_column: "icd10_code"
+    description_column: "description"
+    has_code_pattern_search: true
+    code_pattern_label: "ICD-10 category"
+    source_label: "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity"
+  opcs4:
+    label: "Hospital admissions (OPCS-4)"
+    get_function: "get_opcs4_usage"
+    code_column: "opcs4_code"
+    description_column: "description"
+    has_code_pattern_search: true
+    code_pattern_label: "OPCS-4 category"
+    source_label: "ICD-10 and OPCS-4 Code Usage in Inpatient Secondary Care"
+    source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity"

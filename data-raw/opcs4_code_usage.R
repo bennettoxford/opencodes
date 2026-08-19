@@ -3,127 +3,9 @@ library(janitor)
 library(here)
 library(httr)
 
-url_start <- "https://files.digital.nhs.uk/"
-
-opcs4_code_usage_urls <- list(
-  "fy24to25" = list(
-    url = paste0(
-      url_start,
-      "6D/C40538/hosp-epis-stat-admi-proc-2024-25-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy23to24" = list(
-    url = paste0(
-      url_start,
-      "92/DB66C9/hosp-epis-stat-admi-proc-2023-24-tab-v2.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy22to23" = list(
-    url = paste0(
-      url_start,
-      "CB/515826/hosp-epis-stat-admi-proc-2022-23-tab-V2.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy21to22" = list(
-    url = paste0(
-      url_start,
-      "FA/DA0567/hosp-epis-stat-admi-proc-2021-22-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy20to21" = list(
-    url = paste0(
-      url_start,
-      "A6/43CDC1/hosp-epis-stat-admi-proc-2020-21-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy19to20" = list(
-    url = paste0(
-      url_start,
-      "20/0864E6/hosp-epis-stat-admi-proc-2019-20-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy18to19" = list(
-    url = paste0(
-      url_start,
-      "77/0C8B3F/hosp-epis-stat-admi-proc-2018-19-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy17to18" = list(
-    url = paste0(
-      url_start,
-      "B6/E239FA/hosp-epis-stat-admi-proc-2017-18-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy16to17" = list(
-    url = paste0(
-      url_start,
-      "publication/7/g/hosp-epis-stat-admi-proc-2016-17-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy15to16" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-proc-2015-16-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy14to15" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-proc-2014-15-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 11,
-    usage_col = 8
-  ),
-  "fy13to14" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-proc-2013-14-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 18,
-    usage_col = 3
-  ),
-  "fy12to13" = list(
-    url = paste0(
-      url_start,
-      "publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-proc-2012-13-tab.xlsx"
-    ),
-    sheet = 6,
-    skip_rows = 19,
-    usage_col = 3
-  )
-)
+# Source urls per year, defined in inst/config/raw_opcs4.yml (shared with
+# opcs4_usage_breakdowns.R, which reads the same files)
+opcs4_code_usage_urls <- opencodecounts:::get_raw_source_periods("opcs4_usage")
 
 # Function to download and read the xlsx files
 read_opcs4_usage_xlsx_from_url <- function(url_list, ...) {
@@ -164,14 +46,8 @@ get_opcs4_data <- function(url_list, ...) {
 opcs4_usage <- opcs4_code_usage_urls |>
   map(get_opcs4_data) |>
   bind_rows(.id = "nhs_fy") |>
-  separate(nhs_fy, c("start_date", "end_date"), "to") |>
+  opencodecounts:::add_period_dates("nhs_fy", "04-01", "03-31") |>
   mutate(
-    start_date = as.Date(
-      paste0("20", str_extract_all(start_date, "\\d+"), "-04-01")
-    ),
-    end_date = as.Date(
-      paste0("20", str_extract_all(end_date, "\\d+"), "-03-31")
-    ),
     opcs4_code = gsub("\\s?[^[:alnum:]]+\\s?", "", opcs4_code)
   )
 
@@ -213,8 +89,4 @@ codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
 length(codes_with_multiple_desc)
 # [1] 99
 
-usethis::use_data(
-  opcs4_usage,
-  compress = "bzip2",
-  overwrite = TRUE
-)
+arrow::write_parquet(opcs4_usage, here("data-raw", "opcs4_usage.parquet"))

@@ -7,23 +7,9 @@ library(tidyverse)
 library(janitor)
 library(here)
 
-url_start <- "https://files.digital.nhs.uk/"
-
-snomed_code_usage_urls <- list(
-  "2024to2025" = paste0(url_start, "9F/527A2C/SNOMED_code_usage_2024-25.txt"),
-  "2023to2024" = paste0(url_start, "B8/7D8335/SNOMED_code_usage_2023-24.txt"),
-  "2022to2023" = paste0(url_start, "09/E1218D/SNOMED_code_usage_2022-23.txt"),
-  "2021to2022" = paste0(url_start, "71/6C02F5/SNOMED_code_usage_2021-22.txt"),
-  "2020to2021" = paste0(url_start, "8A/09BBE6/SNOMED_code_usage_2020-21.txt"),
-  "2019to2020" = paste0(url_start, "8F/882EB3/SNOMED_code_usage_2019-20.txt"),
-  "2018to2019" = paste0(url_start, "13/F2956B/SNOMED_code_usage_2018-19.txt"),
-  "2017to2018" = paste0(url_start, "9F/024949/SNOMED_code_usage_2017-18.txt"),
-  "2016to2017" = paste0(url_start, "E2/79561E/SNOMED_code_usage_2016-17.txt"),
-  "2015to2016" = paste0(url_start, "8B/15EAA1/SNOMED_code_usage_2015-16.txt"),
-  "2014to2015" = paste0(url_start, "BB/47E566/SNOMED_code_usage_2014-15.txt"),
-  "2013to2014" = paste0(url_start, "82/40F702/SNOMED_code_usage_2013-14.txt"),
-  "2012to2013" = paste0(url_start, "69/866A44/SNOMED_code_usage_2012-13.txt"),
-  "2011to2012" = paste0(url_start, "53/C8F877/SNOMED_code_usage_2011-12.txt")
+# Source urls per year, defined in inst/config/raw_snomed.yml
+snomed_code_usage_urls <- opencodecounts:::get_raw_source_periods(
+  "snomed_usage"
 )
 
 # Data dictionary from SNOMED_code_usage_metadata.xlsx
@@ -61,11 +47,7 @@ snomed_usage <- snomed_code_usage_urls %>%
   ) %>%
   bind_rows(.id = "nhs_fy") |>
   clean_names() |>
-  separate(nhs_fy, c("start_date", "end_date"), "to") |>
-  mutate(
-    start_date = as.Date(paste0(start_date, "-08-01")),
-    end_date = as.Date(paste0(end_date, "-07-31"))
-  ) |>
+  opencodecounts:::add_period_dates("nhs_fy", "08-01", "07-31") |>
   rename(snomed_code = snomed_concept_id)
 
 # Count number of usage with NAs
@@ -122,8 +104,4 @@ codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
 length(codes_with_multiple_desc)
 # [1] 10230
 
-usethis::use_data(
-  snomed_usage,
-  compress = "bzip2",
-  overwrite = TRUE
-)
+arrow::write_parquet(snomed_usage, here("data-raw", "snomed_usage.parquet"))

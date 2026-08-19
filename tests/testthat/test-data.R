@@ -1,3 +1,15 @@
+# These tests call the get_*() accessors, which read from the local cache
+# (downloading first if the cache is empty - see R/get-data.R). They stay in
+# the fast unit suite rather than tests/integration.R because a populated
+# cache makes them just as fast as reading a lazy-loaded data object; only a
+# cold cache adds a one-off download.
+
+snomed_usage <- get_snomed_usage()
+icd10_usage <- get_icd10_usage()
+icd10_usage_breakdowns <- get_icd10_usage_breakdowns()
+opcs4_usage <- get_opcs4_usage()
+opcs4_usage_breakdowns <- get_opcs4_usage_breakdowns()
+
 # SNOMED tests
 
 test_that("Test snomed_usage column names", {

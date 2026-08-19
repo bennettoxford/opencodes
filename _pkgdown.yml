@@ -13,13 +13,13 @@ template:
 reference:
 - title: Datasets with total counts
   contents:
-  - snomed_usage
-  - icd10_usage
-  - opcs4_usage
+  - get_snomed_usage
+  - get_icd10_usage
+  - get_opcs4_usage
 - title: Datasets with breakdowns
   contents:
-  - icd10_usage_breakdowns
-  - opcs4_usage_breakdowns
+  - get_icd10_usage_breakdowns
+  - get_opcs4_usage_breakdowns
 - title: Codelists
   contents:
   - get_codelist
@@ -27,9 +27,14 @@ reference:
   contents:
   - run_app
 - title: Helper functions
-  contents: 
+  contents:
   - extract_semantic_tag
   - strip_semantic_tag
+- title: Cache management
+  contents:
+  - cache_info
+  - cache_clear
+  - available_versions
 
 navbar:
   structure:
