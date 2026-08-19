@@ -61,7 +61,7 @@ render-developers:
 docs-build:
     Rscript --quiet --vanilla -e 'pkgdown::build_site()'
 
-# Preview the docs website locally in a browser
+# Preview the already-built docs website in a browser
 docs-serve:
     Rscript --quiet --vanilla -e 'servr::httw("docs", initpath = "index.html", browser = TRUE)'
 
