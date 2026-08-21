@@ -3,9 +3,6 @@
 \name{get_snomed_usage}
 \alias{get_snomed_usage}
 \title{Get yearly SNOMED CT code usage in primary care in England}
-\source{
-\url{https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care}
-}
 \usage{
 get_snomed_usage(version = NULL)
 }
@@ -16,25 +13,9 @@ get_snomed_usage(version = NULL)
 A tibble
 }
 \description{
-Downloads (if not already cached) and returns the yearly summary of
-SNOMED CT code usage from 1st August 2011 onwards. The variables in this
-dataset include:
-\describe{
-\item{start_date}{Start date of code usage count}
-\item{end_date}{End date of code usage count}
-\item{snomed_code}{SNOMED Concept ID}
-\item{usage}{Yearly summary of code usage.
-Note that counts are rounded to the nearest 10.
-Counts of 5 or below are displayed as 5.}
-\item{active_at_start}{Specifying whether code was active at the start date.}
-\item{active_at_end}{Specifying whether code was active at the end date.}
-\item{description}{Description of SNOMED Concept ID}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
+\details{
+Renamed to \code{\link[=get_gp_snomed]{get_gp_snomed()}}.
 }
-\examples{
-\dontrun{
-# Filter for code usage records from 2022-08-01 onwards
-get_snomed_usage() |>
-  dplyr::filter(start_date >= "2022-08-1")
-}
-}
+\keyword{internal}

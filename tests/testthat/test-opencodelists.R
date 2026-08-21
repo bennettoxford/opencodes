@@ -43,16 +43,16 @@ test_that("Get codelist stops for invalid slug format", {
 
   expect_error(
     get_codelist(invalid_slug_too_few_parts),
-    "Invalid format. Please use full OpenCodelists URL or ensure slug follows 'org/name/version' or 'user/username/name/version' pattern."
+    class = "opencodecounts_error_codelist_url"
   )
 
   expect_error(
     get_codelist(invalid_slug_empty_part),
-    "Invalid format. Please use full OpenCodelists URL or ensure slug follows 'org/name/version' or 'user/username/name/version' pattern."
+    class = "opencodecounts_error_codelist_url"
   )
 
   expect_error(
     get_codelist(invalid_slug_random),
-    "Invalid format. Please use full OpenCodelists URL or ensure slug follows 'org/name/version' or 'user/username/name/version' pattern."
+    class = "opencodecounts_error_codelist_url"
   )
 })

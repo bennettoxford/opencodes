@@ -8,7 +8,7 @@ available_versions(dataset)
 }
 \arguments{
 \item{dataset}{String, dataset name as listed in \code{tidy_data_sources.yml}
-(e.g. \code{"snomed_usage"}, \code{"icd10_usage"})}
+(e.g. \code{"gp_snomed"}, \code{"hesapc_icd10"})}
 }
 \value{
 Character vector of available versions, newest first
@@ -19,6 +19,6 @@ the corresponding \verb{get_*()} function. Versions are listed newest first.
 }
 \examples{
 \dontrun{
-available_versions("snomed_usage")
+available_versions("hesapc_icd10")
 }
 }

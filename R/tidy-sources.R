@@ -18,16 +18,19 @@ load_tidy_sources_config <- function() {
   )
 
   if (config_path == "") {
-    stop(
-      "tidy_data_sources.yml not found in package installation",
-      call. = FALSE
+    cli::cli_abort(
+      "{.file tidy_data_sources.yml} not found in package installation",
+      class = "opencodecounts_error_config_not_found"
     )
   }
 
   config <- read_yaml(config_path)
 
   if (!"datasets" %in% names(config)) {
-    stop("tidy_data_sources.yml must have a 'datasets' section", call. = FALSE)
+    cli::cli_abort(
+      "{.file tidy_data_sources.yml} must have a {.field datasets} section",
+      class = "opencodecounts_error_config_invalid"
+    )
   }
 
   sources <- config$datasets
@@ -35,35 +38,27 @@ load_tidy_sources_config <- function() {
     cfg <- sources[[dataset]]
 
     if (is.null(cfg$versions) || length(cfg$versions) == 0) {
-      stop(
-        "Dataset '",
-        dataset,
-        "' in tidy_data_sources.yml has no versions",
-        call. = FALSE
+      cli::cli_abort(
+        "Dataset {.val {dataset}} in {.file tidy_data_sources.yml} has no versions",
+        class = "opencodecounts_error_config_invalid"
       )
     }
 
     for (i in seq_along(cfg$versions)) {
       entry <- cfg$versions[[i]]
       if (!is.list(entry) || is.null(entry$version)) {
-        stop(
-          "Dataset '",
-          dataset,
-          "' version entry ",
-          i,
-          " must have a 'version' field",
-          call. = FALSE
+        cli::cli_abort(
+          "Dataset {.val {dataset}} version entry {i} must have a {.field version} field",
+          class = "opencodecounts_error_config_invalid"
         )
       }
       if (is.null(entry$url)) {
-        stop(
-          "Dataset '",
-          dataset,
-          "' version '",
-          entry$version,
-          "' has no 'url' field. ",
-          "Copy the parquet asset url from the GitHub Release page into tidy_data_sources.yml",
-          call. = FALSE
+        cli::cli_abort(
+          c(
+            "Dataset {.val {dataset}} version {.val {entry$version}} has no {.field url} field.",
+            "i" = "Copy the parquet asset url from the GitHub Release page into {.file tidy_data_sources.yml}."
+          ),
+          class = "opencodecounts_error_config_invalid"
         )
       }
     }
@@ -82,23 +77,22 @@ load_tidy_sources_config <- function() {
 
 #' Get tidy source configuration for a dataset
 #'
-#' @param dataset String, dataset name (e.g. "snomed_usage")
+#' @param dataset String, dataset name (e.g. "hesapc_icd10")
 #' @param version String, specific version to use, or `NULL` for the latest
 #'
-#' @return List with fields: version, versions, url
+#' @return List with fields: version, versions, url, publication, variant
 #'
 #' @keywords internal
 get_tidy_source_config <- function(dataset, version = NULL) {
   sources <- load_tidy_sources_config()
 
   if (!dataset %in% names(sources)) {
-    stop(
-      "Dataset '",
-      dataset,
-      "' not found in tidy_data_sources.yml. ",
-      "Available datasets: ",
-      paste(names(sources), collapse = ", "),
-      call. = FALSE
+    cli::cli_abort(
+      c(
+        "Dataset {.val {dataset}} not found in {.file tidy_data_sources.yml}.",
+        "i" = "Available datasets: {.val {names(sources)}}."
+      ),
+      class = "opencodecounts_error_dataset_not_found"
     )
   }
 
@@ -107,15 +101,12 @@ get_tidy_source_config <- function(dataset, version = NULL) {
   if (!is.null(version)) {
     known <- cfg$versions
     if (!version %in% known) {
-      stop(
-        "Version '",
-        version,
-        "' is not available for '",
-        dataset,
-        "'. ",
-        "Available versions: ",
-        paste(known, collapse = ", "),
-        call. = FALSE
+      cli::cli_abort(
+        c(
+          "Version {.val {version}} is not available for {.val {dataset}}.",
+          "i" = "Available versions: {.val {known}}."
+        ),
+        class = "opencodecounts_error_version_not_found"
       )
     }
     cfg$version <- version
@@ -131,7 +122,7 @@ get_tidy_source_config <- function(dataset, version = NULL) {
 #' the corresponding `get_*()` function. Versions are listed newest first.
 #'
 #' @param dataset String, dataset name as listed in `tidy_data_sources.yml`
-#'   (e.g. `"snomed_usage"`, `"icd10_usage"`)
+#'   (e.g. `"gp_snomed"`, `"hesapc_icd10"`)
 #'
 #' @return Character vector of available versions, newest first
 #'
@@ -139,19 +130,18 @@ get_tidy_source_config <- function(dataset, version = NULL) {
 #'
 #' @examples
 #' \dontrun{
-#' available_versions("snomed_usage")
+#' available_versions("hesapc_icd10")
 #' }
 available_versions <- function(dataset) {
   sources <- load_tidy_sources_config()
 
   if (!dataset %in% names(sources)) {
-    stop(
-      "Dataset '",
-      dataset,
-      "' not found in tidy_data_sources.yml. ",
-      "Available datasets: ",
-      paste(names(sources), collapse = ", "),
-      call. = FALSE
+    cli::cli_abort(
+      c(
+        "Dataset {.val {dataset}} not found in {.file tidy_data_sources.yml}.",
+        "i" = "Available datasets: {.val {names(sources)}}."
+      ),
+      class = "opencodecounts_error_dataset_not_found"
     )
   }
 
@@ -215,7 +205,7 @@ download_tidy_source <- function(dataset, url, version) {
   sidecar_path <- get_tidy_source_sidecar_path(dataset, version)
   temp_path <- paste0(cache_path, ".tmp")
 
-  message("Downloading ", dataset, " (v", version, ") ...")
+  cli::cli_progress_step("Downloading {.val {dataset}} (v{version})")
 
   tryCatch(
     {
@@ -230,7 +220,10 @@ download_tidy_source <- function(dataset, url, version) {
         copied <- file.copy(temp_path, cache_path, overwrite = TRUE)
         unlink(temp_path)
         if (!copied) {
-          stop("could not move downloaded file into the cache")
+          cli::cli_abort(
+            "Could not move downloaded file into the cache",
+            class = "opencodecounts_error_download_failed"
+          )
         }
       }
     },
@@ -238,14 +231,9 @@ download_tidy_source <- function(dataset, url, version) {
       if (file.exists(temp_path)) {
         unlink(temp_path)
       }
-      stop(
-        "Failed to download '",
-        dataset,
-        "' from ",
-        url,
-        ": ",
-        conditionMessage(e),
-        call. = FALSE
+      cli::cli_abort(
+        "Failed to download {.val {dataset}} from {.url {url}}: {conditionMessage(e)}",
+        class = "opencodecounts_error_download_failed"
       )
     }
   )
@@ -279,7 +267,10 @@ load_tidy_source <- function(dataset, version) {
   cache_path <- get_tidy_source_cache_path(dataset, version)
 
   if (!file.exists(cache_path)) {
-    stop("Cache not found for '", dataset, "' (v", version, ")", call. = FALSE)
+    cli::cli_abort(
+      "Cache not found for {.val {dataset}} (v{version})",
+      class = "opencodecounts_error_cache_missing"
+    )
   }
 
   read_parquet(cache_path)

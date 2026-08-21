@@ -29,7 +29,10 @@ Codelist <- S7::new_class(
 extract_codelist_slug <- function(url) {
   # Check if URL is from opencodelists.org
   if (!grepl("^https://www\\.opencodelists\\.org/", url)) {
-    stop("URL must be from https://www.opencodelists.org")
+    cli::cli_abort(
+      "URL must be from {.url https://www.opencodelists.org}",
+      class = "opencodecounts_error_codelist_url"
+    )
   }
 
   # Remove fragment identifier if present
@@ -43,7 +46,10 @@ extract_codelist_slug <- function(url) {
     codelist_slug <- sub("/$", "", codelist_slug)
     codelist_slug
   } else {
-    stop("URL does not match expected OpenCodelists codelist pattern")
+    cli::cli_abort(
+      "URL does not match expected OpenCodelists codelist pattern",
+      class = "opencodecounts_error_codelist_url"
+    )
   }
 }
 
@@ -82,16 +88,16 @@ get_codelist <- function(url) {
     codelist_slug <- extract_codelist_slug(url)
   } else {
     if (!grepl("^[^/]+/[^/]+/[^/]+/?$|^user/[^/]+/[^/]+/[^/]+/?$", url)) {
-      stop(
-        "Invalid format. Please use full OpenCodelists URL or ensure slug follows 'org/name/version' or 'user/username/name/version' pattern."
+      cli::cli_abort(
+        "Invalid format. Please use full OpenCodelists URL or ensure slug follows {.val org/name/version} or {.val user/username/name/version} pattern.",
+        class = "opencodecounts_error_codelist_url"
       )
     }
 
-    message(
-      "Note: For clarity, please use the full OpenCodelists URL instead of just the slug.\n",
-      "Full URL would be: https://www.opencodelists.org/codelist/",
-      url
-    )
+    cli::cli_inform(c(
+      "i" = "For clarity, please use the full OpenCodelists URL instead of just the slug.",
+      "i" = "Full URL would be: {.url https://www.opencodelists.org/codelist/{url}}"
+    ))
     codelist_slug <- sub("/$", "", url)
   }
 

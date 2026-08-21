@@ -13,13 +13,13 @@ template:
 reference:
 - title: Datasets with total counts
   contents:
-  - get_snomed_usage
-  - get_icd10_usage
-  - get_opcs4_usage
+  - get_gp_snomed
+  - get_hesapc_icd10
+  - get_hesapc_opcs4
 - title: Datasets with breakdowns
   contents:
-  - get_icd10_usage_breakdowns
-  - get_opcs4_usage_breakdowns
+  - get_hesapc_icd10_breakdowns
+  - get_hesapc_opcs4_breakdowns
 - title: Codelists
   contents:
   - get_codelist
@@ -35,6 +35,14 @@ reference:
   - cache_info
   - cache_clear
   - available_versions
+- title: Deprecated
+  desc: Renamed; still work, but use the versions above instead.
+  contents:
+  - get_snomed_usage
+  - get_icd10_usage
+  - get_icd10_usage_breakdowns
+  - get_opcs4_usage
+  - get_opcs4_usage_breakdowns
 
 navbar:
   structure:

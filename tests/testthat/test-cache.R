@@ -31,7 +31,7 @@ test_that("cache_info() counts cached parquet files", {
   withr::local_envvar(OPENCODECOUNTS_TEST_CACHE_DIR = test_dir)
 
   data_dir <- get_data_cache_dir()
-  writeLines("fake parquet", file.path(data_dir, "snomed_usage_1.0.0.parquet"))
+  writeLines("fake parquet", file.path(data_dir, "gp_snomed_1.0.0.parquet"))
 
   info <- cache_info()
 
@@ -44,7 +44,7 @@ test_that("cache_clear() removes cached data", {
   withr::local_envvar(OPENCODECOUNTS_TEST_CACHE_DIR = test_dir)
 
   data_dir <- get_data_cache_dir()
-  writeLines("fake parquet", file.path(data_dir, "snomed_usage_1.0.0.parquet"))
+  writeLines("fake parquet", file.path(data_dir, "gp_snomed_1.0.0.parquet"))
 
   cache_clear()
 

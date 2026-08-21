@@ -16,7 +16,10 @@ load_dataset_registry <- function() {
   )
 
   if (config_path == "") {
-    stop("shiny_app_datasets.yml not found in package installation", call. = FALSE)
+    cli::cli_abort(
+      "{.file shiny_app_datasets.yml} not found in package installation",
+      class = "opencodecounts_error_config_not_found"
+    )
   }
 
   read_yaml(config_path)$datasets
@@ -47,13 +50,12 @@ get_dataset_by_id <- function(dataset_id) {
   registry <- load_dataset_registry()
 
   if (!dataset_id %in% names(registry)) {
-    stop(
-      "Dataset '",
-      dataset_id,
-      "' not found in shiny_app_datasets.yml. ",
-      "Available datasets: ",
-      paste(names(registry), collapse = ", "),
-      call. = FALSE
+    cli::cli_abort(
+      c(
+        "Dataset {.val {dataset_id}} not found in {.file shiny_app_datasets.yml}.",
+        "i" = "Available datasets: {.val {names(registry)}}."
+      ),
+      class = "opencodecounts_error_app_dataset_not_found"
     )
   }
 
