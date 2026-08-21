@@ -1,16 +1,12 @@
-# This script loads all available code usage data from files.digital.nhs.uk
-# and combines the files into two files:
-# (1) snomed_code_usage: yearly summary of code usage (no code description)
-# (2) snomed_code_dict: code descriptions for each year (as there are sometimes small differences across years)
+# Loads SNOMED CT code usage data from GP electronic health records,
+# published at files.digital.nhs.uk
 
 library(tidyverse)
 library(janitor)
 library(here)
 
-# Source urls per year, defined in inst/config/raw_snomed.yml
-snomed_code_usage_urls <- opencodecounts:::get_raw_source_periods(
-  "snomed_usage"
-)
+# Source urls per year, defined in inst/config/raw_gp_snomed.yml
+gp_snomed_urls <- opencodecounts:::get_raw_source_periods("gp_snomed")
 
 # Data dictionary from SNOMED_code_usage_metadata.xlsx
 # https://files.digital.nhs.uk/31/097702/SNOMED_code_usage_metadata.xlsx
@@ -34,7 +30,7 @@ snomed_code_usage_urls <- opencodecounts:::get_raw_source_periods(
 
 # The following files show the number of times each listed SNOMED code was added to a GP patient record within the period 1 Aug to 31 July for the years available, aggregated at England level.
 
-snomed_usage <- snomed_code_usage_urls %>%
+gp_snomed <- gp_snomed_urls %>%
   map(
     read_tsv,
     col_types = list(
@@ -51,18 +47,18 @@ snomed_usage <- snomed_code_usage_urls %>%
   rename(snomed_code = snomed_concept_id)
 
 # Count number of usage with NAs
-sum(is.na(snomed_usage$usage))
+sum(is.na(gp_snomed$usage))
 # [1] 454671
 
 # Replace NAs with 5
-snomed_usage <- snomed_usage |>
+gp_snomed <- gp_snomed |>
   mutate(usage = replace_na(usage, 5))
 
 # Check number of usage with NAs is 0
-sum(is.na(snomed_usage$usage)) == 0
+sum(is.na(gp_snomed$usage)) == 0
 
 # Check codes with missing description
-snomed_usage |>
+gp_snomed |>
   filter(is.na(description)) |>
   select(snomed_code, description, usage) |>
   distinct()
@@ -70,7 +66,7 @@ snomed_usage |>
 
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(
-  snomed_usage,
+  gp_snomed,
   snomed_code
 )
 # [1] "1011271000000107"   "1011311000000107"   "13445001"           "83901003"           "40956001"           "201281002"
@@ -89,19 +85,19 @@ codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problem
 # [79] "440348009"          "53605000"           "797751000000100"    "972931000000108"
 
 # Fix encoding problems
-snomed_usage <- snomed_usage |>
+gp_snomed <- gp_snomed |>
   mutate(description = opencodecounts:::fix_encoding(description))
 
 # Check encoding problems after fix
-opencodecounts:::get_codes_with_encoding_problems(snomed_usage, snomed_code)
+opencodecounts:::get_codes_with_encoding_problems(gp_snomed, snomed_code)
 # character(0)
 
 # Check (but dont fix) codes with multiple descriptions
 codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
-  snomed_usage,
+  gp_snomed,
   snomed_code
 )
 length(codes_with_multiple_desc)
 # [1] 10230
 
-arrow::write_parquet(snomed_usage, here("data-raw", "snomed_usage.parquet"))
+arrow::write_parquet(gp_snomed, here("data-raw", "gp_snomed.parquet"))

@@ -114,7 +114,7 @@ ensure_app_datasets_cached <- function() {
   invisible(NULL)
 }
 
-#' Get yearly SNOMED CT code usage in primary care in England
+#' Get yearly SNOMED CT code usage in GP electronic health records in England
 #'
 #' Downloads (if not already cached) and returns the yearly summary of
 #' SNOMED CT code usage from 1st August 2011 onwards. The variables in this
@@ -142,14 +142,14 @@ ensure_app_datasets_cached <- function() {
 #' @examples
 #' \dontrun{
 #' # Filter for code usage records from 2022-08-01 onwards
-#' get_snomed_usage() |>
+#' get_gp_snomed() |>
 #'   dplyr::filter(start_date >= "2022-08-1")
 #' }
-get_snomed_usage <- function(version = NULL) {
-  get_dataset("snomed_usage", version)
+get_gp_snomed <- function(version = NULL) {
+  get_dataset("gp_snomed", version)
 }
 
-#' Get yearly ICD-10 code usage from Hospital Admitted Patient Care Activity in England
+#' Get yearly ICD-10 diagnosis code usage from Hospital Episode Statistics Admitted Patient Care in England
 #'
 #' Downloads (if not already cached) and returns the yearly summary of
 #' 4-character ICD-10 code usage from 1st April 2012 onwards. The code usage
@@ -177,14 +177,14 @@ get_snomed_usage <- function(version = NULL) {
 #' \dontrun{
 #' # Filter to codes in the ICD-10 Chapter XIX: "Injury, poisoning..."
 #' # (codes begin with letters "S" or "T"), with usage > 10,000.
-#' get_icd10_usage() |>
+#' get_hesapc_icd10() |>
 #'   dplyr::filter(grepl("^[ST]", icd10_code) & usage > 10000)
 #' }
-get_icd10_usage <- function(version = NULL) {
-  get_dataset("icd10_usage", version)
+get_hesapc_icd10 <- function(version = NULL) {
+  get_dataset("hesapc_icd10", version)
 }
 
-#' Get yearly ICD-10 code usage breakdowns from Hospital Admitted Patient Care Activity in England
+#' Get yearly ICD-10 diagnosis code usage breakdowns from Hospital Episode Statistics Admitted Patient Care in England
 #'
 #' Downloads (if not already cached) and returns the yearly summary of
 #' 4-character ICD-10 code usage with demographic breakdowns from 1st April
@@ -213,15 +213,15 @@ get_icd10_usage <- function(version = NULL) {
 #' @examples
 #' \dontrun{
 #' # Compare male vs female usage for codes containing "pregnancy"
-#' get_icd10_usage_breakdowns() |>
+#' get_hesapc_icd10_breakdowns() |>
 #'   dplyr::filter(grepl("pregnancy", description, ignore.case = TRUE)) |>
 #'   dplyr::filter(breakdown %in% c("male", "female"))
 #' }
-get_icd10_usage_breakdowns <- function(version = NULL) {
-  get_dataset("icd10_usage_breakdowns", version)
+get_hesapc_icd10_breakdowns <- function(version = NULL) {
+  get_dataset("hesapc_icd10_breakdowns", version)
 }
 
-#' Get yearly OPCS-4 code usage from Hospital Admitted Patient Care Activity in England
+#' Get yearly OPCS-4 procedure code usage from Hospital Episode Statistics Admitted Patient Care in England
 #'
 #' Downloads (if not already cached) and returns the yearly summary of
 #' 4-character OPCS-4 code usage from 1st April 2012 onwards. The code usage
@@ -248,14 +248,14 @@ get_icd10_usage_breakdowns <- function(version = NULL) {
 #' @examples
 #' \dontrun{
 #' # Filter to procedures involving "biopsy" after March 2020 (note each year runs April - March).
-#' get_opcs4_usage() |>
+#' get_hesapc_opcs4() |>
 #'   dplyr::filter(grepl("biopsy", description, ignore.case = TRUE) & lubridate::year(end_date) > 2020)
 #' }
-get_opcs4_usage <- function(version = NULL) {
-  get_dataset("opcs4_usage", version)
+get_hesapc_opcs4 <- function(version = NULL) {
+  get_dataset("hesapc_opcs4", version)
 }
 
-#' Get yearly OPCS-4 code usage breakdowns from Hospital Admitted Patient Care Activity in England
+#' Get yearly OPCS-4 procedure code usage breakdowns from Hospital Episode Statistics Admitted Patient Care in England
 #'
 #' Downloads (if not already cached) and returns the yearly summary of
 #' 4-character OPCS-4 code usage with demographic breakdowns from 1st April
@@ -284,10 +284,120 @@ get_opcs4_usage <- function(version = NULL) {
 #' @examples
 #' \dontrun{
 #' # Get sex breakdown for hip replacement procedures
-#' get_opcs4_usage_breakdowns() |>
+#' get_hesapc_opcs4_breakdowns() |>
 #'   dplyr::filter(grepl("hip replacement", description, ignore.case = TRUE)) |>
 #'   dplyr::filter(breakdown %in% c("male", "female"))
 #' }
+get_hesapc_opcs4_breakdowns <- function(version = NULL) {
+  get_dataset("hesapc_opcs4_breakdowns", version)
+}
+
+#' Get yearly SNOMED CT code usage in primary care in England
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Renamed to [get_gp_snomed()].
+#'
+#' @inheritParams get_gp_snomed
+#'
+#' @return A tibble
+#'
+#' @keywords internal
+#'
+#' @export
+get_snomed_usage <- function(version = NULL) {
+  lifecycle::deprecate_warn(
+    when = "0.8.0",
+    what = "get_snomed_usage()",
+    with = "get_gp_snomed()"
+  )
+  get_gp_snomed(version)
+}
+
+#' Get yearly ICD-10 code usage from Hospital Admitted Patient Care Activity in England
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Renamed to [get_hesapc_icd10()].
+#'
+#' @inheritParams get_hesapc_icd10
+#'
+#' @return A tibble
+#'
+#' @keywords internal
+#'
+#' @export
+get_icd10_usage <- function(version = NULL) {
+  lifecycle::deprecate_warn(
+    when = "0.8.0",
+    what = "get_icd10_usage()",
+    with = "get_hesapc_icd10()"
+  )
+  get_hesapc_icd10(version)
+}
+
+#' Get yearly ICD-10 code usage breakdowns from Hospital Admitted Patient Care Activity in England
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Renamed to [get_hesapc_icd10_breakdowns()].
+#'
+#' @inheritParams get_hesapc_icd10_breakdowns
+#'
+#' @return A tibble
+#'
+#' @keywords internal
+#'
+#' @export
+get_icd10_usage_breakdowns <- function(version = NULL) {
+  lifecycle::deprecate_warn(
+    when = "0.8.0",
+    what = "get_icd10_usage_breakdowns()",
+    with = "get_hesapc_icd10_breakdowns()"
+  )
+  get_hesapc_icd10_breakdowns(version)
+}
+
+#' Get yearly OPCS-4 code usage from Hospital Admitted Patient Care Activity in England
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Renamed to [get_hesapc_opcs4()].
+#'
+#' @inheritParams get_hesapc_opcs4
+#'
+#' @return A tibble
+#'
+#' @keywords internal
+#'
+#' @export
+get_opcs4_usage <- function(version = NULL) {
+  lifecycle::deprecate_warn(
+    when = "0.8.0",
+    what = "get_opcs4_usage()",
+    with = "get_hesapc_opcs4()"
+  )
+  get_hesapc_opcs4(version)
+}
+
+#' Get yearly OPCS-4 code usage breakdowns from Hospital Admitted Patient Care Activity in England
+#'
+#' `r lifecycle::badge("deprecated")`
+#'
+#' Renamed to [get_hesapc_opcs4_breakdowns()].
+#'
+#' @inheritParams get_hesapc_opcs4_breakdowns
+#'
+#' @return A tibble
+#'
+#' @keywords internal
+#'
+#' @export
 get_opcs4_usage_breakdowns <- function(version = NULL) {
-  get_dataset("opcs4_usage_breakdowns", version)
+  lifecycle::deprecate_warn(
+    when = "0.8.0",
+    what = "get_opcs4_usage_breakdowns()",
+    with = "get_hesapc_opcs4_breakdowns()"
+  )
+  get_hesapc_opcs4_breakdowns(version)
 }

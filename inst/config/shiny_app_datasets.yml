@@ -3,8 +3,8 @@
 datasets:
   snomedct:
     label: "General practice (SNOMED CT)"
-    dataset: "snomed_usage"
-    get_function: "get_snomed_usage"
+    dataset: "gp_snomed"
+    get_function: "get_gp_snomed"
     code_column: "snomed_code"
     description_column: "description"
     has_code_pattern_search: false
@@ -13,8 +13,8 @@ datasets:
     source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care"
   icd10:
     label: "Hospital admissions (ICD-10)"
-    dataset: "icd10_usage"
-    get_function: "get_icd10_usage"
+    dataset: "hesapc_icd10"
+    get_function: "get_hesapc_icd10"
     code_column: "icd10_code"
     description_column: "description"
     has_code_pattern_search: true
@@ -23,8 +23,8 @@ datasets:
     source_url: "https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity"
   opcs4:
     label: "Hospital admissions (OPCS-4)"
-    dataset: "opcs4_usage"
-    get_function: "get_opcs4_usage"
+    dataset: "hesapc_opcs4"
+    get_function: "get_hesapc_opcs4"
     code_column: "opcs4_code"
     description_column: "description"
     has_code_pattern_search: true

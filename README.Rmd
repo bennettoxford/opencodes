@@ -55,11 +55,11 @@ To learn more about the available datasets see the vignette: [Available datasets
 
 ```{r datasets-table, echo = FALSE, message = FALSE}
 dataset_info <- list(
-  list(id = "snomed_usage", fn = "get_snomed_usage()", data = get_snomed_usage()),
-  list(id = "icd10_usage", fn = "get_icd10_usage()", data = get_icd10_usage()),
-  list(id = "icd10_usage_breakdowns", fn = "get_icd10_usage_breakdowns()", data = get_icd10_usage_breakdowns()),
-  list(id = "opcs4_usage", fn = "get_opcs4_usage()", data = get_opcs4_usage()),
-  list(id = "opcs4_usage_breakdowns", fn = "get_opcs4_usage_breakdowns()", data = get_opcs4_usage_breakdowns())
+  list(id = "gp_snomed", fn = "get_gp_snomed()", desc = "GP records, SNOMED CT", data = get_gp_snomed()),
+  list(id = "hesapc_icd10", fn = "get_hesapc_icd10()", desc = "HES Admitted Patient Care, ICD-10 diagnoses", data = get_hesapc_icd10()),
+  list(id = "hesapc_icd10_breakdowns", fn = "get_hesapc_icd10_breakdowns()", desc = "HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns", data = get_hesapc_icd10_breakdowns()),
+  list(id = "hesapc_opcs4", fn = "get_hesapc_opcs4()", desc = "HES Admitted Patient Care, OPCS-4 procedures", data = get_hesapc_opcs4()),
+  list(id = "hesapc_opcs4_breakdowns", fn = "get_hesapc_opcs4_breakdowns()", desc = "HES Admitted Patient Care, OPCS-4 procedures, with breakdowns", data = get_hesapc_opcs4_breakdowns())
 )
 
 tidy_sources <- load_tidy_sources_config()
@@ -67,13 +67,14 @@ tidy_sources <- load_tidy_sources_config()
 purrr::map_dfr(dataset_info, function(d) {
   tibble::tibble(
     Function = paste0("`", d$fn, "`"),
+    Description = d$desc,
     `First period` = format(min(d$data$start_date), "%Y-%m-%d"),
     `Last period` = format(max(d$data$end_date), "%Y-%m-%d"),
     Version = tidy_sources[[d$id]]$version,
     `Tidy data` = paste0("[Download](", tidy_sources[[d$id]]$url, ")")
   )
 }) |>
-  knitr::kable(align = c("l", "r", "r", "r", "l"))
+  knitr::kable(align = c("l", "l", "r", "r", "r", "l"))
 ```
 
 ## For developers

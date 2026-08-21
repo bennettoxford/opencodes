@@ -32,7 +32,7 @@ copy_app_data_for_deploy <- function(dest_dir) {
       dest_path,
       overwrite = TRUE
     )
-    message("Copied ", dataset, " (v", version, ")")
+    cli::cli_inform("Copied {.val {dataset}} (v{version})")
 
     dest_path
   }, character(1))

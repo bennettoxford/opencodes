@@ -1,5 +1,5 @@
-# This script loads OPCS-4 code usage data with demographic breakdowns
-# from files.digital.nhs.uk
+# Loads ICD-10 diagnosis code usage data with demographic breakdowns,
+# published at files.digital.nhs.uk
 library(tidyverse)
 library(janitor)
 library(here)
@@ -8,10 +8,10 @@ library(httr)
 # Using xlsx files because csv structure varies across years, xlsx stays consistent
 # All data from sheet "All Diagnoses 4 Character"
 
-# Source urls per year, defined in inst/config/raw_icd10.yml (shared with
-# icd10_code_usage.R, which reads the same files)
-icd10_breakdowns_xlsx_urls <- opencodecounts:::get_raw_source_periods(
-  "icd10_usage_breakdowns"
+# Source urls per year, defined in inst/config/raw_hesapc_icd10.yml
+# (shared with hesapc_icd10.R, which reads the same files)
+hesapc_icd10_breakdowns_xlsx_urls <- opencodecounts:::get_raw_source_periods(
+  "hesapc_icd10_breakdowns"
 )
 
 # Download xlsx from URL and read with cleaned column names
@@ -32,7 +32,7 @@ read_icd10_usage_xlsx_from_url <- function(url_list, ...) {
 }
 
 # Download and read all xlsx files
-icd10_usage_raw_list <- icd10_breakdowns_xlsx_urls |>
+icd10_usage_raw_list <- hesapc_icd10_breakdowns_xlsx_urls |>
   map(read_icd10_usage_xlsx_from_url)
 
 # Check raw column names before cleaning
@@ -71,7 +71,7 @@ icd10_usage_raw_list |>
   unique()
 
 # Combine all years and parse fiscal year dates
-icd10_usage_breakdowns_long <- icd10_usage_raw_list |>
+hesapc_icd10_breakdowns_long <- icd10_usage_raw_list |>
   map(select_all_diag_breakdowns) |>
   map(set_col_types) |>
   bind_rows(.id = "nhs_fy") |>
@@ -81,7 +81,7 @@ icd10_usage_breakdowns_long <- icd10_usage_raw_list |>
   )
 
 # Pivot breakdowns to long format
-icd10_usage_breakdowns <- icd10_usage_breakdowns_long |>
+hesapc_icd10_breakdowns <- hesapc_icd10_breakdowns_long |>
   pivot_longer(
     cols = all_diagnoses:age_90plus,
     names_to = "breakdown",
@@ -92,27 +92,27 @@ icd10_usage_breakdowns <- icd10_usage_breakdowns_long |>
   )
 
 # Check codes with missing description
-icd10_usage_breakdowns |>
+hesapc_icd10_breakdowns |>
   filter(is.na(description)) |>
   select(icd10_code, description, usage) |>
   distinct()
 
 # Remove "codes" with missing description
-icd10_usage_breakdowns <- icd10_usage_breakdowns |>
+hesapc_icd10_breakdowns <- hesapc_icd10_breakdowns |>
   filter(!is.na(description))
 
 # Fix encoding problems
-icd10_usage_breakdowns <- icd10_usage_breakdowns |>
+hesapc_icd10_breakdowns <- hesapc_icd10_breakdowns |>
   mutate(description = opencodecounts:::fix_encoding(description))
 
 # Check encoding problems after fix
 opencodecounts:::get_codes_with_encoding_problems(
-  icd10_usage_breakdowns,
+  hesapc_icd10_breakdowns,
   icd10_code
 )
 # character(0)
 
 arrow::write_parquet(
-  icd10_usage_breakdowns,
-  here("data-raw", "icd10_usage_breakdowns.parquet")
+  hesapc_icd10_breakdowns,
+  here("data-raw", "hesapc_icd10_breakdowns.parquet")
 )

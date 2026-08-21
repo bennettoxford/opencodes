@@ -2,8 +2,8 @@ test_that("load_dataset_registry() parses the package's shiny_app_datasets.yml",
   registry <- load_dataset_registry()
 
   expect_named(registry, c("snomedct", "icd10", "opcs4"))
-  expect_equal(registry$snomedct$dataset, "snomed_usage")
-  expect_equal(registry$snomedct$get_function, "get_snomed_usage")
+  expect_equal(registry$snomedct$dataset, "gp_snomed")
+  expect_equal(registry$snomedct$get_function, "get_gp_snomed")
 })
 
 test_that("dataset_choices() returns dataset ids named by their label", {
@@ -22,7 +22,7 @@ test_that("dataset_choices() returns dataset ids named by their label", {
 test_that("get_dataset_by_id() returns the full config for a known dataset", {
   cfg <- get_dataset_by_id("icd10")
 
-  expect_equal(cfg$get_function, "get_icd10_usage")
+  expect_equal(cfg$get_function, "get_hesapc_icd10")
   expect_equal(cfg$code_column, "icd10_code")
   expect_true(cfg$has_code_pattern_search)
   expect_equal(cfg$code_pattern_label, "ICD-10 category")
@@ -36,7 +36,10 @@ test_that("get_dataset_by_id() reports snomedct as not having a code pattern sea
 })
 
 test_that("get_dataset_by_id() errors for an unknown dataset id", {
-  expect_error(get_dataset_by_id("not_a_real_dataset"), "not found")
+  expect_error(
+    get_dataset_by_id("not_a_real_dataset"),
+    class = "opencodecounts_error_app_dataset_not_found"
+  )
 })
 
 test_that("icd10 and opcs4 registry entries reuse the same source url", {

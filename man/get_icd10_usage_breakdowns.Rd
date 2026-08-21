@@ -3,9 +3,6 @@
 \name{get_icd10_usage_breakdowns}
 \alias{get_icd10_usage_breakdowns}
 \title{Get yearly ICD-10 code usage breakdowns from Hospital Admitted Patient Care Activity in England}
-\source{
-\url{https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity}
-}
 \usage{
 get_icd10_usage_breakdowns(version = NULL)
 }
@@ -16,27 +13,9 @@ get_icd10_usage_breakdowns(version = NULL)
 A tibble
 }
 \description{
-Downloads (if not already cached) and returns the yearly summary of
-4-character ICD-10 code usage with demographic breakdowns from 1st April
-2012 onwards. Includes breakdowns by diagnosis type (all/main), sex, and
-age group. Restricted codes for which annual usage is not published have
-been removed.
-\describe{
-\item{start_date}{Start date of code usage count}
-\item{end_date}{End date of code usage count}
-\item{icd10_code}{The 4-character ICD-10 Code.
-Note that the punctuation from the code has been removed for compatibility with OpenCodelists.}
-\item{description}{Description of the ICD-10 Code}
-\item{breakdown}{Type of breakdown: all_diagnoses, main_diagnosis, male, female,
-gender_unknown, or age groups (age_0, age_1_4, age_5_9, ..., age_85_89, age_90plus)}
-\item{usage}{Annual count of code usage. NA where suppressed due to small numbers.}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
+\details{
+Renamed to \code{\link[=get_hesapc_icd10_breakdowns]{get_hesapc_icd10_breakdowns()}}.
 }
-\examples{
-\dontrun{
-# Compare male vs female usage for codes containing "pregnancy"
-get_icd10_usage_breakdowns() |>
-  dplyr::filter(grepl("pregnancy", description, ignore.case = TRUE)) |>
-  dplyr::filter(breakdown \%in\% c("male", "female"))
-}
-}
+\keyword{internal}

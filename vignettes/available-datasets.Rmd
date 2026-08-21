@@ -33,11 +33,11 @@ SNOMED CT is the world’s most comprehensive clinical terminology system, encod
 
 The annual code usage is [published](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care) every October by NHS England, covering the preceding August to July. The number of individuals included has been increasing, reaching over 62 million patient records across 6,600 providers in 2023/24. The annual usage count reflects how many times each listed SNOMED code was added to a GP patient record in England in a given year. The codes are included if they have been used at least ones across the selected years. The counts are rounded to the nearest 10, while counts between 1 and 4 are withheld. The codes with no usage are excluded.
 
-This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/snomed_code_usage.R`.
+This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/gp_snomed.R`.
 
-```{r snomed-usage}
+```{r gp-snomed}
 # Return SNOMED code usage data
-get_snomed_usage()
+get_gp_snomed()
 ```
 
 ## ICD-10 code usage in inpatient admissions in England
@@ -46,11 +46,11 @@ ICD-10 is a global classification system, containing 18,000 diagnoses coded as f
 
 Activity in HES-APC is captured in episodes of care under one consultant, known as Finished Consultant Episodes (FCEs). Each FCE can be assigned up to 20 clinical diagnoses (ICD-10 codes). The usage count for ICD-10 codes equals the number of FCEs with a specific four-character ICD-10 code recorded in any diagnostic position. This means that each diagnoses can be counted only once per FCE. To be included in the dataset, each diagnosis code must have been used at least once across the selected years. The counts in HES-APC are not rounded and codes with no usage are excluded.
 
-This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/icd10_code_usage.R`.
+This is only a selection of the full dataset published by NHS Digital, for data pre-processing see `/data-raw/hesapc_icd10.R`.
 
-```{r icd10-usage}
+```{r hesapc-icd10}
 # Return ICD-10 code usage data
-get_icd10_usage()
+get_hesapc_icd10()
 ```
 
 ## OPCS-4 code usage in inpatient admissions in England
@@ -59,9 +59,9 @@ OPCS-4 consists of 11,500 four-letter alphanumeric codes and was developed by NH
 
 Activity in HES-APC is captured in episodes of care under one consultant, known as Finished Consultant Episodes (FCEs). Each FCE can be assigned up to 24 procedures (OPCS-4 codes). The usage count for the OPCS-4 codes equals the number of times each 4-character OPCS-4 code is listed across all FCEs in a given year. This means that unlike diagnoses, a procedure can be counted multiple times within one FCE. To be included in the dataset, each procedure code must have been used at least once across the selected years. The counts in HES-APC are not rounded and codes with no usage are excluded.
 
-This is only a selection of the full dataset published by NHS Digital, for the data pre-processing see `/data-raw/opcs4_code_usage.R`.
+This is only a selection of the full dataset published by NHS Digital, for the data pre-processing see `/data-raw/hesapc_opcs4.R`.
 
-```{r opcs-4-usage}
+```{r hesapc-opcs4}
 # Return OPCS-4 code usage data
-get_opcs4_usage()
+get_hesapc_opcs4()
 ```

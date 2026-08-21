@@ -1,15 +1,14 @@
-# This script loads all available code usage data from files.digital.nhs.uk
 library(tidyverse)
 library(janitor)
 library(here)
 library(httr)
 
-# Source urls per year, defined in inst/config/raw_icd10.yml (shared with
-# icd10_usage_breakdowns.R, which reads the same files)
-icd10_code_usage_urls <- opencodecounts:::get_raw_source_periods("icd10_usage")
+# Source urls per year, defined in inst/config/raw_hesapc_opcs4.yml
+# (shared with hesapc_opcs4_breakdowns.R, which reads the same files)
+hesapc_opcs4_urls <- opencodecounts:::get_raw_source_periods("hesapc_opcs4")
 
 # Function to download and read the xlsx files
-read_icd10_usage_xlsx_from_url <- function(url_list, ...) {
+read_hesapc_opcs4_xlsx_from_url <- function(url_list, ...) {
   temp_file <- tempfile(fileext = ".xlsx")
   GET(
     url_list$url,
@@ -29,7 +28,7 @@ read_icd10_usage_xlsx_from_url <- function(url_list, ...) {
 select_all_diag_counts <- function(data, url_list) {
   dplyr::select(
     data,
-    icd10_code = 1,
+    opcs4_code = 1,
     description = 2,
     usage = url_list$usage_col
   ) |>
@@ -39,64 +38,55 @@ select_all_diag_counts <- function(data, url_list) {
 }
 
 # Combine both functions
-get_icd10_data <- function(url_list, ...) {
-  df_temp <- read_icd10_usage_xlsx_from_url(url_list, ...)
+get_opcs4_data <- function(url_list, ...) {
+  df_temp <- read_hesapc_opcs4_xlsx_from_url(url_list, ...)
   select_all_diag_counts(df_temp, url_list)
 }
 
-icd10_usage <- icd10_code_usage_urls |>
-  map(get_icd10_data) |>
+hesapc_opcs4 <- hesapc_opcs4_urls |>
+  map(get_opcs4_data) |>
   bind_rows(.id = "nhs_fy") |>
   opencodecounts:::add_period_dates("nhs_fy", "04-01", "03-31") |>
   mutate(
-    icd10_code = gsub("\\s?[^[:alnum:]]+\\s?", "", icd10_code)
+    opcs4_code = gsub("\\s?[^[:alnum:]]+\\s?", "", opcs4_code)
   )
 
 # Count number of usage with NAs
-sum(is.na(icd10_usage$usage))
-# [1] 341
+sum(is.na(hesapc_opcs4$usage))
+# [1] 151
 
 # Replace NAs with 5
-icd10_usage <- icd10_usage |>
+hesapc_opcs4 <- hesapc_opcs4 |>
   mutate(usage = replace_na(usage, 5))
 
 # Check number of usage with NAs is 0
-sum(is.na(icd10_usage$usage)) == 0
+sum(is.na(hesapc_opcs4$usage)) == 0
 
 # Check codes with missing description
-icd10_usage |>
+hesapc_opcs4 |>
   filter(is.na(description)) |>
-  select(icd10_code, description, usage) |>
+  select(opcs4_code, description, usage) |>
   distinct() |>
-  print(n = 39)
-# A tibble: 38 × 3
+  print(n = 32)
+# A tibble: 32 × 3
 
 # Remove "codes" with missing description
-icd10_usage <- icd10_usage |>
+hesapc_opcs4 <- hesapc_opcs4 |>
   filter(!is.na(description))
 
 # Check encoding problems before fix
 codes_with_encoding_problems <- opencodecounts:::get_codes_with_encoding_problems(
-  icd10_usage,
-  icd10_code
+  hesapc_opcs4,
+  opcs4_code
 )
-# [1] "C841" "C880" "D510" "D511" "D513" "D518" "D519" "E672" "E750" "G375" "G610" "H810" "L705"
-# [14] "L813" "M350" "M352" "M911" "M931" "T470" "Y441" "Y530"
-
-# Fix encoding problems
-icd10_usage <- icd10_usage |>
-  mutate(description = opencodecounts:::fix_encoding(description))
-
-# Check encoding problems after fix
-opencodecounts:::get_codes_with_encoding_problems(icd10_usage, icd10_code)
 # character(0)
 
 # Check (but dont fix) codes with multiple descriptions
 codes_with_multiple_desc <- opencodecounts:::get_codes_with_multiple_desc(
-  icd10_usage,
-  icd10_code
+  hesapc_opcs4,
+  opcs4_code
 )
 length(codes_with_multiple_desc)
-# [1] 214
+# [1] 99
 
-arrow::write_parquet(icd10_usage, here("data-raw", "icd10_usage.parquet"))
+arrow::write_parquet(hesapc_opcs4, here("data-raw", "hesapc_opcs4.parquet"))

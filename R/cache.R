@@ -59,27 +59,19 @@ cache_info <- function(max_size_mb = 1000) {
   data_size <- sum(file.info(data_files)$size, na.rm = TRUE)
   data_count <- length(data_files)
 
-  message("Cache directory: ", cache_dir)
-  message(
-    "Cached datasets: ",
-    format(structure(data_size, class = "object_size"), units = "auto"),
-    " (",
-    data_count,
-    " dataset",
-    if (data_count != 1) "s" else "",
-    ")"
+  cli::cli_inform("Cache directory: {.path {cache_dir}}")
+  cli::cli_inform(
+    "Cached datasets: {format(structure(data_size, class = 'object_size'), units = 'auto')} ({data_count} dataset{?s})"
   )
 
   size_mb <- data_size / (1024^2)
   if (size_mb > max_size_mb) {
-    warning(
-      "Cache size (",
-      round(size_mb),
-      " MB) exceeds recommended limit (",
-      max_size_mb,
-      " MB). ",
-      "Consider running cache_clear() to free space.",
-      call. = FALSE
+    cli::cli_warn(
+      c(
+        "Cache size ({.val {round(size_mb)}} MB) exceeds the recommended limit ({.val {max_size_mb}} MB).",
+        "i" = "Run {.run opencodecounts::cache_clear()} to free space."
+      ),
+      class = "opencodecounts_warning_cache_size"
     )
   }
 
@@ -108,9 +100,9 @@ cache_clear <- function() {
 
   if (dir.exists(data_dir)) {
     unlink(data_dir, recursive = TRUE)
-    message("Cleared cached datasets")
+    cli::cli_inform("Cleared cached datasets")
   } else {
-    message("No cached datasets to clear")
+    cli::cli_inform("No cached datasets to clear")
   }
 
   invisible(TRUE)

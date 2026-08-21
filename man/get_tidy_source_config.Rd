@@ -7,12 +7,12 @@
 get_tidy_source_config(dataset, version = NULL)
 }
 \arguments{
-\item{dataset}{String, dataset name (e.g. "snomed_usage")}
+\item{dataset}{String, dataset name (e.g. "hesapc_icd10")}
 
 \item{version}{String, specific version to use, or \code{NULL} for the latest}
 }
 \value{
-List with fields: version, versions, url
+List with fields: version, versions, url, publication, variant
 }
 \description{
 Get tidy source configuration for a dataset

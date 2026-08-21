@@ -1,5 +1,5 @@
-# This script loads OPCS-4 code usage data with demographic breakdowns
-# from files.digital.nhs.uk
+# Loads OPCS-4 procedure code usage data with demographic breakdowns,
+# published at files.digital.nhs.uk
 library(tidyverse)
 library(janitor)
 library(here)
@@ -8,10 +8,10 @@ library(httr)
 # Using xlsx files because csv structure varies across years, xlsx stays consistent
 # All data from sheet "All Diagnoses 4 Character"
 
-# Source urls per year, defined in inst/config/raw_opcs4.yml (shared with
-# opcs4_code_usage.R, which reads the same files)
+# Source urls per year, defined in inst/config/raw_hesapc_opcs4.yml
+# (shared with hesapc_opcs4.R, which reads the same files)
 opcs4_breakdowns_xlsx_urls <- opencodecounts:::get_raw_source_periods(
-  "opcs4_usage_breakdowns"
+  "hesapc_opcs4_breakdowns"
 )
 
 # Download xlsx from URL and read with cleaned column names
@@ -71,7 +71,7 @@ opcs4_usage_raw_list |>
   unique()
 
 # Combine all years and parse fiscal year dates
-opcs4_usage_breakdowns_long <- opcs4_usage_raw_list |>
+hesapc_opcs4_breakdowns_long <- opcs4_usage_raw_list |>
   map(select_all_diag_breakdowns) |>
   map(set_col_types) |>
   bind_rows(.id = "nhs_fy") |>
@@ -81,7 +81,7 @@ opcs4_usage_breakdowns_long <- opcs4_usage_raw_list |>
   )
 
 # Pivot breakdowns to long format
-opcs4_usage_breakdowns <- opcs4_usage_breakdowns_long |>
+hesapc_opcs4_breakdowns <- hesapc_opcs4_breakdowns_long |>
   pivot_longer(
     cols = all_procedures:age_90plus,
     names_to = "breakdown",
@@ -92,12 +92,12 @@ opcs4_usage_breakdowns <- opcs4_usage_breakdowns_long |>
   )
 
 # Check codes with missing description
-opcs4_usage_breakdowns |>
+hesapc_opcs4_breakdowns |>
   filter(is.na(description)) |>
   select(opcs4_code, description, usage) |>
   distinct()
 
 arrow::write_parquet(
-  opcs4_usage_breakdowns,
-  here("data-raw", "opcs4_usage_breakdowns.parquet")
+  hesapc_opcs4_breakdowns,
+  here("data-raw", "hesapc_opcs4_breakdowns.parquet")
 )
