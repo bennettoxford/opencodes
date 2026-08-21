@@ -21,8 +21,10 @@ called `all_procedures` and `main_procedure` instead.
 
 ``` r
 
-icd10_usage_breakdowns <- get_icd10_usage_breakdowns()
-#> Downloading icd10_usage_breakdowns (v0.1.0) ...
+icd10_usage_breakdowns <- get_hesapc_icd10_breakdowns()
+#> ℹ Downloading "hesapc_icd10_breakdowns" (v0.1.0)
+#> ✔ Downloading "hesapc_icd10_breakdowns" (v0.1.0) [445ms]
+#> 
 
 # Available breakdowns for ICD-10
 unique(icd10_usage_breakdowns$breakdown)

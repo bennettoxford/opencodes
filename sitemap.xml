@@ -12,6 +12,7 @@
 <url><loc>https://bennettoxford.github.io/opencodecounts/articles/index.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/authors.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/index.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/news/index.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/Codelist.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/about_card.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/add_period_dates.html</loc></url>
@@ -42,6 +43,11 @@
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_data_cache_dir.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_dataset.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_dataset_by_id.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10_breakdowns.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4.html</loc></url>
+<url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4_breakdowns.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage_breakdowns.html</loc></url>
 <url><loc>https://bennettoxford.github.io/opencodecounts/reference/get_local_data_path.html</loc></url>

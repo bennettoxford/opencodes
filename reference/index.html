@@ -10,7 +10,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,24 +54,24 @@
 
       <dl><dt>
 
-          <code><a href="get_snomed_usage.html">get_snomed_usage()</a></code>
+          <code><a href="get_gp_snomed.html">get_gp_snomed()</a></code>
 
         </dt>
-        <dd>Get yearly SNOMED CT code usage in primary care in England</dd>
+        <dd>Get yearly SNOMED CT code usage in GP electronic health records in England</dd>
 
         <dt>
 
-          <code><a href="get_icd10_usage.html">get_icd10_usage()</a></code>
+          <code><a href="get_hesapc_icd10.html">get_hesapc_icd10()</a></code>
 
         </dt>
-        <dd>Get yearly ICD-10 code usage from Hospital Admitted Patient Care Activity in England</dd>
+        <dd>Get yearly ICD-10 diagnosis code usage from Hospital Episode Statistics Admitted Patient Care in England</dd>
 
         <dt>
 
-          <code><a href="get_opcs4_usage.html">get_opcs4_usage()</a></code>
+          <code><a href="get_hesapc_opcs4.html">get_hesapc_opcs4()</a></code>
 
         </dt>
-        <dd>Get yearly OPCS-4 code usage from Hospital Admitted Patient Care Activity in England</dd>
+        <dd>Get yearly OPCS-4 procedure code usage from Hospital Episode Statistics Admitted Patient Care in England</dd>
       </dl></div><div class="section level2">
       <h2 id="datasets-with-breakdowns">Datasets with breakdowns<a class="anchor" aria-label="anchor" href="#datasets-with-breakdowns"></a></h2>
 
@@ -84,17 +84,17 @@
 
       <dl><dt>
 
-          <code><a href="get_icd10_usage_breakdowns.html">get_icd10_usage_breakdowns()</a></code>
+          <code><a href="get_hesapc_icd10_breakdowns.html">get_hesapc_icd10_breakdowns()</a></code>
 
         </dt>
-        <dd>Get yearly ICD-10 code usage breakdowns from Hospital Admitted Patient Care Activity in England</dd>
+        <dd>Get yearly ICD-10 diagnosis code usage breakdowns from Hospital Episode Statistics Admitted Patient Care in England</dd>
 
         <dt>
 
-          <code><a href="get_opcs4_usage_breakdowns.html">get_opcs4_usage_breakdowns()</a></code>
+          <code><a href="get_hesapc_opcs4_breakdowns.html">get_hesapc_opcs4_breakdowns()</a></code>
 
         </dt>
-        <dd>Get yearly OPCS-4 code usage breakdowns from Hospital Admitted Patient Care Activity in England</dd>
+        <dd>Get yearly OPCS-4 procedure code usage breakdowns from Hospital Episode Statistics Admitted Patient Care in England</dd>
       </dl></div><div class="section level2">
       <h2 id="codelists">Codelists<a class="anchor" aria-label="anchor" href="#codelists"></a></h2>
 
@@ -180,6 +180,50 @@
 
         </dt>
         <dd>List available versions for a dataset</dd>
+      </dl></div><div class="section level2">
+      <h2 id="deprecated">Deprecated<a class="anchor" aria-label="anchor" href="#deprecated"></a></h2>
+
+      <div class="section-desc"><p>Renamed; still work, but use the versions above instead.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_snomed_usage.html">get_snomed_usage()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get yearly SNOMED CT code usage in primary care in England</dd>
+
+        <dt>
+
+          <code><a href="get_icd10_usage.html">get_icd10_usage()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get yearly ICD-10 code usage from Hospital Admitted Patient Care Activity in England</dd>
+
+        <dt>
+
+          <code><a href="get_icd10_usage_breakdowns.html">get_icd10_usage_breakdowns()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get yearly ICD-10 code usage breakdowns from Hospital Admitted Patient Care Activity in England</dd>
+
+        <dt>
+
+          <code><a href="get_opcs4_usage.html">get_opcs4_usage()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get yearly OPCS-4 code usage from Hospital Admitted Patient Care Activity in England</dd>
+
+        <dt>
+
+          <code><a href="get_opcs4_usage_breakdowns.html">get_opcs4_usage_breakdowns()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get yearly OPCS-4 code usage breakdowns from Hospital Admitted Patient Care Activity in England</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

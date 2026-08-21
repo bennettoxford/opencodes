@@ -42,10 +42,18 @@ some time as it downloads the data).
 
 1.  Write `data-raw/<name>.R` and `inst/config/raw_<name>.yml`,
     following the existing pattern
-2.  Add an entry to `tidy_data_sources.yml`
+2.  Add an entry to `tidy_data_sources.yml`. Set `publication` to the
+    `raw_<name>.yml` base name and `variant` to `usage` or `breakdowns`.
+    [`get_raw_source_periods()`](https://bennettoxford.github.io/opencodecounts/reference/get_raw_source_periods.md)
+    reads both.
 3.  Export a `get_<name>()` function in `R/get-data.R`
 4.  `just release` to publish it
 5.  Add it to `shiny_app_datasets.yml` if it should appear in the app
+
+Dataset names follow `<source>_<coding system>`. `hesapc_icd10` means
+HES Admitted Patient Care, ICD-10. `gp_snomed` means GP, SNOMED CT. If a
+dataset has no single coding system, like QOF registers, use a short
+content word instead: `qof_registers`.
 
 ## Running the app locally
 

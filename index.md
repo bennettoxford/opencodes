@@ -41,13 +41,13 @@ files. To learn more about the available datasets see the vignette:
 [Available datasets in
 opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
 
-| Function | First period | Last period | Version | Tidy data |
-|:---|---:|---:|---:|:---|
-| [`get_snomed_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_snomed_usage.md) | 2011-08-01 | 2025-07-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
-| [`get_icd10_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage.md) | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
-| [`get_icd10_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage_breakdowns.md) | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
-| [`get_opcs4_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage.md) | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
-| [`get_opcs4_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage_breakdowns.md) | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
+| Function | Description | First period | Last period | Version | Tidy data |
+|:---|:---|---:|---:|---:|:---|
+| [`get_gp_snomed()`](https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.md) | GP records, SNOMED CT | 2011-08-01 | 2025-07-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
+| [`get_hesapc_icd10()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10.md) | HES Admitted Patient Care, ICD-10 diagnoses | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
+| [`get_hesapc_icd10_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10_breakdowns.md) | HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
+| [`get_hesapc_opcs4()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4.md) | HES Admitted Patient Care, OPCS-4 procedures | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
+| [`get_hesapc_opcs4_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4_breakdowns.md) | HES Admitted Patient Care, OPCS-4 procedures, with breakdowns | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
 
 ## For developers
 

@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,7 +104,7 @@ Primary Care Domain Reference Set Portal</a>:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get data for both codelists and extract semantic tag</span></span>
-<span><span class="va">depscrn_cod_usage</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_snomed_usage.html">get_snomed_usage</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">depscrn_cod_usage</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_gp_snomed.html">get_gp_snomed</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">snomed_code</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">depscrn_cod</span><span class="op">$</span><span class="va">code</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    semantic_tag <span class="op">=</span> <span class="fu"><a href="../reference/extract_semantic_tag.html">extract_semantic_tag</a></span><span class="op">(</span><span class="va">description</span><span class="op">)</span>,</span>

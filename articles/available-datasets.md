@@ -59,13 +59,15 @@ counts are rounded to the nearest 10, while counts between 1 and 4 are
 withheld. The codes with no usage are excluded.
 
 This is only a selection of the full dataset published by NHS Digital,
-for data pre-processing see `/data-raw/snomed_code_usage.R`.
+for data pre-processing see `/data-raw/gp_snomed.R`.
 
 ``` r
 
 # Return SNOMED code usage data
-get_snomed_usage()
-#> Downloading snomed_usage (v0.1.0) ...
+get_gp_snomed()
+#> ℹ Downloading "gp_snomed" (v0.1.0)
+#> ✔ Downloading "gp_snomed" (v0.1.0) [448ms]
+#> 
 #> # A tibble: 1,682,534 × 7
 #>    start_date end_date   snomed_code      description      usage active_at_start
 #>    <date>     <date>     <chr>            <chr>            <int> <lgl>          
@@ -108,13 +110,15 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.
 
 This is only a selection of the full dataset published by NHS Digital,
-for data pre-processing see `/data-raw/icd10_code_usage.R`.
+for data pre-processing see `/data-raw/hesapc_icd10.R`.
 
 ``` r
 
 # Return ICD-10 code usage data
-get_icd10_usage()
-#> Downloading icd10_usage (v0.1.0) ...
+get_hesapc_icd10()
+#> ℹ Downloading "hesapc_icd10" (v0.1.0)
+#> ✔ Downloading "hesapc_icd10" (v0.1.0) [135ms]
+#> 
 #> # A tibble: 147,483 × 5
 #>    start_date end_date   icd10_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>
@@ -152,13 +156,15 @@ least once across the selected years. The counts in HES-APC are not
 rounded and codes with no usage are excluded.
 
 This is only a selection of the full dataset published by NHS Digital,
-for the data pre-processing see `/data-raw/opcs4_code_usage.R`.
+for the data pre-processing see `/data-raw/hesapc_opcs4.R`.
 
 ``` r
 
 # Return OPCS-4 code usage data
-get_opcs4_usage()
-#> Downloading opcs4_usage (v0.1.0) ...
+get_hesapc_opcs4()
+#> ℹ Downloading "hesapc_opcs4" (v0.1.0)
+#> ✔ Downloading "hesapc_opcs4" (v0.1.0) [122ms]
+#> 
 #> # A tibble: 116,680 × 5
 #>    start_date end_date   opcs4_code description                            usage
 #>    <date>     <date>     <chr>      <chr>                                  <int>

@@ -1,47 +1,12 @@
 # Get yearly SNOMED CT code usage in primary care in England
 
-Downloads (if not already cached) and returns the yearly summary of
-SNOMED CT code usage from 1st August 2011 onwards. The variables in this
-dataset include:
-
-- start_date:
-
-  Start date of code usage count
-
-- end_date:
-
-  End date of code usage count
-
-- snomed_code:
-
-  SNOMED Concept ID
-
-- usage:
-
-  Yearly summary of code usage. Note that counts are rounded to the
-  nearest 10. Counts of 5 or below are displayed as 5.
-
-- active_at_start:
-
-  Specifying whether code was active at the start date.
-
-- active_at_end:
-
-  Specifying whether code was active at the end date.
-
-- description:
-
-  Description of SNOMED Concept ID
+**\[deprecated\]**
 
 ## Usage
 
 ``` r
 get_snomed_usage(version = NULL)
 ```
-
-## Source
-
-<https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care>
 
 ## Arguments
 
@@ -53,12 +18,7 @@ get_snomed_usage(version = NULL)
 
 A tibble
 
-## Examples
+## Details
 
-``` r
-if (FALSE) { # \dontrun{
-# Filter for code usage records from 2022-08-01 onwards
-get_snomed_usage() |>
-  dplyr::filter(start_date >= "2022-08-1")
-} # }
-```
+Renamed to
+[`get_gp_snomed()`](https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.md).

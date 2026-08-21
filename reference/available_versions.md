@@ -15,7 +15,7 @@ available_versions(dataset)
 - dataset:
 
   String, dataset name as listed in `tidy_data_sources.yml` (e.g.
-  `"snomed_usage"`, `"icd10_usage"`)
+  `"gp_snomed"`, `"hesapc_icd10"`)
 
 ## Value
 
@@ -25,6 +25,6 @@ Character vector of available versions, newest first
 
 ``` r
 if (FALSE) { # \dontrun{
-available_versions("snomed_usage")
+available_versions("hesapc_icd10")
 } # }
 ```

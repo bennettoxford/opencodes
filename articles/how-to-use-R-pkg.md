@@ -49,7 +49,7 @@ as_tibble(icd10_xix_codelist)
 # Filter ICD-10 code usage to only include
 #  1. codes from icd10_xix_codelist
 #  2. code usage data from 2014 onwards
-df_icd10_xix <- get_icd10_usage() |>
+df_icd10_xix <- get_hesapc_icd10() |>
   filter(icd10_code %in% icd10_xix_codelist$code) |>
   filter(start_date >= "2014-03-31")
 ```

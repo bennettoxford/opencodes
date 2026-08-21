@@ -10,7 +10,7 @@
 
     <a class="navbar-brand me-2" href="index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,14 +82,14 @@
 <div class="section level2">
 <h2 id="adding-a-new-dataset">Adding a new dataset<a class="anchor" aria-label="anchor" href="#adding-a-new-dataset"></a></h2>
 <ol style="list-style-type: decimal"><li>Write <code>data-raw/&lt;name&gt;.R</code> and <code>inst/config/raw_&lt;name&gt;.yml</code>, following the existing pattern</li>
-<li>Add an entry to <code>tidy_data_sources.yml</code>
-</li>
+<li>Add an entry to <code>tidy_data_sources.yml</code>. Set <code>publication</code> to the <code>raw_&lt;name&gt;.yml</code> base name and <code>variant</code> to <code>usage</code> or <code>breakdowns</code>. <code><a href="reference/get_raw_source_periods.html">get_raw_source_periods()</a></code> reads both.</li>
 <li>Export a <code>get_&lt;name&gt;()</code> function in <code>R/get-data.R</code>
 </li>
 <li>
 <code>just release</code> to publish it</li>
 <li>Add it to <code>shiny_app_datasets.yml</code> if it should appear in the app</li>
-</ol></div>
+</ol><p>Dataset names follow <code>&lt;source&gt;_&lt;coding system&gt;</code>. <code>hesapc_icd10</code> means HES Admitted Patient Care, ICD-10. <code>gp_snomed</code> means GP, SNOMED CT. If a dataset has no single coding system, like QOF registers, use a short content word instead: <code>qof_registers</code>.</p>
+</div>
 <div class="section level2">
 <h2 id="running-the-app-locally">Running the app locally<a class="anchor" aria-label="anchor" href="#running-the-app-locally"></a></h2>
 <p><code><a href="reference/run_app.html">run_app()</a></code> downloads and caches data like any other user. Run <code><a href="reference/cache_clear.html">cache_clear()</a></code> first if you want to test against data you just published.</p>

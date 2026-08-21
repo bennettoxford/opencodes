@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">opencodecounts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,8 +97,10 @@ breakdowns are available for OPCS-4, but the position breakdowns are
 called <code>all_procedures</code> and <code>main_procedure</code>
 instead.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">icd10_usage_breakdowns</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_icd10_usage_breakdowns.html">get_icd10_usage_breakdowns</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Downloading icd10_usage_breakdowns (v0.1.0) ...</span></span>
+<code class="sourceCode R"><span><span class="va">icd10_usage_breakdowns</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hesapc_icd10_breakdowns.html">get_hesapc_icd10_breakdowns</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Downloading <span style="color: #0000BB;">"hesapc_icd10_breakdowns"</span> (v0.1.0)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Downloading <span style="color: #0000BB;">"hesapc_icd10_breakdowns"</span> (v0.1.0) <span style="color: #B2B2B2;">[445ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
 <span></span>
 <span><span class="co"># Available breakdowns for ICD-10</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">icd10_usage_breakdowns</span><span class="op">$</span><span class="va">breakdown</span><span class="op">)</span></span>

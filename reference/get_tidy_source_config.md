@@ -12,7 +12,7 @@ get_tidy_source_config(dataset, version = NULL)
 
 - dataset:
 
-  String, dataset name (e.g. "snomed_usage")
+  String, dataset name (e.g. "hesapc_icd10")
 
 - version:
 
@@ -20,4 +20,4 @@ get_tidy_source_config(dataset, version = NULL)
 
 ## Value
 
-List with fields: version, versions, url
+List with fields: version, versions, url, publication, variant

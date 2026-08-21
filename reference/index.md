@@ -2,23 +2,24 @@
 
 ## Datasets with total counts
 
-- [`get_snomed_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_snomed_usage.md)
-  : Get yearly SNOMED CT code usage in primary care in England
-- [`get_icd10_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage.md)
-  : Get yearly ICD-10 code usage from Hospital Admitted Patient Care
-  Activity in England
-- [`get_opcs4_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage.md)
-  : Get yearly OPCS-4 code usage from Hospital Admitted Patient Care
-  Activity in England
+- [`get_gp_snomed()`](https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.md)
+  : Get yearly SNOMED CT code usage in GP electronic health records in
+  England
+- [`get_hesapc_icd10()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10.md)
+  : Get yearly ICD-10 diagnosis code usage from Hospital Episode
+  Statistics Admitted Patient Care in England
+- [`get_hesapc_opcs4()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4.md)
+  : Get yearly OPCS-4 procedure code usage from Hospital Episode
+  Statistics Admitted Patient Care in England
 
 ## Datasets with breakdowns
 
-- [`get_icd10_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage_breakdowns.md)
-  : Get yearly ICD-10 code usage breakdowns from Hospital Admitted
-  Patient Care Activity in England
-- [`get_opcs4_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage_breakdowns.md)
-  : Get yearly OPCS-4 code usage breakdowns from Hospital Admitted
-  Patient Care Activity in England
+- [`get_hesapc_icd10_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10_breakdowns.md)
+  : Get yearly ICD-10 diagnosis code usage breakdowns from Hospital
+  Episode Statistics Admitted Patient Care in England
+- [`get_hesapc_opcs4_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4_breakdowns.md)
+  : Get yearly OPCS-4 procedure code usage breakdowns from Hospital
+  Episode Statistics Admitted Patient Care in England
 
 ## Codelists
 
@@ -51,3 +52,23 @@
   : Clear the cache
 - [`available_versions()`](https://bennettoxford.github.io/opencodecounts/reference/available_versions.md)
   : List available versions for a dataset
+
+## Deprecated
+
+Renamed; still work, but use the versions above instead.
+
+- [`get_snomed_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_snomed_usage.md)
+  **\[deprecated\]** : Get yearly SNOMED CT code usage in primary care
+  in England
+- [`get_icd10_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage.md)
+  **\[deprecated\]** : Get yearly ICD-10 code usage from Hospital
+  Admitted Patient Care Activity in England
+- [`get_icd10_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_icd10_usage_breakdowns.md)
+  **\[deprecated\]** : Get yearly ICD-10 code usage breakdowns from
+  Hospital Admitted Patient Care Activity in England
+- [`get_opcs4_usage()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage.md)
+  **\[deprecated\]** : Get yearly OPCS-4 code usage from Hospital
+  Admitted Patient Care Activity in England
+- [`get_opcs4_usage_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_opcs4_usage_breakdowns.md)
+  **\[deprecated\]** : Get yearly OPCS-4 code usage breakdowns from
+  Hospital Admitted Patient Care Activity in England
