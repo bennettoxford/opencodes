@@ -236,8 +236,9 @@ We standardised the codes to remove inconsistencies, non-alphanumeric characters
 In the source ICD-10 and OPCS-4 datasets, the small counts are suppressed only for codes considered sensitive, such as [non-spontaneous abortions](https://www.gov.uk/government/statistics/abortion-statistics-for-england-and-wales-2022/guide-to-abortion-statistics-england-and-wales-2022).
 For consistency across the datasets, we imputed a value of 5.
 In addition to the total counts, we provide ICD-10 and OPCS-4 usage broken down by diagnosis or procedure position (all or main), sex and age group.
-To keep the main datasets small and efficient for general use, these breakdowns are held in separate datasets.
-No equivalent breakdowns are published for the primary care SNOMED CT data.
+Each breakdown, together with the overall total, is stored as its own row in the same dataset, identified by a `breakdown_type` column (e.g., `total`, `position`, `sex`, `age_group`) and a corresponding `breakdown_value` column (e.g., `total`, `main`, `female`, `age_45_49`).
+Users who only need the overall annual usage of a code should filter for `breakdown_type == "total"`.
+The primary care SNOMED CT data does not contain any breakdowns, but includes the same columns for consistency across the datasets.
 In the current version of the package, the columns available for each dataset are presented in @tbl-datasets.
 
 ```{r}
@@ -304,7 +305,7 @@ Additionally, the tool presents a structured list of all selected codes along wi
 
 @tbl-functions provides a summary of datasets and functions available to the users.
 One of these is a function `run_app()` which requires no arguments and launches the interactive tool described above.
-The current version of the package consists of two broad components: (1) five standardised datasets containing code usage counts for different clinical coding systems, including breakdowns by sex and age group for the hospital datasets, and (2) a function to import specific codelists from [OpenCodelists.org](https://www.opencodelists.org/) into R and the accompanying interactive tool (*Shiny* app).
+The current version of the package consists of two broad components: (1) three standardised datasets containing code usage counts for different clinical coding systems, with the hospital datasets additionally including breakdowns by diagnosis or procedure position, sex and age group alongside the overall total, and (2) a function to import specific codelists from [OpenCodelists.org](https://www.opencodelists.org/) into R and the accompanying interactive tool (*Shiny* app).
 
 ```{r}
 #| label: tbl-functions
@@ -402,7 +403,7 @@ The online tool allows users to select a custom group of codes, download the dat
 For bespoke analyses, users can also work directly within R with access to the underlying data of the online tool.
 Codelists can be imported from [OpenCodelists.org](https://www.opencodelists.org/) using the `get_codelist()` function or defined directly in R.
 The following example examines trends in the coding of prostate biopsy and magnetic resonance imaging (MRI) procedures around the May 2019 update of the NICE guideline on prostate cancer diagnosis and management [NG131, @NationalInstituteForHealthAndCareExcellence2021a], which recommended offering multiparametric MRI before biopsy.
-The example combines coding activity from primary care (SNOMED CT) and hospital admitted care (OPCS-4) in one analysis (see @fig-biopsy-mri-codes) and uses the demographic breakdowns to examine age-specific trends in hospital procedures (see @fig-biopsy-age).
+The example combines the overall (total) coding activity from primary care (SNOMED CT) and hospital admitted care (OPCS-4) in one analysis (see @fig-biopsy-mri-codes) and uses the age group breakdowns to examine age-specific trends in hospital procedures (see @fig-biopsy-age).
 
 #### Trends in prostate biopsy and MRI procedures across care settings
 
@@ -468,7 +469,7 @@ df_biopsy_mri |>
 
 #### Age-specific trends in hospital biopsy procedures
 
-The breakdown datasets allow these trends to be examined by sex and age group without any patient-level data.
+The `breakdown_type` and `breakdown_value` columns allow these trends to be examined by sex and age group without any patient-level data.
 @fig-biopsy-age shows the annual OPCS-4 coding activity for prostate biopsy procedures broken down by age group, with the shift from rectal to perineal biopsy procedures visible across all age groups.
 
 ```{r}
@@ -533,8 +534,8 @@ Identifying when certain codes began to be used via the *OpenCodeCounts* can pro
 
 Our tools only use a proportion of publicly available data.
 For example, OPCS-4 and ICD-10 code counts only use data from admitted patient care statistics, which do not capture hospital outpatient services.
-The breakdowns by sex and age published for the hospital data are provided as separate datasets, so that the main datasets remain small and fast to work with.
-No equivalent breakdowns are published for the primary care SNOMED CT data.
+The breakdowns by diagnosis or procedure position, sex and age published for the hospital data are included alongside the overall totals in the same dataset.
+No equivalent breakdowns are published for the primary care SNOMED CT data, though its dataset follows the same structure.
 However, the constraints of including the data in an R package are balanced by making it readily available for analysis in an open-access environment and a language commonly used for EHR research.
 
 Clinical coding has been increasing over the years, and the reasons for that are currently unclear.
