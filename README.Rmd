@@ -49,32 +49,71 @@ pak::pak("bennettoxford/opencodecounts")
 
 ## Available datasets
 
-The table below gives an overview of all available datasets in the opencodecounts R package, including links to the tidy data as Parquet files.
-To learn more about the available datasets see the vignette: [Available datasets in opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
-
-
-```{r datasets-table, echo = FALSE, message = FALSE}
+```{r datasets-info, include = FALSE}
 dataset_info <- list(
-  list(id = "gp_snomed", fn = "get_gp_snomed()", desc = "GP records, SNOMED CT", data = get_gp_snomed()),
-  list(id = "hesapc_icd10", fn = "get_hesapc_icd10()", desc = "HES Admitted Patient Care, ICD-10 diagnoses", data = get_hesapc_icd10()),
-  list(id = "hesapc_icd10_breakdowns", fn = "get_hesapc_icd10_breakdowns()", desc = "HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns", data = get_hesapc_icd10_breakdowns()),
-  list(id = "hesapc_opcs4", fn = "get_hesapc_opcs4()", desc = "HES Admitted Patient Care, OPCS-4 procedures", data = get_hesapc_opcs4()),
-  list(id = "hesapc_opcs4_breakdowns", fn = "get_hesapc_opcs4_breakdowns()", desc = "HES Admitted Patient Care, OPCS-4 procedures, with breakdowns", data = get_hesapc_opcs4_breakdowns())
+  list(
+    id = "gp_snomed", 
+    fn = "get_gp_snomed()", 
+    desc = "GP records, SNOMED CT", 
+    data = get_gp_snomed()
+  ),
+  list(
+    id = "hesapc_icd10", 
+    fn = "get_hesapc_icd10()", 
+    desc = "HES Admitted Patient Care, ICD-10 diagnoses", 
+    data = get_hesapc_icd10()
+  ),
+  list(
+    id = "hesapc_icd10_breakdowns", 
+    fn = "get_hesapc_icd10_breakdowns()", desc = "HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns",
+    data = get_hesapc_icd10_breakdowns()
+  ),
+  list(
+    id = "hesapc_opcs4", 
+    fn = "get_hesapc_opcs4()", 
+    desc = "HES Admitted Patient Care, OPCS-4 procedures", 
+    data = get_hesapc_opcs4()
+  ),
+  list(
+    id = "hesapc_opcs4_breakdowns", 
+    fn = "get_hesapc_opcs4_breakdowns()", 
+    desc = "HES Admitted Patient Care, OPCS-4 procedures, with breakdowns", 
+    data = get_hesapc_opcs4_breakdowns()
+  )
 )
 
+dataset_dates <- purrr::map_dfr(dataset_info, function(d) {
+  tibble::tibble(
+    id = d$id,
+    start = min(d$data$start_date),
+    end = max(d$data$end_date)
+  )
+})
+
+gp_dates <- dplyr::filter(dataset_dates, startsWith(id, "gp"))
+gp_start <- format(min(gp_dates$start), "%Y-%m-%d")
+gp_end <- format(max(gp_dates$end), "%Y-%m-%d")
+
+hes_dates <- dplyr::filter(dataset_dates, startsWith(id, "hesapc"))
+hes_start <- format(min(hes_dates$start), "%Y-%m-%d")
+hes_end <- format(max(hes_dates$end), "%Y-%m-%d")
+```
+
+The table below lists every dataset in the `opencodecounts` R package, with links to download the tidy data as Parquet files.
+GP data covers `r gp_start` to `r gp_end`, and HES data covers `r hes_start` to `r hes_end`.
+Read the vignette for more on each dataset: [Available datasets in opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
+
+```{r datasets-table, echo = FALSE, message = FALSE}
 tidy_sources <- load_tidy_sources_config()
 
 purrr::map_dfr(dataset_info, function(d) {
   tibble::tibble(
     Function = paste0("`", d$fn, "`"),
-    Description = d$desc,
-    `First period` = format(min(d$data$start_date), "%Y-%m-%d"),
-    `Last period` = format(max(d$data$end_date), "%Y-%m-%d"),
-    Version = tidy_sources[[d$id]]$version,
+    Description = paste0(d$desc, " (v", tidy_sources[[d$id]]$version, ")"),
     `Tidy data` = paste0("[Download](", tidy_sources[[d$id]]$url, ")")
   )
 }) |>
-  knitr::kable(align = c("l", "l", "r", "r", "r", "l"))
+  knitr::kable(align = c("l", "l", "l"))
 ```
 
 ## For developers

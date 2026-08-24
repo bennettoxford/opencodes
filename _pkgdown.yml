@@ -9,6 +9,17 @@ template:
         window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
         plausible.init()
       </script>
+      <!-- Give the datasets table on the home page more room for the description column -->
+      <style>
+        .template-home table {
+          table-layout: fixed;
+          width: 100%;
+        }
+        .template-home table th:nth-child(2),
+        .template-home table td:nth-child(2) {
+          width: 50%;
+        }
+      </style>
 
 reference:
 - title: Datasets with total counts
@@ -50,6 +61,10 @@ navbar:
     right: [search, github]
 
   components:
+    reference:
+      text: "Function reference"
+      href: reference/index.html
+
     articles:
       text: "How-to guides"
       menu:
