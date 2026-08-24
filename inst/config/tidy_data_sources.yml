@@ -1,0 +1,38 @@
+# This file tells the R package where to download each ready-to-use dataset.
+# New release tags use {dataset name with dashes}-v{version}, e.g. "gp-snomed-v0.2.0".
+# Older URLs below keep their original published names.
+#
+# `publication` points at the matching inst/config/raw_<publication>.yml file;
+# `variant` picks "usage" or "breakdowns" from a shared publication.
+
+datasets:
+  gp_snomed:
+    publication: gp_snomed
+    variant: usage
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet"
+  hesapc_icd10:
+    publication: hesapc_icd10
+    variant: usage
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet"
+  hesapc_icd10_breakdowns:
+    publication: hesapc_icd10
+    variant: breakdowns
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet"
+  hesapc_opcs4:
+    publication: hesapc_opcs4
+    variant: usage
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet"
+  hesapc_opcs4_breakdowns:
+    publication: hesapc_opcs4
+    variant: breakdowns
+    versions:
+      - version: "0.1.0"
+        url: "https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet"

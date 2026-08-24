@@ -1,0 +1,108 @@
+# Links to "OPCS-4 (Hospital Admitted Patient Care Activity)" file on NHS Digital's website
+# Backs hesapc_opcs4 and hesapc_opcs4_breakdowns
+
+periods:
+  2024to2025:
+    url: https://files.digital.nhs.uk/6D/C40538/hosp-epis-stat-admi-proc-2024-25-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK9312
+  2023to2024:
+    url: https://files.digital.nhs.uk/92/DB66C9/hosp-epis-stat-admi-proc-2023-24-tab-v2.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK9270
+  2022to2023:
+    url: https://files.digital.nhs.uk/CB/515826/hosp-epis-stat-admi-proc-2022-23-tab-V2.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK9034
+  2021to2022:
+    url: https://files.digital.nhs.uk/FA/DA0567/hosp-epis-stat-admi-proc-2021-22-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK9065
+  2020to2021:
+    url: https://files.digital.nhs.uk/A6/43CDC1/hosp-epis-stat-admi-proc-2020-21-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8935
+  2019to2020:
+    url: https://files.digital.nhs.uk/20/0864E6/hosp-epis-stat-admi-proc-2019-20-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8875
+  2018to2019:
+    url: https://files.digital.nhs.uk/77/0C8B3F/hosp-epis-stat-admi-proc-2018-19-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8932
+  2017to2018:
+    url: https://files.digital.nhs.uk/B6/E239FA/hosp-epis-stat-admi-proc-2017-18-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8940
+  2016to2017:
+    url: https://files.digital.nhs.uk/publication/7/g/hosp-epis-stat-admi-proc-2016-17-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8909
+  2015to2016:
+    url: https://files.digital.nhs.uk/publicationimport/pub22xxx/pub22378/hosp-epis-stat-admi-proc-2015-16-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8911
+  2014to2015:
+    url: https://files.digital.nhs.uk/publicationimport/pub19xxx/pub19124/hosp-epis-stat-admi-proc-2014-15-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 11
+      usage_col: 8
+    breakdowns:
+      range: A10:AK8963
+  2013to2014:
+    url: https://files.digital.nhs.uk/publicationimport/pub16xxx/pub16719/hosp-epis-stat-admi-proc-2013-14-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 18
+      usage_col: 3
+    breakdowns:
+      range: A17:AF8841
+  2012to2013:
+    url: https://files.digital.nhs.uk/publicationimport/pub12xxx/pub12566/hosp-epis-stat-admi-proc-2012-13-tab.xlsx
+    sheet: 6
+    usage:
+      skip_rows: 19
+      usage_col: 3
+    breakdowns:
+      range: A18:AF8851

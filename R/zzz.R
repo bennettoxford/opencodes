@@ -17,6 +17,7 @@ utils::globalVariables(c(
   "snomed_code",
   "description",
   "usage",
+  "usage_data_available",
   "icd10_code",
   "opcs4_code",
   "total_usage",

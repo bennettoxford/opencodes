@@ -15,7 +15,8 @@
 #' row.names = NULL,
 #' coding_system = character(0),
 #' full_slug = character(0))
-Codelist <- S7::new_class("Codelist",
+Codelist <- S7::new_class(
+  "Codelist",
   parent = S7::class_data.frame,
   properties = list(
     coding_system = S7::class_character,
@@ -28,21 +29,27 @@ Codelist <- S7::new_class("Codelist",
 extract_codelist_slug <- function(url) {
   # Check if URL is from opencodelists.org
   if (!grepl("^https://www\\.opencodelists\\.org/", url)) {
-    stop("URL must be from https://www.opencodelists.org")
+    cli::cli_abort(
+      "URL must be from {.url https://www.opencodelists.org}",
+      class = "opencodecounts_error_codelist_url"
+    )
   }
-  
+
   # Remove fragment identifier if present
   url_clean <- sub("#.*$", "", url)
-  
+
   # Extract path after /codelist/ - handles both org and user patterns
   pattern <- "^https://www\\.opencodelists\\.org/codelist/((?:user/[^/]+|[^/]+)/[^/]+/[^/]+)"
-  
+
   if (grepl(pattern, url_clean)) {
     codelist_slug <- (sub(pattern, "\\1", url_clean))
     codelist_slug <- sub("/$", "", codelist_slug)
     codelist_slug
   } else {
-    stop("URL does not match expected OpenCodelists codelist pattern")
+    cli::cli_abort(
+      "URL does not match expected OpenCodelists codelist pattern",
+      class = "opencodecounts_error_codelist_url"
+    )
   }
 }
 
@@ -65,11 +72,8 @@ get_codelist_organisation <- function(codelist_slug) {
 #' @export
 #' @examples
 #' # Get the 'cpeptide_cod' codelist from OpenCodelists.org
-#' codelist_url <- paste0(
-#'   "https://www.opencodelists.org/codelist/",
-#'   "nhsd-primary-care-domain-refsets/cpeptide_cod/20200812/"
-#' )
-#' cpeptide_cod <- get_codelist(codelist_url)
+#' cpeptide_slug <- "nhsd-primary-care-domain-refsets/cpeptide_cod/20200812"
+#' cpeptide_cod <- get_codelist(paste0("https://www.opencodelists.org/codelist/", cpeptide_slug))
 #'
 #' # Return all codes
 #' cpeptide_cod$code
@@ -80,23 +84,22 @@ get_codelist_organisation <- function(codelist_slug) {
 #' # Return 'full_slug' of codelist
 #' cpeptide_cod@full_slug
 get_codelist <- function(url) {
-
-    if (grepl("^https://www\\.opencodelists\\.org/", url)) {
-      codelist_slug <- extract_codelist_slug(url)
-    } else {
-
-      if (!grepl("^[^/]+/[^/]+/[^/]+/?$|^user/[^/]+/[^/]+/[^/]+/?$", url)) {
-        stop(
-          "Invalid format. Please use full OpenCodelists URL or ensure slug follows 'org/name/version' or 'user/username/name/version' pattern."
-        )
-      }
-
-      message(
-        "Note: For clarity, please use the full OpenCodelists URL instead of just the slug.\n",
-        "Full URL would be: https://www.opencodelists.org/codelist/", url
+  if (grepl("^https://www\\.opencodelists\\.org/", url)) {
+    codelist_slug <- extract_codelist_slug(url)
+  } else {
+    if (!grepl("^[^/]+/[^/]+/[^/]+/?$|^user/[^/]+/[^/]+/[^/]+/?$", url)) {
+      cli::cli_abort(
+        "Invalid format. Please use full OpenCodelists URL or ensure slug follows {.val org/name/version} or {.val user/username/name/version} pattern.",
+        class = "opencodecounts_error_codelist_url"
       )
-      codelist_slug <- sub("/$", "", url)
     }
+
+    cli::cli_inform(c(
+      "i" = "For clarity, please use the full OpenCodelists URL instead of just the slug.",
+      "i" = "Full URL would be: {.url https://www.opencodelists.org/codelist/{url}}"
+    ))
+    codelist_slug <- sub("/$", "", url)
+  }
 
   url_api_base <- "https://www.opencodelists.org/api/v1/codelist/"
   url_download_base <- "https://www.opencodelists.org/codelist/"
@@ -112,19 +115,25 @@ get_codelist <- function(url) {
   response_json <- response |> httr2::resp_body_json()
 
   codelists_dfr <- response_json$codelists |>
-    purrr::map_dfr(~ {
-      coding_system_id <- .x$coding_system_id
-      purrr::map_dfr(.x$versions, ~ tibble::tibble(
-        coding_system_id = coding_system_id,
-        full_slug = .x$full_slug
-      ))
-    })
+    purrr::map_dfr(
+      ~ {
+        coding_system_id <- .x$coding_system_id
+        purrr::map_dfr(
+          .x$versions,
+          ~ tibble::tibble(
+            coding_system_id = coding_system_id,
+            full_slug = .x$full_slug
+          )
+        )
+      }
+    )
 
   codelist_info <- codelists_dfr |>
     dplyr::filter(full_slug == codelist_slug) |>
     as.vector()
 
-  codelist_dfr <- readr::read_csv(url_download,
+  codelist_dfr <- readr::read_csv(
+    url_download,
     col_types = readr::cols(.default = readr::col_character())
   ) |>
     dplyr::rename(code = 1)

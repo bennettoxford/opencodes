@@ -14,11 +14,10 @@ published datasets available in R and an interactive online tool,
 covering SNOMED CT codes in primary care and ICD-10/OPCS-4 codes in
 secondary care.
 
-You can launch the interactive Shiny app by clicking on [*Launch Shiny
-app*](https://bennettoxford.github.io/opencodecounts/articles/app.html).
-For work in R, all available functions (including datasets) are
-documented in the [*R
-Reference*](https://bennettoxford.github.io/opencodecounts/reference/index.html)
+You can launch the interactive Shiny app by clicking on [Launch Shiny
+app](https://bennettoxford.github.io/opencodecounts/articles/app.html).
+For work in R, all available functions are documented in the [R
+Reference](https://bennettoxford.github.io/opencodecounts/reference/index.html)
 section.
 
 ## Installation
@@ -40,14 +39,38 @@ pak::pak("bennettoxford/opencodecounts")
   breakdowns](https://bennettoxford.github.io/opencodecounts/articles/how-to-use-breakdowns.html)
 - [How to extract semantic tags from SNOMED CT
   descriptions](https://bennettoxford.github.io/opencodecounts/articles/extract-snomedct-sem-tag.html)
-- [Learn about the available
-  datasets](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html)
 
-## Data sources
+## Available datasets
 
-The original data is available from NHS Digital at:
+The table below lists every dataset in the `opencodecounts` R package,
+with links to download the tidy data as Parquet files. GP data covers
+2011-08-01 to 2025-07-31, and HES data covers 2012-04-01 to 2025-03-31.
+Read the vignette for more on each dataset: [Available datasets in
+opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
 
-- [SNOMED Code Usage in Primary
-  Care](https://digital.nhs.uk/data-and-information/publications/statistical/mi-snomed-code-usage-in-primary-care)
-- [ICD-10 and OPCS-4 Code Usage in Inpatient Secondary
-  Care](https://digital.nhs.uk/data-and-information/publications/statistical/hospital-admitted-patient-care-activity)
+| Function | Description | Tidy data |
+|:---|:---|:---|
+| `get_gp_snomed()` | GP records, SNOMED CT (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
+| `get_hesapc_icd10()` | HES Admitted Patient Care, ICD-10 diagnoses (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
+| `get_hesapc_icd10_breakdowns()` | HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
+| `get_hesapc_opcs4()` | HES Admitted Patient Care, OPCS-4 procedures (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
+| `get_hesapc_opcs4_breakdowns()` | HES Admitted Patient Care, OPCS-4 procedures, with breakdowns (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
+
+## For developers
+
+See [DEVELOPERS.md](DEVELOPERS.md).
+
+## Licence
+
+### R package
+
+The `opencodecounts` package is licensed under the [MIT
+License](LICENSE.md).
+
+### Code usage datasets
+
+All code usage datasets are Copyright NHS England and licensed under the
+[Open Government Licence
+v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+Contains public sector information licensed under the Open Government
+Licence v3.0.

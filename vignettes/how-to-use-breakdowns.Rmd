@@ -37,6 +37,8 @@ See the full list of ICD-10 breakdowns in the results below.
 The same breakdowns are available for OPCS-4, but the position breakdowns are called `all_procedures` and `main_procedure` instead.
 
 ```{r list-available-breakdowns}
+icd10_usage_breakdowns <- get_hesapc_icd10_breakdowns()
+
 # Available breakdowns for ICD-10
 unique(icd10_usage_breakdowns$breakdown)
 ```

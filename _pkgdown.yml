@@ -9,17 +9,28 @@ template:
         window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
         plausible.init()
       </script>
+      <!-- Give the datasets table on the home page more room for the description column -->
+      <style>
+        .template-home table {
+          table-layout: fixed;
+          width: 100%;
+        }
+        .template-home table th:nth-child(2),
+        .template-home table td:nth-child(2) {
+          width: 50%;
+        }
+      </style>
 
 reference:
 - title: Datasets with total counts
   contents:
-  - snomed_usage
-  - icd10_usage
-  - opcs4_usage
+  - get_gp_snomed
+  - get_hesapc_icd10
+  - get_hesapc_opcs4
 - title: Datasets with breakdowns
   contents:
-  - icd10_usage_breakdowns
-  - opcs4_usage_breakdowns
+  - get_hesapc_icd10_breakdowns
+  - get_hesapc_opcs4_breakdowns
 - title: Codelists
   contents:
   - get_codelist
@@ -27,9 +38,22 @@ reference:
   contents:
   - run_app
 - title: Helper functions
-  contents: 
+  contents:
   - extract_semantic_tag
   - strip_semantic_tag
+- title: Cache management
+  contents:
+  - cache_info
+  - cache_clear
+  - available_versions
+- title: Deprecated
+  desc: Renamed; still work, but use the versions above instead.
+  contents:
+  - get_snomed_usage
+  - get_icd10_usage
+  - get_icd10_usage_breakdowns
+  - get_opcs4_usage
+  - get_opcs4_usage_breakdowns
 
 navbar:
   structure:
@@ -37,6 +61,10 @@ navbar:
     right: [search, github]
 
   components:
+    reference:
+      text: "Function reference"
+      href: reference/index.html
+
     articles:
       text: "How-to guides"
       menu:

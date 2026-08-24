@@ -1,5 +1,5 @@
 #' Strip semantic tag from SNOMED CT description
-#' 
+#'
 #' Removes semantic tag from the description
 #'
 #' @param string String, description of SNOMED CT codes
@@ -8,13 +8,13 @@
 #' @examples
 #' strip_semantic_tag("Blood Pressure (observable entity)")
 strip_semantic_tag <- function(string) {
-  description_short = str_remove_all(string, " \\(([^()]+)\\)$")
-  
+  description_short <- str_remove_all(string, " \\(([^()]+)\\)$")
+
   description_short
 }
 
 #' Extract semantic tag from SNOMED CT description
-#' 
+#'
 #' Add description
 #'
 #' @param string String, description of SNOMED CT codes
@@ -29,34 +29,36 @@ extract_semantic_tag <- function(string) {
 }
 
 #' Helper function fill usage for missing years
-#' 
+#'
 #' This only fills gaps between existing start and end dates for each code
 #' but does not extent the date range for a code.
 #' @importFrom tidyr complete
 #' @keywords internal
-complete_usage_gaps_with_zeros <- function(data){
-  
+complete_usage_gaps_with_zeros <- function(data) {
   # This function currently expects a specific data format.
   # This isn't a problem because we know what the data in the app looks like.
   # But we should improve this with tidyselect at some point in the future.
   data_without_gaps <- data |>
-    group_by(code)|>
+    group_by(code) |>
     complete(
       end_date = seq.Date(
-        from = min(end_date), 
-        to = max(end_date), 
-        by = "year"),
-      fill = list(usage = 0))|>
+        from = min(end_date),
+        to = max(end_date),
+        by = "year"
+      ),
+      fill = list(usage = 0)
+    ) |>
     arrange(code, end_date) |>
     mutate(
       start_date = seq.Date(
-        from = min(start_date, na.rm = TRUE), 
-        to = max(start_date, na.rm = TRUE), 
-        by = "year")
-    )|>
-    tidyr::fill(description, .direction = "down")|>
+        from = min(start_date, na.rm = TRUE),
+        to = max(start_date, na.rm = TRUE),
+        by = "year"
+      )
+    ) |>
+    tidyr::fill(description, .direction = "down") |>
     ungroup()
-  
+
   data_without_gaps
 }
 
@@ -163,4 +165,29 @@ fix_encoding <- function(string, print_replacement_dict = FALSE) {
   } else {
     str_replace_all(string, replacement_dict)
   }
+}
+
+#' Turn a "<start>to<end>" period column into start_date/end_date
+#'
+#' The data-raw build scripts key each NHS Digital source file by a period
+#' label like "2024to2025" (see e.g. inst/config/raw_snomed.yml). This turns
+#' that label into real dates once the files for all periods have been
+#' combined with `bind_rows(.id = period_col)`. Datasets differ in which
+#' month/day their reporting period starts and ends on (e.g. snomed_usage
+#' runs 1 Aug - 31 Jul, icd10/opcs4 run the NHS financial year 1 Apr - 31
+#' Mar), so that's passed in rather than assumed.
+#'
+#' @param data A data frame with a character column of period labels
+#' @param period_col String, name of the period column to parse and replace
+#' @param start_month_day String, "MM-DD" of the first day of the period
+#' @param end_month_day String, "MM-DD" of the last day of the period
+#' @importFrom tidyr separate
+#' @keywords internal
+add_period_dates <- function(data, period_col, start_month_day, end_month_day) {
+  data |>
+    separate(period_col, c("start_date", "end_date"), sep = "to") |>
+    mutate(
+      start_date = as.Date(paste0(start_date, "-", start_month_day)),
+      end_date = as.Date(paste0(end_date, "-", end_month_day))
+    )
 }

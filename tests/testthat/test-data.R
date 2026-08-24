@@ -1,7 +1,19 @@
+# These tests call the get_*() accessors, which read from the local cache
+# (downloading first if the cache is empty - see R/get-data.R). They stay in
+# the fast unit suite rather than tests/integration.R because a populated
+# cache makes them just as fast as reading a lazy-loaded data object; only a
+# cold cache adds a one-off download.
+
+gp_snomed <- get_gp_snomed()
+hesapc_icd10 <- get_hesapc_icd10()
+hesapc_icd10_breakdowns <- get_hesapc_icd10_breakdowns()
+hesapc_opcs4 <- get_hesapc_opcs4()
+hesapc_opcs4_breakdowns <- get_hesapc_opcs4_breakdowns()
+
 # SNOMED tests
 
-test_that("Test snomed_usage column names", {
-  test_names <- names(snomed_usage)
+test_that("Test gp_snomed column names", {
+  test_names <- names(gp_snomed)
   expect_equal(
     test_names,
     c(
@@ -17,25 +29,25 @@ test_that("Test snomed_usage column names", {
 })
 
 
-test_that("Test snomed_usage column types", {
-  expect_s3_class(snomed_usage$start_date, "Date")
-  expect_s3_class(snomed_usage$end_date, "Date")
-  expect_type(snomed_usage$snomed_code, "character")
-  expect_type(snomed_usage$description, "character")
-  expect_type(snomed_usage$usage, "integer")
-  expect_type(snomed_usage$active_at_start, "logical")
-  expect_type(snomed_usage$active_at_end, "logical")
+test_that("Test gp_snomed column types", {
+  expect_s3_class(gp_snomed$start_date, "Date")
+  expect_s3_class(gp_snomed$end_date, "Date")
+  expect_type(gp_snomed$snomed_code, "character")
+  expect_type(gp_snomed$description, "character")
+  expect_type(gp_snomed$usage, "integer")
+  expect_type(gp_snomed$active_at_start, "logical")
+  expect_type(gp_snomed$active_at_end, "logical")
 })
 
 
-test_that("Test snomed_usage rows", {
-  test_nrow <- nrow(snomed_usage)
+test_that("Test gp_snomed rows", {
+  test_nrow <- nrow(gp_snomed)
   expect_equal(test_nrow, 1682534L)
 })
 
-test_that("Test snomed_usage date range", {
-  test_range_start_date <- range(snomed_usage$start_date)
-  test_range_end_date <- range(snomed_usage$end_date)
+test_that("Test gp_snomed date range", {
+  test_range_start_date <- range(gp_snomed$start_date)
+  test_range_end_date <- range(gp_snomed$end_date)
 
   expect_equal(
     test_range_start_date,
@@ -48,25 +60,25 @@ test_that("Test snomed_usage date range", {
 })
 
 test_that("Test sum of usage", {
-  test_usage_sum <- sum(snomed_usage$usage)
+  test_usage_sum <- sum(gp_snomed$usage)
   expect_equal(test_usage_sum, 47861217775)
 })
 
 test_that("Minimum SNOMED usage", {
-  min_snomed_usage <- min(snomed_usage$usage)
-  expect_equal(min_snomed_usage, 5)
+  min_gp_snomed <- min(gp_snomed$usage)
+  expect_equal(min_gp_snomed, 5)
 })
 
 test_that("Test no non-alphanumeric characters in SNOMED codes", {
-  non_alphanumeric_codes_snomed <- snomed_usage$snomed_code[grep(
+  non_alphanumeric_codes_snomed <- gp_snomed$snomed_code[grep(
     "\\s?[^[:alnum:]]+\\s?",
-    snomed_usage$snomed_code
+    gp_snomed$snomed_code
   )]
   expect_equal(length(non_alphanumeric_codes_snomed), 0)
 })
 
 test_that("Test SNOMEDCT missing description", {
-  test_sum_missing_description <- sum(is.na(snomed_usage$description))
+  test_sum_missing_description <- sum(is.na(gp_snomed$description))
   expect_equal(test_sum_missing_description, 0)
 })
 
@@ -75,30 +87,30 @@ test_that("Test SNOMEDCT missing description", {
 # $ python -c 'print(int(float("39733011000001106")))'
 # 39733011000001104
 test_that("Atorvastatin code is correct", {
-  atorvastatin_code <- snomed_usage[
-    snomed_usage$description == "Atorvastatin 20mg tablets (product)",
+  atorvastatin_code <- gp_snomed[
+    gp_snomed$description == "Atorvastatin 20mg tablets (product)",
   ]$snomed_code
   expect_identical(unique(atorvastatin_code), "39733011000001106")
 })
 
 # ICD-10 Tests
 
-test_that("Test icd10_usage column types", {
-  expect_s3_class(icd10_usage$start_date, "Date")
-  expect_s3_class(icd10_usage$end_date, "Date")
-  expect_type(icd10_usage$icd10_code, "character")
-  expect_type(icd10_usage$description, "character")
-  expect_type(icd10_usage$usage, "integer")
+test_that("Test hesapc_icd10 column types", {
+  expect_s3_class(hesapc_icd10$start_date, "Date")
+  expect_s3_class(hesapc_icd10$end_date, "Date")
+  expect_type(hesapc_icd10$icd10_code, "character")
+  expect_type(hesapc_icd10$description, "character")
+  expect_type(hesapc_icd10$usage, "integer")
 })
 
-test_that("Test icd10_usage rows", {
-  test_nrow <- nrow(icd10_usage)
+test_that("Test hesapc_icd10 rows", {
+  test_nrow <- nrow(hesapc_icd10)
   expect_equal(test_nrow, 147483L)
 })
 
-test_that("Test icd10_usage date range", {
-  test_range_start_date <- range(icd10_usage$start_date)
-  test_range_end_date <- range(icd10_usage$end_date)
+test_that("Test hesapc_icd10 date range", {
+  test_range_start_date <- range(hesapc_icd10$start_date)
+  test_range_end_date <- range(hesapc_icd10$end_date)
 
   expect_equal(
     test_range_start_date,
@@ -110,37 +122,37 @@ test_that("Test icd10_usage date range", {
   )
 })
 
-test_that("Test icd10_usage minimum usage", {
-  test_min_usage <- min(icd10_usage$usage)
+test_that("Test hesapc_icd10 minimum usage", {
+  test_min_usage <- min(hesapc_icd10$usage)
   expect_equal(test_min_usage, 1)
 })
 
 test_that("Test cummulative ICD-10 usage", {
-  test_sum_usage <- sum(icd10_usage$usage)
+  test_sum_usage <- sum(hesapc_icd10$usage)
   expect_equal(test_sum_usage, 1498723323)
 })
 
 test_that("Test ICD-10 usage are all integers", {
-  test_sum_non_integers <- sum(!is.integer(icd10_usage$usage))
+  test_sum_non_integers <- sum(!is.integer(hesapc_icd10$usage))
   expect_equal(test_sum_non_integers, 0)
 })
 
 test_that("Test no non-alphanumeric characters in ICD-10 codes", {
-  non_alphanumeric_codes_icd10 <- icd10_usage$icd10_code[grep(
+  non_alphanumeric_codes_icd10 <- hesapc_icd10$icd10_code[grep(
     "\\s?[^[:alnum:]]+\\s?",
-    icd10_usage$icd10_code
+    hesapc_icd10$icd10_code
   )]
   expect_equal(length(non_alphanumeric_codes_icd10), 0)
 })
 
 test_that("Test ICD10 missing description", {
-  test_sum_missing_description <- sum(is.na(icd10_usage$description))
+  test_sum_missing_description <- sum(is.na(hesapc_icd10$description))
   expect_equal(test_sum_missing_description, 0)
 })
 
 # ICD-10 Breakdowns Tests
-test_that("Test icd10_usage_breakdowns column names", {
-  test_names <- names(icd10_usage_breakdowns)
+test_that("Test hesapc_icd10_breakdowns column names", {
+  test_names <- names(hesapc_icd10_breakdowns)
   expect_equal(
     test_names,
     c(
@@ -154,18 +166,18 @@ test_that("Test icd10_usage_breakdowns column names", {
   )
 })
 
-test_that("Test icd10_usage_breakdowns column types", {
-  expect_s3_class(icd10_usage_breakdowns$start_date, "Date")
-  expect_s3_class(icd10_usage_breakdowns$end_date, "Date")
-  expect_type(icd10_usage_breakdowns$icd10_code, "character")
-  expect_type(icd10_usage_breakdowns$description, "character")
-  expect_type(icd10_usage_breakdowns$breakdown, "character")
-  expect_type(icd10_usage_breakdowns$usage, "integer")
+test_that("Test hesapc_icd10_breakdowns column types", {
+  expect_s3_class(hesapc_icd10_breakdowns$start_date, "Date")
+  expect_s3_class(hesapc_icd10_breakdowns$end_date, "Date")
+  expect_type(hesapc_icd10_breakdowns$icd10_code, "character")
+  expect_type(hesapc_icd10_breakdowns$description, "character")
+  expect_type(hesapc_icd10_breakdowns$breakdown, "character")
+  expect_type(hesapc_icd10_breakdowns$usage, "integer")
 })
 
-test_that("Test icd10_usage_breakdowns date range", {
-  test_range_start_date <- range(icd10_usage_breakdowns$start_date)
-  test_range_end_date <- range(icd10_usage_breakdowns$end_date)
+test_that("Test hesapc_icd10_breakdowns date range", {
+  test_range_start_date <- range(hesapc_icd10_breakdowns$start_date)
+  test_range_end_date <- range(hesapc_icd10_breakdowns$end_date)
 
   expect_equal(
     test_range_start_date,
@@ -177,7 +189,7 @@ test_that("Test icd10_usage_breakdowns date range", {
   )
 })
 
-test_that("Test icd10_usage_breakdowns breakdown values", {
+test_that("Test hesapc_icd10_breakdowns breakdown values", {
   expected_breakdowns <- c(
     "all_diagnoses",
     "main_diagnosis",
@@ -209,36 +221,36 @@ test_that("Test icd10_usage_breakdowns breakdown values", {
     "age_85_89",
     "age_90plus"
   )
-  actual_breakdowns <- unique(icd10_usage_breakdowns$breakdown)
+  actual_breakdowns <- unique(hesapc_icd10_breakdowns$breakdown)
   expect_setequal(actual_breakdowns, expected_breakdowns)
 })
 
 test_that("Test no non-alphanumeric characters in ICD-10 breakdown codes", {
-  non_alphanumeric_codes <- icd10_usage_breakdowns$icd10_code[grep(
+  non_alphanumeric_codes <- hesapc_icd10_breakdowns$icd10_code[grep(
     "\\s?[^[:alnum:]]+\\s?",
-    icd10_usage_breakdowns$icd10_code
+    hesapc_icd10_breakdowns$icd10_code
   )]
   expect_equal(length(non_alphanumeric_codes), 0)
 })
 
 test_that("Test ICD-10 breakdowns missing description", {
-  test_sum_missing_description <- sum(is.na(icd10_usage_breakdowns$description))
+  test_sum_missing_description <- sum(is.na(hesapc_icd10_breakdowns$description))
   expect_equal(test_sum_missing_description, 0)
 })
 
 test_that("Test ICD-10 breakdowns totals match main dataset", {
   # Get first 3 unique codes
-  test_codes <- unique(icd10_usage$icd10_code)[1:3]
+  test_codes <- unique(hesapc_icd10$icd10_code)[1:3]
 
   for (code in test_codes) {
     # Get usage from main dataset
-    main_usage <- icd10_usage |>
+    main_usage <- hesapc_icd10 |>
       dplyr::filter(icd10_code == code) |>
       dplyr::select(start_date, end_date, usage) |>
       dplyr::arrange(start_date)
 
     # Get all_diagnoses breakdown usage
-    breakdown_usage <- icd10_usage_breakdowns |>
+    breakdown_usage <- hesapc_icd10_breakdowns |>
       dplyr::filter(icd10_code == code, breakdown == "all_diagnoses") |>
       dplyr::select(start_date, end_date, usage) |>
       dplyr::arrange(start_date)
@@ -253,22 +265,22 @@ test_that("Test ICD-10 breakdowns totals match main dataset", {
 
 # OPCS-4 Tests
 
-test_that("Test opcs4_usage column types", {
-  expect_s3_class(opcs4_usage$start_date, "Date")
-  expect_s3_class(opcs4_usage$end_date, "Date")
-  expect_type(opcs4_usage$opcs4_code, "character")
-  expect_type(opcs4_usage$description, "character")
-  expect_type(opcs4_usage$usage, "integer")
+test_that("Test hesapc_opcs4 column types", {
+  expect_s3_class(hesapc_opcs4$start_date, "Date")
+  expect_s3_class(hesapc_opcs4$end_date, "Date")
+  expect_type(hesapc_opcs4$opcs4_code, "character")
+  expect_type(hesapc_opcs4$description, "character")
+  expect_type(hesapc_opcs4$usage, "integer")
 })
 
-test_that("Test opcs4_usage rows", {
-  test_nrow <- nrow(opcs4_usage)
+test_that("Test hesapc_opcs4 rows", {
+  test_nrow <- nrow(hesapc_opcs4)
   expect_equal(test_nrow, 116680L)
 })
 
-test_that("Test opcs4_usage date range", {
-  test_range_start_date <- range(opcs4_usage$start_date)
-  test_range_end_date <- range(opcs4_usage$end_date)
+test_that("Test hesapc_opcs4 date range", {
+  test_range_start_date <- range(hesapc_opcs4$start_date)
+  test_range_end_date <- range(hesapc_opcs4$end_date)
 
   expect_equal(
     test_range_start_date,
@@ -280,34 +292,34 @@ test_that("Test opcs4_usage date range", {
   )
 })
 
-test_that("Test opcs4_usage minimum usage", {
-  test_min_usage <- min(opcs4_usage$usage)
+test_that("Test hesapc_opcs4 minimum usage", {
+  test_min_usage <- min(hesapc_opcs4$usage)
   expect_equal(test_min_usage, 1)
 })
 
 test_that("Test OPCS-4 usage are all integers", {
-  test_sum_non_integers <- sum(!is.integer(opcs4_usage$usage))
+  test_sum_non_integers <- sum(!is.integer(hesapc_opcs4$usage))
   expect_equal(test_sum_non_integers, 0)
 })
 
 test_that("Test no non-alphanumeric characters in OPCS-4 codes", {
-  non_alphanumeric_codes_opcs4 <- opcs4_usage$opcs4_code[grep(
+  non_alphanumeric_codes_opcs4 <- hesapc_opcs4$opcs4_code[grep(
     "\\s?[^[:alnum:]]+\\s?",
-    opcs4_usage$opcs4_code
+    hesapc_opcs4$opcs4_code
   )]
   expect_equal(length(non_alphanumeric_codes_opcs4), 0)
 })
 
 test_that("Test OPCS-4 missing description", {
-  test_sum_missing_description <- sum(is.na(opcs4_usage$description))
+  test_sum_missing_description <- sum(is.na(hesapc_opcs4$description))
   expect_equal(test_sum_missing_description, 0)
 })
 
 
 # OPCS-4 Breakdowns Tests
 
-test_that("Test opcs4_usage_breakdowns column names", {
-  test_names <- names(opcs4_usage_breakdowns)
+test_that("Test hesapc_opcs4_breakdowns column names", {
+  test_names <- names(hesapc_opcs4_breakdowns)
   expect_equal(
     test_names,
     c(
@@ -321,18 +333,18 @@ test_that("Test opcs4_usage_breakdowns column names", {
   )
 })
 
-test_that("Test opcs4_usage_breakdowns column types", {
-  expect_s3_class(opcs4_usage_breakdowns$start_date, "Date")
-  expect_s3_class(opcs4_usage_breakdowns$end_date, "Date")
-  expect_type(opcs4_usage_breakdowns$opcs4_code, "character")
-  expect_type(opcs4_usage_breakdowns$description, "character")
-  expect_type(opcs4_usage_breakdowns$breakdown, "character")
-  expect_type(opcs4_usage_breakdowns$usage, "integer")
+test_that("Test hesapc_opcs4_breakdowns column types", {
+  expect_s3_class(hesapc_opcs4_breakdowns$start_date, "Date")
+  expect_s3_class(hesapc_opcs4_breakdowns$end_date, "Date")
+  expect_type(hesapc_opcs4_breakdowns$opcs4_code, "character")
+  expect_type(hesapc_opcs4_breakdowns$description, "character")
+  expect_type(hesapc_opcs4_breakdowns$breakdown, "character")
+  expect_type(hesapc_opcs4_breakdowns$usage, "integer")
 })
 
-test_that("Test opcs4_usage_breakdowns date range", {
-  test_range_start_date <- range(opcs4_usage_breakdowns$start_date)
-  test_range_end_date <- range(opcs4_usage_breakdowns$end_date)
+test_that("Test hesapc_opcs4_breakdowns date range", {
+  test_range_start_date <- range(hesapc_opcs4_breakdowns$start_date)
+  test_range_end_date <- range(hesapc_opcs4_breakdowns$end_date)
 
   expect_equal(
     test_range_start_date,
@@ -344,7 +356,7 @@ test_that("Test opcs4_usage_breakdowns date range", {
   )
 })
 
-test_that("Test opcs4_usage_breakdowns breakdown values", {
+test_that("Test hesapc_opcs4_breakdowns breakdown values", {
   expected_breakdowns <- c(
     "all_procedures",
     "main_procedure",
@@ -376,36 +388,36 @@ test_that("Test opcs4_usage_breakdowns breakdown values", {
     "age_85_89",
     "age_90plus"
   )
-  actual_breakdowns <- unique(opcs4_usage_breakdowns$breakdown)
+  actual_breakdowns <- unique(hesapc_opcs4_breakdowns$breakdown)
   expect_setequal(actual_breakdowns, expected_breakdowns)
 })
 
 test_that("Test no non-alphanumeric characters in OPCS-4 breakdown codes", {
-  non_alphanumeric_codes <- opcs4_usage_breakdowns$opcs4_code[grep(
+  non_alphanumeric_codes <- hesapc_opcs4_breakdowns$opcs4_code[grep(
     "\\s?[^[:alnum:]]+\\s?",
-    opcs4_usage_breakdowns$opcs4_code
+    hesapc_opcs4_breakdowns$opcs4_code
   )]
   expect_equal(length(non_alphanumeric_codes), 0)
 })
 
 test_that("Test OPCS-4 breakdowns missing description", {
-  test_sum_missing_description <- sum(is.na(opcs4_usage_breakdowns$description))
+  test_sum_missing_description <- sum(is.na(hesapc_opcs4_breakdowns$description))
   expect_equal(test_sum_missing_description, 0)
 })
 
 test_that("Test OPCS-4 breakdowns totals match main dataset", {
   # Get first 3 unique codes
-  test_codes <- unique(opcs4_usage$opcs4_code)[1:3]
+  test_codes <- unique(hesapc_opcs4$opcs4_code)[1:3]
 
   for (code in test_codes) {
     # Get usage from main dataset
-    main_usage <- opcs4_usage |>
+    main_usage <- hesapc_opcs4 |>
       dplyr::filter(opcs4_code == code) |>
       dplyr::select(start_date, end_date, usage) |>
       dplyr::arrange(start_date)
 
     # Get all_procedures breakdown usage
-    breakdown_usage <- opcs4_usage_breakdowns |>
+    breakdown_usage <- hesapc_opcs4_breakdowns |>
       dplyr::filter(opcs4_code == code, breakdown == "all_procedures") |>
       dplyr::select(start_date, end_date, usage) |>
       dplyr::arrange(start_date)
