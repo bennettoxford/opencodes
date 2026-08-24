@@ -21,5 +21,6 @@ utils::globalVariables(c(
   "icd10_code",
   "opcs4_code",
   "total_usage",
-  "full_slug"
+  "full_slug",
+  "usage_data_available"
 ))

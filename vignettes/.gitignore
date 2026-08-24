@@ -1,5 +1,6 @@
 *.html
 *.R
 /.quarto/
+/manuscript_files/
 
 **/*.quarto_ipynb

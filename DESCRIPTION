@@ -30,6 +30,7 @@ Suggests:
     here,
     knitr,
     pkgdown,
+    quarto,
     rmarkdown,
     rsconnect,
     servr,
@@ -63,5 +64,5 @@ Imports:
     tidyr,
     tools,
     yaml
-VignetteBuilder: knitr
+VignetteBuilder: knitr, quarto
 Config/roxygen2/version: 8.0.0
