@@ -14,7 +14,16 @@
 <!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-Fyikfvowbj_Nbyof5VdGD.js"></script><script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
   plausible.init()
-</script>
+</script><!-- Give the datasets table on the home page more room for the description column --><style>
+  .template-home table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .template-home table th:nth-child(2),
+  .template-home table td:nth-child(2) {
+    width: 50%;
+  }
+</style>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +42,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Function reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-how-to-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">How-to guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-how-to-guides">

@@ -16,7 +16,16 @@
 <!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-Fyikfvowbj_Nbyof5VdGD.js"></script><script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
   plausible.init()
-</script>
+</script><!-- Give the datasets table on the home page more room for the description column --><style>
+  .template-home table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .template-home table th:nth-child(2),
+  .template-home table td:nth-child(2) {
+    width: 50%;
+  }
+</style>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -35,7 +44,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Function reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-how-to-guides" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">How-to guides</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-how-to-guides">
@@ -88,63 +97,42 @@
 <div class="section level2">
 <h2 id="available-datasets">Available datasets<a class="anchor" aria-label="anchor" href="#available-datasets"></a>
 </h2>
-<p>The table below gives an overview of all available datasets in the opencodecounts R package, including links to the tidy data as Parquet files. To learn more about the available datasets see the vignette: <a href="https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html">Available datasets in opencodecounts</a>.</p>
-<table style="width:100%;" class="table">
+<p>The table below lists every dataset in the <code>opencodecounts</code> R package, with links to download the tidy data as Parquet files. GP data covers 2011-08-01 to 2025-07-31, and HES data covers 2012-04-01 to 2025-03-31. Read the vignette for more on each dataset: <a href="https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html">Available datasets in opencodecounts</a>.</p>
+<table class="table">
 <colgroup>
-<col width="16%">
-<col width="16%">
-<col width="16%">
-<col width="16%">
-<col width="16%">
-<col width="16%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr>
 <th align="left">Function</th>
 <th align="left">Description</th>
-<th align="right">First period</th>
-<th align="right">Last period</th>
-<th align="right">Version</th>
 <th align="left">Tidy data</th>
 </tr></thead>
 <tbody>
 <tr>
 <td align="left"><code><a href="reference/get_gp_snomed.html">get_gp_snomed()</a></code></td>
-<td align="left">GP records, SNOMED CT</td>
-<td align="right">2011-08-01</td>
-<td align="right">2025-07-31</td>
-<td align="right">0.1.0</td>
+<td align="left">GP records, SNOMED CT (v0.1.0)</td>
 <td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet" class="external-link">Download</a></td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/get_hesapc_icd10.html">get_hesapc_icd10()</a></code></td>
-<td align="left">HES Admitted Patient Care, ICD-10 diagnoses</td>
-<td align="right">2012-04-01</td>
-<td align="right">2025-03-31</td>
-<td align="right">0.1.0</td>
+<td align="left">HES Admitted Patient Care, ICD-10 diagnoses (v0.1.0)</td>
 <td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet" class="external-link">Download</a></td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/get_hesapc_icd10_breakdowns.html">get_hesapc_icd10_breakdowns()</a></code></td>
-<td align="left">HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns</td>
-<td align="right">2012-04-01</td>
-<td align="right">2025-03-31</td>
-<td align="right">0.1.0</td>
+<td align="left">HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns (v0.1.0)</td>
 <td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet" class="external-link">Download</a></td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/get_hesapc_opcs4.html">get_hesapc_opcs4()</a></code></td>
-<td align="left">HES Admitted Patient Care, OPCS-4 procedures</td>
-<td align="right">2012-04-01</td>
-<td align="right">2025-03-31</td>
-<td align="right">0.1.0</td>
+<td align="left">HES Admitted Patient Care, OPCS-4 procedures (v0.1.0)</td>
 <td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet" class="external-link">Download</a></td>
 </tr>
 <tr>
 <td align="left"><code><a href="reference/get_hesapc_opcs4_breakdowns.html">get_hesapc_opcs4_breakdowns()</a></code></td>
-<td align="left">HES Admitted Patient Care, OPCS-4 procedures, with breakdowns</td>
-<td align="right">2012-04-01</td>
-<td align="right">2025-03-31</td>
-<td align="right">0.1.0</td>
+<td align="left">HES Admitted Patient Care, OPCS-4 procedures, with breakdowns (v0.1.0)</td>
 <td align="left"><a href="https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet" class="external-link">Download</a></td>
 </tr>
 </tbody>

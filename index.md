@@ -35,19 +35,19 @@ pak::pak("bennettoxford/opencodecounts")
 
 ## Available datasets
 
-The table below gives an overview of all available datasets in the
-opencodecounts R package, including links to the tidy data as Parquet
-files. To learn more about the available datasets see the vignette:
-[Available datasets in
+The table below lists every dataset in the `opencodecounts` R package,
+with links to download the tidy data as Parquet files. GP data covers
+2011-08-01 to 2025-07-31, and HES data covers 2012-04-01 to 2025-03-31.
+Read the vignette for more on each dataset: [Available datasets in
 opencodecounts](https://bennettoxford.github.io/opencodecounts/articles/available-datasets.html).
 
-| Function | Description | First period | Last period | Version | Tidy data |
-|:---|:---|---:|---:|---:|:---|
-| [`get_gp_snomed()`](https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.md) | GP records, SNOMED CT | 2011-08-01 | 2025-07-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
-| [`get_hesapc_icd10()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10.md) | HES Admitted Patient Care, ICD-10 diagnoses | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
-| [`get_hesapc_icd10_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10_breakdowns.md) | HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
-| [`get_hesapc_opcs4()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4.md) | HES Admitted Patient Care, OPCS-4 procedures | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
-| [`get_hesapc_opcs4_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4_breakdowns.md) | HES Admitted Patient Care, OPCS-4 procedures, with breakdowns | 2012-04-01 | 2025-03-31 | 0.1.0 | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
+| Function | Description | Tidy data |
+|:---|:---|:---|
+| [`get_gp_snomed()`](https://bennettoxford.github.io/opencodecounts/reference/get_gp_snomed.md) | GP records, SNOMED CT (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/snomed-usage-v0.1.0/snomed_usage.parquet) |
+| [`get_hesapc_icd10()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10.md) | HES Admitted Patient Care, ICD-10 diagnoses (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-v0.1.0/icd10_usage.parquet) |
+| [`get_hesapc_icd10_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_icd10_breakdowns.md) | HES Admitted Patient Care, ICD-10 diagnoses, with breakdowns (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/icd10-usage-breakdowns-v0.1.0/icd10_usage_breakdowns.parquet) |
+| [`get_hesapc_opcs4()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4.md) | HES Admitted Patient Care, OPCS-4 procedures (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-v0.1.0/opcs4_usage.parquet) |
+| [`get_hesapc_opcs4_breakdowns()`](https://bennettoxford.github.io/opencodecounts/reference/get_hesapc_opcs4_breakdowns.md) | HES Admitted Patient Care, OPCS-4 procedures, with breakdowns (v0.1.0) | [Download](https://github.com/bennettoxford/opencodecounts/releases/download/opcs4-usage-breakdowns-v0.1.0/opcs4_usage_breakdowns.parquet) |
 
 ## For developers
 
