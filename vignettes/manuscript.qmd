@@ -244,31 +244,32 @@ In the current version of the package, the columns available for each dataset ar
 #| label: tbl-datasets
 #| tbl-cap: "Available column names for each clinical coding system dataset in *opencodecounts* R package."
 tab_datasets <- tribble(
-  ~column           , ~example                      , ~snomed , ~icd10_opcs4 , ~icd10_opcs4_bd ,
-  "start_date"      , "Date: YYYY-MM-DD"            , "+"     , "+"          , "+"             ,
-  "end_date"        , "Date: YYYY-MM-DD"            , "+"     , "+"          , "+"             ,
-  "code *"          , "String: 1234 or A000"        , "+"     , "+"          , "+"             ,
-  "description"     , "String: Description of code" , "+"     , "+"          , "+"             ,
-  "usage"           , "Numeric: 100000"             , "+"     , "+"          , "+"             ,
-  "breakdown"       , "String: female or age_45_49" , "–"  , "–"       , "+"             ,
-  "active_at_start" , "Boolean: TRUE"               , "+"     , "–"       , "–"          ,
-  "active_at_end"   , "Boolean: FALSE"              , "+"     , "–"       , "–"
+  ~column           , ~example                                     , ~snomed , ~icd10 , ~opcs4 ,
+  "start_date"      , "Date: YYYY-MM-DD"                           , "+"     , "+"    , "+"     ,
+  "end_date"        , "Date: YYYY-MM-DD"                           , "+"     , "+"    , "+"     ,
+  "code *"          , "String: 1234 or A000"                       , "+"     , "+"    , "+"     ,
+  "description"     , "String: Description of code"                , "+"     , "+"    , "+"     ,
+  "usage"           , "Numeric: 100000"                            , "+"     , "+"    , "+"     ,
+  "breakdown_type"  , "String: total, position, sex or age_group"  , "+"     , "+"    , "+"     ,
+  "breakdown_value" , "String: total, main, female or age_45_49"   , "+"     , "+"    , "+"     ,
+  "active_at_start" , "Boolean: TRUE"                              , "+"     , "–"    , "–"     ,
+  "active_at_end"   , "Boolean: FALSE"                             , "+"     , "–"    , "–"
 ) |>
   gt() |>
   tab_spanner(
     label = "Dataset",
-    columns = c(snomed, icd10_opcs4, icd10_opcs4_bd)
+    columns = c(snomed, icd10, opcs4)
   ) |>
   cols_label(
     column = "Column",
     example = "Example",
-    snomed = md("*snomed_usage*"),
-    icd10_opcs4 = md("*icd10_usage*<br>*opcs4_usage*"),
-    icd10_opcs4_bd = md("*icd10_usage_breakdowns*<br>*opcs4_usage_breakdowns*")
+    snomed = md("*get_gp_snomed()*"),
+    icd10 = md("*get_hesapc_icd10()*"),
+    opcs4 = md("*get_hesapc_opcs4()*")
   ) |>
   cols_align(
     align = "center",
-    columns = c(snomed, icd10_opcs4, icd10_opcs4_bd)
+    columns = c(snomed, icd10, opcs4)
   ) |>
   tab_style(
     style = cell_text(weight = "bold"),
@@ -283,8 +284,8 @@ tab_datasets <- tribble(
 if (knitr::is_html_output()) {
   tab_datasets
 } else {
-  gtsave(tab_datasets, "img/manuscript_table1.png")
-  knitr::include_graphics("img/manuscript_table1.png")
+  gtsave(tab_datasets, "vignettes/img/manuscript_table1.png")
+  knitr::include_graphics("vignettes/img/manuscript_table1.png")
 }
 ```
 
@@ -310,11 +311,9 @@ The current version of the package consists of two broad components: (1) five st
 #| tbl-cap: "Main functions of the *opencodecounts* R package."
 tab_functions <- tribble(
   ~component                  , ~description                                                                                            , ~group      ,
-  "`snomed_usage`"            , "SNOMED CT code usage in primary care starting from 2011"                                               , "Datasets"  ,
-  "`icd10_usage`"             , "ICD-10 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
-  "`opcs4_usage`"             , "OPCS-4 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
-  "`icd10_usage_breakdowns`"  , "ICD-10 code usage with breakdowns by diagnosis position, sex and age group starting from 2012"         , "Datasets"  ,
-  "`opcs4_usage_breakdowns`"  , "OPCS-4 code usage with breakdowns by procedure position, sex and age group starting from 2012"         , "Datasets"  ,
+  "`get_gp_snomed()`"          , "SNOMED CT code usage in primary care starting from 2011"                                               , "Datasets"  ,
+  "`get_hesapc_icd10()`"      , "ICD-10 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
+  "`get_hesapc_opcs4()`"      , "OPCS-4 code usage in secondary care admissions in acute hospitals starting from 2012"                  , "Datasets"  ,
   "`get_codelist()`"          , "Import a codelist from [OpenCodelists.org](https://www.opencodelists.org/)"                            , "Functions" ,
   "`run_app()`"               , "Launch interactive *Shiny* app locally"                                                                , "Functions"
 ) |>
@@ -346,8 +345,8 @@ tab_functions <- tribble(
 if (knitr::is_html_output()) {
   tab_functions
 } else {
-  gtsave(tab_functions, "img/manuscript_table2.png")
-  knitr::include_graphics("img/manuscript_table2.png")
+  gtsave(tab_functions, "vignettes/img/manuscript_table2.png")
+  knitr::include_graphics("vignettes/img/manuscript_table2.png")
 }
 ```
 
@@ -437,13 +436,13 @@ date_nice_ng131 <- as.Date("2019-05-09")
 
 # Combine coding activity from hospital admitted care and primary care
 df_biopsy_mri <- bind_rows(
-  opcs4_usage |>
+  get_hesapc_opcs4() |>
     filter(opcs4_code %in% codes_opcs4_biopsy) |>
     mutate(setting = "Hospital admitted care - Biopsy"),
-  snomed_usage |>
+  get_gp_snomed() |>
     filter(snomed_code %in% code_snomedct_biopsy) |>
     mutate(setting = "Primary care - Biopsy"),
-  snomed_usage |>
+  get_gp_snomed() |>
     filter(snomed_code %in% code_snomedct_mri) |>
     mutate(setting = "Primary care - MRI")
 ) |>
@@ -479,7 +478,7 @@ The breakdown datasets allow these trends to be examined by sex and age group wi
 #| fig-width: 9
 #| fig-height: 8
 # Get OPCS-4 code usage for prostate biopsy procedures by age group
-df_biopsy_age <- opcs4_usage_breakdowns |>
+df_biopsy_age <- get_hesapc_opcs4_breakdowns() |>
   filter(opcs4_code %in% codes_opcs4_biopsy) |>
   filter(str_detect(breakdown, "^age_(4[5-9]|[5-8][0-9])")) |>
   mutate(age_group = str_replace(breakdown, "^age_(\\d+)_(\\d+)$", "Age \\1 - \\2"))
